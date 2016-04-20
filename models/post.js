@@ -42,9 +42,11 @@ Post.prototype.save = function (callback) {
         name: this.name,
         head: this.head,
         time: time,
-        title: this.title,
+        addesc: this.addesc,
         tags: this.tags,
-        post: this.post,
+        adurl: this.adurl,
+        imgurl:this.imgurl,
+        icons:this.icons,
         comments: [],
         reprint_info: [],
         pv: 0
@@ -75,7 +77,7 @@ Post.prototype.save = function (callback) {
 };
 
 //读取文章及其相关信息
-Post.getAll = function (name, callback) {
+Post.getAll = function ( callback) {
     //打开数据库
     mongodb.open(function (err, db) {
         if (err) {
@@ -87,21 +89,16 @@ Post.getAll = function (name, callback) {
                 mongodb.close();
                 return callback(err);
             }
-            var query = {};
-            if (name) {
-                query.name = name;
-            }
+
             //根据 query 对象查询文章
-            collection.find(query).sort({
+            collection.find().sort({
                 time: -1
             }).toArray(function (err, docs) {
                 mongodb.close();
                 if (err) {
                     return callback(err);//失败！返回 err
                 }
-                docs.forEach(function (doc) {
-                    doc.post = markdown.toHTML(doc.post);
-                });
+
                 callback(null, docs);//成功！以数组形式返回查询的结果
             });
         });

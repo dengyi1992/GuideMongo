@@ -43,7 +43,7 @@ router.post('/reg', function (req, res) {
         password: password,
         email: req.body.email,
         user_collection: "",
-        account:0
+        account: 0
     });
     //检查用户名是否已经存在
     User.get(newUser.name, function (err, user) {
@@ -88,25 +88,31 @@ router.post('/login', function (req, res) {
         }
         //用户名密码都匹配后，将用户信息存入 session
         req.session.user = user;
-        res.json({'success': '登陆成功!', 'coll': user.user_collection,'account':user.account});
+        res.json({'success': '登陆成功!', 'coll': user.user_collection, 'account': user.account});
     });
 });
 
 router.post('/post', checkLogin);
 router.post('/post', function (req, res) {
-    if (req.body.post == undefined) {
-        res.json({'error': '字数过长'});
-        return;
-    }
+
     var currentUser = req.session.user,
         tags = [req.body.tag1, req.body.tag2, req.body.tag3],
-        post = new Post(currentUser.name, currentUser.head, req.body.title, tags, req.body.post);
+        post = new Post(currentUser.name, currentUser.head, req.body.addesc, req.body.adurl, req.body.imgurl, tags, req.body.icons);
     post.save(function (err) {
         if (err) {
             return res.json({'error': err});
         }
         res.json({'success': '发布成功'});
     })
+});
+
+router.get('/api',function(req,res){
+   Post.getAll(function(err,docs){
+       if (err){
+           return res.json({'error':err});
+       }
+       res.json({'success':docs});
+   }) ;
 });
 router.get('/logout', checkLogin);
 router.get('/logout', function (req, res) {
@@ -173,7 +179,7 @@ router.post('/collection_c', function (req, res) {
     });
 });
 router.post('/add_account', function (req, res) {
-    User.add_account(req.body.name, req.body.adid, req.body.icons,function (err, result) {
+    User.add_account(req.body.name, req.body.adid, req.body.icons, function (err, result) {
         if (err) {
             return res.json({'error': err});
         }
