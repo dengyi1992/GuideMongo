@@ -42,7 +42,8 @@ router.post('/reg', function (req, res) {
         name: name,
         password: password,
         email: req.body.email,
-        user_collection: ""
+        user_collection: "",
+        account:0
     });
     //检查用户名是否已经存在
     User.get(newUser.name, function (err, user) {
@@ -87,7 +88,7 @@ router.post('/login', function (req, res) {
         }
         //用户名密码都匹配后，将用户信息存入 session
         req.session.user = user;
-        res.json({'success': '登陆成功!', 'coll': user.user_collection});
+        res.json({'success': '登陆成功!', 'coll': user.user_collection,'account':user.account});
     });
 });
 
@@ -169,6 +170,14 @@ router.post('/collection_c', function (req, res) {
             return res.json({'error': err});
         }
         res.json({'success': '收藏成功'});
+    });
+});
+router.post('/add_account', function (req, res) {
+    User.add_account(req.body.name, req.body.adid, req.body.icons,function (err, result) {
+        if (err) {
+            return res.json({'error': err});
+        }
+        res.json({'success': '领取成功'});
     });
 });
 

@@ -2,12 +2,25 @@
  * Created by deng on 16-4-18.
  */
 var mongodb = require('./db');
-function Post(name, head, title, tags, post) {
+/**
+ *
+ * @param name 发布人
+ * @param head 头像,暂时用第三方的
+ * @param addesc 广告描述
+ * @param adurl 广告地址
+ * @param imgurl 图片地址
+ * @param tags 标签,暂定三个
+ * @param icons 金币数量
+ * @constructor
+ */
+function Post(name, head, addesc, adurl, imgurl, tags, icons) {
     this.name = name;
     this.head = head;
-    this.title = title;
+    this.addesc = addesc;
+    this.adurl = adurl;
+    this.imgurl = imgurl;
+    this.icons = icons;
     this.tags = tags;
-    this.post = post;
 }
 
 module.exports = Post;
