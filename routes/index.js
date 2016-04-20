@@ -15,25 +15,15 @@ router.get('/', function (req, res) {
         if (err) {
             posts = [];
         }
-        res.render('index', {
-            title: '主页',
+        res.json({
             posts: posts,
             page: page,
             isFirstPage: (page - 1) == 0,
             isLastPage: ((page - 1) * 10 + posts.length) == total,
-            user: req.session.user,
-            success: req.flash('success').toString(),
-            error: req.flash('error').toString()
-        });
-    });
-});
-router.get('/reg', checkNotLogin);
-router.get('/reg', function (req, res) {
-    res.render('reg', {
-        title: '注册',
-        user: req.session.user,
-        success: req.flash('success').toString(),
-        error: req.flash('error').toString()
+            user: req.session.user
+
+        })
+
     });
 });
 // router.post('/reg', checkNotLogin);
@@ -97,7 +87,7 @@ router.post('/login', function (req, res) {
         }
         //用户名密码都匹配后，将用户信息存入 session
         req.session.user = user;
-        res.json({'success': '登陆成功!','coll':user.user_collection});
+        res.json({'success': '登陆成功!', 'coll': user.user_collection});
     });
 });
 
@@ -162,14 +152,14 @@ router.post('/upload', multipartMiddleware, function (req, res) {
 /**
  * 收藏
  */
-router.get('/collection',checkLogin);
-router.get('/collection',function (req,res) {
+router.get('/collection', checkLogin);
+router.get('/collection', function (req, res) {
     //检查用户是否存在
     User.get(req.session.user.name, function (err, user) {
         if (!user) {
             return res.json({'error': '用户不存在!'});
         }
-        res.json({'success': '查到收藏','coll':user.user_collection});
+        res.json({'success': '查到收藏', 'coll': user.user_collection});
     });
 });
 //router.post('/collection_c', checkLogin);
