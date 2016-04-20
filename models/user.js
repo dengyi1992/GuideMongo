@@ -26,6 +26,7 @@ User.prototype.save = function (callback) {
         password: this.password,
         email: this.email,
         user_collection:this.user_collection,
+        account:parseInt(0),
         head: head
     };
     //打开数据库
@@ -128,11 +129,21 @@ User.add_account=function (name,adid, icons,callback) {
             collection.findOne({
                 name: name
             }, function (err, user) {
-                mongodb.close();
+
                 if (err) {
                     return callback(err);//失败！返回 err 信息
                 }
-                callback(null, user);//成功！返回查询的用户信息
+                var collection = db.collection('users');
+                var wherestr={"name":name};
+                var updateStr={$set:{"account":parseInt(user.account)+parseInt(icons)}};
+                collection.update(wherestr,updateStr,function (err,result) {
+                    mongodb.close();
+                    if (err){
+                        return callback(err);
+                    }
+                    callback(err,result);
+
+                })
             });
         });
     });
