@@ -91,7 +91,12 @@ router.post('/login', function (req, res) {
         res.json({'success': '登陆成功!', 'coll': user.user_collection, 'account': user.account});
     });
 });
-
+/**
+ * 发布信息
+ * 有待加入
+ * 一个查重
+ * 机制
+ */
 router.post('/post', checkLogin);
 router.post('/post', function (req, res) {
 
@@ -105,7 +110,9 @@ router.post('/post', function (req, res) {
         res.json({'success': '发布成功'});
     })
 });
-
+/**
+ * 获取所有信息
+ */
 router.get('/api',function(req,res){
    Post.getAll(function(err,docs){
        if (err){
