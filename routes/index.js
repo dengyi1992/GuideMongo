@@ -174,7 +174,7 @@ router.get('/collection',function (req,res) {
 });
 router.post('/collection', checkLogin);
 router.post('/collection', function (req, res) {
-    User.collection_c(req.session.user.name, req.body.coll, function (err, result) {
+    User.collection_c(req.body.name, req.body.coll, function (err, result) {
         if (err) {
             return res.json({'error': err});
         }
