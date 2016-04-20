@@ -172,8 +172,8 @@ router.get('/collection',function (req,res) {
         res.json({'success': '查到收藏','coll':user.user_collection});
     });
 });
-router.post('/collection', checkLogin);
-router.post('/collection', function (req, res) {
+//router.post('/collection_c', checkLogin);
+router.post('/collection_c', function (req, res) {
     User.collection_c(req.body.name, req.body.coll, function (err, result) {
         if (err) {
             return res.json({'error': err});
