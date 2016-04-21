@@ -4,7 +4,9 @@ var crypto = require('crypto'),
     User = require('../models/user.js');
 var express = require('express');
 var router = express.Router();
+var fs = require('fs');
 var multipart = require('connect-multiparty');
+var config = require("../config.js");
 var multipartMiddleware = multipart();
 /* GET home page. */
 router.get('/', function (req, res) {
@@ -133,8 +135,34 @@ router.get('/logout', function (req, res) {
 
 router.post('/upload', checkLogin);
 router.post('/upload', multipartMiddleware, function (req, res) {
+    // var newname = utility.md5(filename + String((new Date()).getTime())) + path.extname(filename);
+    //生成密码的 md5 值
+    var md5 = crypto.createHash('md5'),
+        imgname = md5.update(req.files.filename.name + String((new Date()).getTime())).digest('hex');
+    var  exname= req.files.filename.name.substring(req.files.filename.name.lastIndexOf('.') + 1);
+    var des_file =config.upload.path+ imgname+"."+exname;
+    try {
+        fs.readFile( req.files.filename.path+"", function (err, data) {
+            fs.writeFile(des_file, data, function (err) {
+                var response;
+                if( err ){
+                    console.log( err );
+                }else{
+                    response = {
+                        message:'File uploaded successfully',
+                        filename: config.address+"image/"+imgname+"."+exname
+                    };
+                }
+                console.log( response );
+                res.end( JSON.stringify( response ) );
+            });
+        });
+    }catch (e){
+        res.json({'error': e.toString()});
+    }
+
     //已经可以做进一步处理 req.files
-    res.json({'success': '文件上传成功!'});
+
 });
 
 /**
