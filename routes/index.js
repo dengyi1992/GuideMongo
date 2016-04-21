@@ -149,8 +149,8 @@ router.post('/upload', multipartMiddleware, function (req, res) {
                     console.log( err );
                 }else{
                     response = {
-                        message:'File uploaded successfully',
-                        filename: config.address+"image/"+imgname+"."+exname
+                        'success':'上传成功',
+                        'imgurl': config.address+"image/"+imgname+"."+exname
                     };
                 }
                 console.log( response );
