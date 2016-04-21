@@ -93,6 +93,30 @@ router.post('/login', function (req, res) {
         res.json({'success': '登陆成功!', 'coll': user.user_collection, 'account': user.account});
     });
 });
+
+router.post('/changepass',function(req,res){
+    //检验用户两次输入的密码是否一致
+    if (req.body.newpassword != req.body["newpassword-repeat"]) {
+        return res.json({'error': '两次输入的密码不一致!'});
+    }
+    if(req.body.newpassword===req.body.password){
+        return res.json({'error': '原密码应与修改密码不一致'});
+
+    }
+    //生成密码的 md5 值
+    var md5 = crypto.createHash('md5'),
+        password = md5.update(req.body.password).digest('hex');
+    var md5 = crypto.createHash('md5'),
+        newpassword = md5.update(req.body.newpassword).digest('hex');
+
+        //检查用户是否存在
+    User.changePass(req.body.name,password,newpassword, function (err, result) {
+        if (err) {
+            return res.json({'error': err});
+        }
+        res.json({'success': '修改成功'});
+    });
+});
 /**
  * 发布信息
  * 有待加入

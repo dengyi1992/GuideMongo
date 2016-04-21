@@ -148,3 +148,38 @@ User.add_account=function (name,adid, icons,callback) {
         });
     });
 };
+User.changePass=function(name,password,newpassword,callback){
+    //打开数据库
+    mongodb.open(function (err, db) {
+        if (err) {
+            return callback(err);//错误，返回 err 信息
+        }
+        //读取 users 集合
+        db.collection('users', function (err, collection) {
+            if (err) {
+                mongodb.close();
+                return callback(err);//错误，返回 err 信息
+            }
+            //查找用户名（name键）值为 name 一个文档
+            collection.findOne({
+                name: name
+            }, function (err, user) {
+
+                if (err) {
+                    return callback(err);//失败！返回 err 信息
+                }
+                var collection = db.collection('users');
+                var wherestr={"name":name,"password":password};
+                var updateStr={$set:{"password":newpassword}};
+                collection.update(wherestr,updateStr,function (err,result) {
+                    mongodb.close();
+                    if (err){
+                        return callback(err);
+                    }
+                    callback(err,result);
+
+                })
+            });
+        });
+    });
+};
