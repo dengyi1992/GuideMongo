@@ -118,6 +118,22 @@ router.post('/changepass',function(req,res){
     });
 });
 /**
+ * 我的上传
+ */
+router.get('/post', checkLogin);
+router.get('/post', function (req, res) {
+
+    var currentUser = req.session.user;
+    Post.getAllByName(currentUser.name,function(err,docs){
+        if(err){
+            res.json({"error":err});
+            return;
+        }
+        res.json({"success":docs});
+    });
+
+});
+/**
  * 发布信息
  * 有待加入
  * 一个查重
