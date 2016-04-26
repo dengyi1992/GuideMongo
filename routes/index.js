@@ -261,7 +261,10 @@ router.post('/add_account', function (req, res) {
         res.json({'success': '领取成功'});
     });
 });
+router.get('/wahhh',function (req, res) {
+    res.json({success:"恭喜你连上服务器了"});
 
+});
 
 router.use(function (req, res) {
     res.render("404");
