@@ -94,12 +94,12 @@ router.post('/login', function (req, res) {
     });
 });
 
-router.post('/changepass',function(req,res){
+router.post('/changepass', function (req, res) {
     //检验用户两次输入的密码是否一致
     if (req.body.newpassword != req.body["newpassword-repeat"]) {
         return res.json({'error': '两次输入的密码不一致!'});
     }
-    if(req.body.newpassword===req.body.password){
+    if (req.body.newpassword === req.body.password) {
         return res.json({'error': '原密码应与修改密码不一致'});
 
     }
@@ -109,8 +109,8 @@ router.post('/changepass',function(req,res){
     var md5 = crypto.createHash('md5'),
         newpassword = md5.update(req.body.newpassword).digest('hex');
 
-        //检查用户是否存在
-    User.changePass(req.body.name,password,newpassword, function (err, result) {
+    //检查用户是否存在
+    User.changePass(req.body.name, password, newpassword, function (err, result) {
         if (err) {
             return res.json({'error': err});
         }
@@ -124,12 +124,12 @@ router.get('/post', checkLogin);
 router.get('/post', function (req, res) {
 
     var currentUser = req.session.user;
-    Post.getAllByName(currentUser.name,function(err,docs){
-        if(err){
-            res.json({"error":err});
+    Post.getAllByName(currentUser.name, function (err, docs) {
+        if (err) {
+            res.json({"error": err});
             return;
         }
-        res.json({"success":docs});
+        res.json({"success": docs});
     });
 
 });
@@ -155,13 +155,13 @@ router.post('/post', function (req, res) {
 /**
  * 获取所有信息
  */
-router.get('/api',function(req,res){
-   Post.getAll(function(err,docs){
-       if (err){
-           return res.json({'error':err});
-       }
-       res.json({'success':docs});
-   }) ;
+router.get('/api', function (req, res) {
+    Post.getAll(function (err, docs) {
+        if (err) {
+            return res.json({'error': err});
+        }
+        res.json({'success': docs});
+    });
 });
 router.get('/logout', checkLogin);
 router.get('/logout', function (req, res) {
@@ -179,25 +179,25 @@ router.post('/upload', multipartMiddleware, function (req, res) {
     //生成密码的 md5 值
     var md5 = crypto.createHash('md5'),
         imgname = md5.update(req.files.filename.name + String((new Date()).getTime())).digest('hex');
-    var  exname= req.files.filename.name.substring(req.files.filename.name.lastIndexOf('.') + 1);
-    var des_file =config.upload.path+ imgname+"."+exname;
+    var exname = req.files.filename.name.substring(req.files.filename.name.lastIndexOf('.') + 1);
+    var des_file = config.upload.path + imgname + "." + exname;
     try {
-        fs.readFile( req.files.filename.path+"", function (err, data) {
+        fs.readFile(req.files.filename.path + "", function (err, data) {
             fs.writeFile(des_file, data, function (err) {
                 var response;
-                if( err ){
-                    console.log( err );
-                }else{
+                if (err) {
+                    console.log(err);
+                } else {
                     response = {
-                        'success':'上传成功',
-                        'imgurl': config.address+"images/"+imgname+"."+exname
+                        'success': '上传成功',
+                        'imgurl': config.address + "images/" + imgname + "." + exname
                     };
                 }
-                console.log( response );
-                res.end( JSON.stringify( response ) );
+                console.log(response);
+                res.end(JSON.stringify(response));
             });
         });
-    }catch (e){
+    } catch (e) {
         res.json({'error': e.toString()});
     }
 
@@ -209,7 +209,7 @@ router.post('/upload', multipartMiddleware, function (req, res) {
  * 搜索
  */
 // router.get('/search', function (req, res) {
-//     Post.search(req.query.keyword, function (err, posts) {
+//     Duobao.search(req.query.keyword, function (err, posts) {
 //         if (err) {
 //             req.flash('error', err);
 //             return res.redirect('/');
@@ -261,9 +261,25 @@ router.post('/add_account', function (req, res) {
         res.json({'success': '领取成功'});
     });
 });
-router.get('/wahhh',function (req, res) {
-    res.json({success:"恭喜你连上服务器了"});
+router.get('/wahhh', function (req, res) {
+    res.json({success: "恭喜你连上服务器了"});
 
+});
+/**
+ * 夺宝
+ */
+router.get('/duobao', checkLogin);
+router.get('/duobao', function (req, res, next) {
+    var user = req.session.user;
+    var goodsid = req.query.goodsid;
+    var timestamp = Date.parse(new Date());
+    var charactors = "1234567890";
+    var value = '', i;
+    for (var j = 1; j <= 4; j++) {
+        i = parseInt(10 * Math.random());
+        value = value + charactors.charAt(i);
+    }
+    var odernumber = timestamp + value;
 });
 
 router.use(function (req, res) {
