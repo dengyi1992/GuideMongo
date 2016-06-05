@@ -2,7 +2,7 @@
  * Created by deng on 16-6-5.
  */
 var config = require("../config.js");
-var mysql = require('mysql');
+var mysql = require('mcd ysql');
 /**
  * Created by deng on 16-4-11.
  */
