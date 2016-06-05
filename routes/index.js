@@ -281,7 +281,7 @@ router.get('/duobao', function (req, res, next) {
         value = value + charactors.charAt(i);
     }
     var odernumber = timestamp + value;
-    var neworder = new Duobao(user.name, goodsid, odernumber);
+    var neworder = new Duobao(user.name, goodsid, odernumber,false);
     neworder.save(function (err) {
         if (err) {
             return res.json({err: err})
@@ -300,16 +300,21 @@ router.post('/pay', function (req, res, next) {
         if (err) {
             return res.json({error: err})
         }
-        if (duobao.payed) {
-            return res.json({error: '已经支付过了'})
-        } else {
-            User.pay(odernumber, user1.name, 10, function (err, result) {
-                if (err) {
-                    return res.json({error: err})
-                }
-                return res.json({success: '支付成功'})
-            })
+        if(duobao){
+            if (duobao.payed) {
+                return res.json({error: '已经支付过了'})
+            } else {
+                User.pay(odernumber, user1.name, 10, function (err, result) {
+                    if (err) {
+                        return res.json({error: err})
+                    }
+                    return res.json({success: '支付成功'})
+                })
+            }
+        }else {
+            res.json({error:'该订单号不存在'})
         }
+
     });
 
 

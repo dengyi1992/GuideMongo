@@ -3,10 +3,11 @@
  */
 var mongodb = require('./db');
 
-function Duobao(name, goodsid, odernumber) {
+function Duobao(name, goodsid, odernumber,payed) {
     this.name = name;
     this.goodsid = goodsid;
     this.ordernumber = odernumber;
+    this.payed=payed;
 }
 
 module.exports = Duobao;
@@ -29,7 +30,7 @@ Duobao.prototype.save = function (callback) {
         goodsid: this.goodsid,
         ordernumber: this.ordernumber,
         price:1,
-        payed:false,
+        payed:this.payed,
         time: time
     };
     //打开数据库
