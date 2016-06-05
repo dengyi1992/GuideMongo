@@ -14,8 +14,9 @@
     "ejs": "~2.3.3",
     "express": "~4.13.1",
     "express-session": "^1.13.0",
+    "mongodb": "latest",
     "morgan": "~1.6.1",
-    "serve-favicon": "~2.3.0",
-    "mongodb": "latest"
+    "mysql": "^2.10.2",
+    "serve-favicon": "~2.3.0"
   }
 }
