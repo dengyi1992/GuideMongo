@@ -8,6 +8,7 @@ var router = express.Router();
 var fs = require('fs');
 var multipart = require('connect-multiparty');
 var config = require("../config.js");
+var iconv = require('querystring');
 var multipartMiddleware = multipart();
 /* GET home page. */
 router.get('/', function (req, res) {
@@ -318,6 +319,30 @@ router.post('/pay', function (req, res, next) {
     });
 
 
+});
+router.get('/com/try',function(req,res,next){
+    var file;
+    if (req.query.file==undefined){
+        file = config.upload.url + "a.json";
+    }else {
+        file = config.upload.url + req.query.file+".json";
+    }
+
+    fs.readFile(file, function (err, data) {
+        if (err) {
+            // console.log("读取文件fail " + err);
+            res.json("读取文件fail " + err);
+        }else
+        {
+            // 读取成功时
+            // 输出字节数组
+            console.log(data);
+            // 把数组转换为gbk中文
+            var str = icon.decode(data, 'gbk');
+            // console.log(str);
+            res.json(JSON.parse(str));
+        }
+    });
 });
 router.use(function (req, res) {
     res.render("404");

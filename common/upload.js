@@ -8,8 +8,7 @@ var http = require('http');
 var fs = require('fs');
 var bodyParser = require('body-parser');
 var config = require('../config.js');
-var conn = mysql.createConnection(config.database_info);
-conn.connect();
+
 
 exports.upload = function (req, res, next) {
     /* 上传页面 */
