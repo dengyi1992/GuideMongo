@@ -9,6 +9,7 @@ var fs = require('fs');
 var multipart = require('connect-multiparty');
 var config = require("../config.js");
 var iconv = require('querystring');
+var icon = require('querystring');
 var multipartMiddleware = multipart();
 /* GET home page. */
 router.get('/', function (req, res) {
@@ -293,10 +294,10 @@ router.get('/duobao', function (req, res, next) {
 /**
  * 支付
  */
-router.post('/pay', checkLogin);
-router.post('/pay', function (req, res, next) {
+router.get('/pay', checkLogin);
+router.get('/pay', function (req, res, next) {
     var user1 = req.session.user;
-    var odernumber = req.body.ordernumber;
+    var odernumber = req.query.odernumber;
     Duobao.getOrder(odernumber, function (err, duobao) {
         if (err) {
             return res.json({error: err})
