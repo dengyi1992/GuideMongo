@@ -3,13 +3,13 @@
  */
 var mongodb = require('./db');
 var crypto = require('crypto');
-
+var Duobao = require('./duobao');
 function User(user) {
     this.name = user.name;
     this.password = user.password;
     this.email = user.email;
     this.user_collection = user.user_collection;
-    this.account=user.account;
+    this.account = user.account;
 };
 
 module.exports = User;
@@ -25,8 +25,8 @@ User.prototype.save = function (callback) {
         name: this.name,
         password: this.password,
         email: this.email,
-        user_collection:this.user_collection,
-        account:parseInt(0),
+        user_collection: this.user_collection,
+        account: parseInt(0),
         head: head
     };
     //打开数据库
@@ -86,22 +86,22 @@ User.get = function (name, callback) {
  * @param callback
  *
  */
-User.collection_c = function (name,coll, callback) {
+User.collection_c = function (name, coll, callback) {
     //打开数据库
     mongodb.open(function (err, db) {
         if (err) {
             return callback(err);//错误，返回 err 信息
         }
         var collection = db.collection('users');
-        var wherestr={"name":name};
-        var updateStr={$set:{"user_collection":coll}}
-        collection.update(wherestr,updateStr,function (err,result) {
-            if (err){
+        var wherestr = {"name": name};
+        var updateStr = {$set: {"user_collection": coll}}
+        collection.update(wherestr, updateStr, function (err, result) {
+            if (err) {
                 console.log(err);
                 return;
             }
-            callback(err,result);
-            
+            callback(err, result);
+
         })
     });
 };
@@ -112,7 +112,7 @@ User.collection_c = function (name,coll, callback) {
  * @param icons
  * @param callback
  */
-User.add_account=function (name,adid, icons,callback) {
+User.add_account = function (name, adid, icons, callback) {
     //打开数据库
     //打开数据库
     mongodb.open(function (err, db) {
@@ -134,21 +134,72 @@ User.add_account=function (name,adid, icons,callback) {
                     return callback(err);//失败！返回 err 信息
                 }
                 var collection = db.collection('users');
-                var wherestr={"name":name};
-                var updateStr={$set:{"account":parseInt(user.account)+parseInt(icons)}};
-                collection.update(wherestr,updateStr,function (err,result) {
+                var wherestr = {"name": name};
+                var updateStr = {$set: {"account": parseInt(user.account) + parseInt(icons)}};
+                collection.update(wherestr, updateStr, function (err, result) {
                     mongodb.close();
-                    if (err){
+                    if (err) {
                         return callback(err);
                     }
-                    callback(err,result);
+                    callback(err, result);
 
                 })
             });
         });
     });
 };
-User.changePass=function(name,password,newpassword,callback){
+/**
+ * 支付扣余额
+ * @param name
+ * @param cost
+ * @param callback
+ */
+User.pay = function (ordernumber, name, cost, callback) {
+    //打开数据库
+    //打开数据库
+    mongodb.open(function (err, db) {
+        if (err) {
+            return callback(err);//错误，返回 err 信息
+        }
+        //读取 users 集合
+        db.collection('users', function (err, collection) {
+            if (err) {
+                mongodb.close();
+                return callback(err);//错误，返回 err 信息
+            }
+            //查找用户名（name键）值为 name 一个文档
+            collection.findOne({
+                name: name
+            }, function (err, user) {
+
+                if (err) {
+                    return callback(err);//失败！返回 err 信息
+                }
+                if (parseInt(user.account) < parseInt(cost)) {
+                    return callback('余额不足...')
+                }
+                var collection = db.collection('users');
+                var wherestr = {"name": name};
+                var updateStr = {$set: {"account": parseInt(user.account) - parseInt(cost)}};
+                collection.update(wherestr, updateStr, function (err, result) {
+                    mongodb.close();
+                    if (err) {
+                        return callback(err);
+                    }
+                    Duobao.pay(ordernumber, function (error) {
+                        if (error) {
+                            return callback(error.message);
+                        }
+                    });
+                    callback(err, result);
+
+                })
+
+            });
+        });
+    });
+};
+User.changePass = function (name, password, newpassword, callback) {
     //打开数据库
     mongodb.open(function (err, db) {
         if (err) {
@@ -169,14 +220,14 @@ User.changePass=function(name,password,newpassword,callback){
                     return callback(err);//失败！返回 err 信息
                 }
                 var collection = db.collection('users');
-                var wherestr={"name":name,"password":password};
-                var updateStr={$set:{"password":newpassword}};
-                collection.update(wherestr,updateStr,function (err,result) {
+                var wherestr = {"name": name, "password": password};
+                var updateStr = {$set: {"password": newpassword}};
+                collection.update(wherestr, updateStr, function (err, result) {
                     mongodb.close();
-                    if (err){
+                    if (err) {
                         return callback(err);
                     }
-                    callback(err,result);
+                    callback(err, result);
 
                 })
             });

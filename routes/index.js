@@ -1,6 +1,7 @@
 var crypto = require('crypto'),
     Post = require('../models/post.js'),
     Comment = require('../models/comment.js'),
+    Duobao = require('../models/duobao.js'),
     User = require('../models/user.js');
 var express = require('express');
 var router = express.Router();
@@ -280,8 +281,39 @@ router.get('/duobao', function (req, res, next) {
         value = value + charactors.charAt(i);
     }
     var odernumber = timestamp + value;
+    var neworder = new Duobao(user.name, goodsid, odernumber);
+    neworder.save(function (err) {
+        if (err) {
+            return res.json({err: err})
+        }
+        return res.json({success: '抢购成功', order: odernumber})
+    });
 });
+/**
+ * 支付
+ */
+router.post('/pay', checkLogin);
+router.post('/pay', function (req, res, next) {
+    var user1 = req.session.user;
+    var odernumber = req.body.ordernumber;
+    Duobao.getOrder(odernumber, function (err, duobao) {
+        if (err) {
+            return res.json({error: err})
+        }
+        if (duobao.payed) {
+            return res.json({error: '已经支付过了'})
+        } else {
+            User.pay(odernumber, user1.name, 10, function (err, result) {
+                if (err) {
+                    return res.json({error: err})
+                }
+                return res.json({success: '支付成功'})
+            })
+        }
+    });
 
+
+});
 router.use(function (req, res) {
     res.render("404");
 });

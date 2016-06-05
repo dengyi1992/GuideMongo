@@ -2,25 +2,11 @@
  * Created by deng on 16-4-18.
  */
 var mongodb = require('./db');
-/**
- *
- * @param name 发布人
- * @param head 头像,暂时用第三方的
- * @param addesc 广告描述
- * @param adurl 广告地址
- * @param imgurl 图片地址
- * @param tags 标签,暂定三个
- * @param icons 金币数量
- * @constructor
- */
-function Duobao(name, head, addesc, adurl, imgurl, tags, icons) {
+
+function Duobao(name, goodsid, odernumber) {
     this.name = name;
-    this.head = head;
-    this.addesc = addesc;
-    this.adurl = adurl;
-    this.imgurl = imgurl;
-    this.icons = icons;
-    this.tags = tags;
+    this.goodsid = goodsid;
+    this.ordernumber = odernumber;
 }
 
 module.exports = Duobao;
@@ -38,18 +24,13 @@ Duobao.prototype.save = function (callback) {
         date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
     };
     //要存入数据库的文档
-    var post = {
+    var duobao = {
         name: this.name,
-        head: this.head,
-        time: time,
-        addesc: this.addesc,
-        tags: this.tags,
-        adurl: this.adurl,
-        imgurl:this.imgurl,
-        icons:this.icons,
-        comments: [],
-        reprint_info: [],
-        pv: 0
+        goodsid: this.goodsid,
+        ordernumber: this.ordernumber,
+        price:1,
+        payed:false,
+        time: time
     };
     //打开数据库
     mongodb.open(function (err, db) {
@@ -63,7 +44,7 @@ Duobao.prototype.save = function (callback) {
                 return callback(err);
             }
             //将文档插入  集合
-            collection.insert(post, {
+            collection.insert(duobao, {
                 safe: true
             }, function (err) {
                 mongodb.close();
@@ -119,7 +100,7 @@ Duobao.getAllByName = function (name, callback) {
             }
 
             //根据 query 对象查询文章
-            collection.find({"name":name}).sort({
+            collection.find({"name": name}).sort({
                 time: -1
             }).toArray(function (err, docs) {
                 mongodb.close();
@@ -557,3 +538,55 @@ Duobao.remove = function (name, day, title, callback) {
         });
     });
 };
+Duobao.pay=function(ordernumber,callback){
+//打开数据库
+    mongodb.open(function (err, db) {
+        if (err) {
+            return callback(err);
+        }
+        //读取  集合
+        db.collection('duobaos', function (err, collection) {
+            if (err) {
+                mongodb.close();
+                return callback(err);
+            }
+            //更新文章内容
+            collection.update({
+                "ordernumber": ordernumber
+            }, {
+                $set: {payed: true}
+            }, function (err) {
+                mongodb.close();
+                if (err) {
+                    return callback(err);
+                }
+                callback(null);
+            });
+        });
+    });
+};
+Duobao.getOrder = function (ordernumber, callback) {
+        //打开数据库
+        mongodb.open(function (err, db) {
+            if (err) {
+                return callback(err);//错误，返回 err 信息
+            }
+            //读取 users 集合
+            db.collection('duobaos', function (err, collection) {
+                if (err) {
+                    mongodb.close();
+                    return callback(err);//错误，返回 err 信息
+                }
+                //查找用户名（name键）值为 name 一个文档
+                collection.findOne({
+                    ordernumber: ordernumber
+                }, function (err, duobao) {
+                    mongodb.close();
+                    if (err) {
+                        return callback(err);//失败！返回 err 信息
+                    }
+                    callback(null, duobao);//成功！返回查询的用户信息
+                });
+            });
+        });
+    };
