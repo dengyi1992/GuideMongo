@@ -26,7 +26,7 @@ User.prototype.save = function (callback) {
         password: this.password,
         email: this.email,
         user_collection: this.user_collection,
-        account: parseInt(0),
+        account: parseInt(20),
         head: head
     };
     //打开数据库
