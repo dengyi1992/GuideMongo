@@ -9,7 +9,20 @@
     <link rel="stylesheet" href="./css/common.css">
     <link href="http://cdn.bootcss.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/navigation_bar.css">
-
+    <script>
+        function perSubmit() {
+            var d = $("form").serialize();
+            $.post("ManagerLogin", d, function (result) {
+                result=JSON.parse(result);
+                if(result.success){
+                    window.location.href="/";
+                    alert(result.success);
+                }else {
+                    alert(result.error);
+                }
+            }, "text");
+        }
+    </script>
 </head>
 <body>
 <div class="wrap login_wrap">
@@ -57,7 +70,7 @@
                 <form action="#" method="post">
 
                     <div class="form_text_ipt">
-                        <input name="username" type="text" placeholder="手机号/邮箱">
+                        <input name="name" type="text" placeholder="用户名">
                     </div>
                     <div class="ececk_warning"><span>数据不能为空</span></div>
                     <div class="form_text_ipt">
@@ -73,7 +86,7 @@
                         </div>
                     </div>
                     <div class="form_btn">
-                        <button type="button">登录</button>
+                        <button type="button" onclick="perSubmit()">登录</button>
                     </div>
                     <div class="form_reg_btn">
                         <span>还没有帐号？</span><a href="register.html">马上注册</a>

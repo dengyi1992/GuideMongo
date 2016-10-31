@@ -2,7 +2,8 @@ var crypto = require('crypto'),
     Post = require('../models/post.js'),
     Comment = require('../models/comment.js'),
     Duobao = require('../models/duobao.js'),
-    User = require('../models/user.js');
+    User = require('../models/user.js'),
+    ManagerUser = require('../models/ManagerUser');
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
@@ -31,6 +32,10 @@ router.get('/', function (req, res) {
 
     });
 });
+
+/**
+ * 普通手机用户登录注册
+ */
 // router.post('/reg', checkNotLogin);
 router.post('/reg', function (req, res) {
     var name = req.body.name,
@@ -68,6 +73,8 @@ router.post('/reg', function (req, res) {
         });
     });
 });
+
+
 // router.get('/login', checkNotLogin);
 // // router.get('/login', function (req, res) {
 // //     res.render('login', {
@@ -96,7 +103,66 @@ router.post('/login', function (req, res) {
         res.json({'success': '登陆成功!', 'coll': user.user_collection, 'account': user.account});
     });
 });
+/**
+ * 广告主登录注册
+ */
+router.post('/ManagerReg', function (req, res) {
+    var name = req.body.name,
+        password = req.body.password,
+        password_re = req.body['password-repeat'];
+    //检验用户两次输入的密码是否一致
+    if (password_re != password) {
+        return res.json({'error': '两次输入的密码不一致!'});
+    }
+    //生成密码的 md5 值
+    var md5 = crypto.createHash('md5'),
+        password = md5.update(req.body.password).digest('hex');
+    var newUser = new ManagerUser({
+        name: name,
+        password: password,
+        email: req.body.email,
+        user_collection: "",
+        account: 0
+    });
+    //检查用户名是否已经存在
+    ManagerUser.get(newUser.name, function (err, user) {
+        if (err) {
+            return res.json({'error': err});
+        }
+        if (user) {
+            return res.json({'error': '用户已存在!'});
+        }
+        //如果不存在则新增用户
+        newUser.save(function (err, user) {
+            if (err) {
+                // res.json({'error': err});
+                res.write("<script type='application/javascript'> alert(err)</script>")
+            }
+            req.session.user = newUser;//用户信息存入 session
+            res.json({'success': '注册成功!'});
 
+        });
+    });
+});
+router.post('/ManagerLogin', checkNotLogin);
+router.post('/ManagerLogin', function (req, res) {
+    //生成密码的 md5 值
+    var md5 = crypto.createHash('md5'),
+        password = md5.update(req.body.password).digest('hex');
+    //检查用户是否存在
+    ManagerUser.get(req.body.name, function (err, user) {
+        if (!user) {
+            return res.json({'error': '用户不存在!'});
+        }
+        //检查密码是否一致
+        if (user.password != password) {
+            return res.json({'error': '密码错误!'});
+        }
+        //用户名密码都匹配后，将用户信息存入 session
+        req.session.user = user;
+        res.json({'success': '登陆成功!', 'coll': user.user_collection, 'account': user.account});
+    });
+});
 router.post('/changepass', function (req, res) {
     //检验用户两次输入的密码是否一致
     if (req.body.newpassword != req.body["newpassword-repeat"]) {
@@ -283,7 +349,7 @@ router.get('/duobao', function (req, res, next) {
         value = value + charactors.charAt(i);
     }
     var odernumber = timestamp + value;
-    var neworder = new Duobao(user.name, goodsid, odernumber,false);
+    var neworder = new Duobao(user.name, goodsid, odernumber, false);
     neworder.save(function (err) {
         if (err) {
             return res.json({err: err})
@@ -302,7 +368,7 @@ router.get('/pay', function (req, res, next) {
         if (err) {
             return res.json({error: err})
         }
-        if(duobao){
+        if (duobao) {
             if (duobao.payed) {
                 return res.json({error: '已经支付过了'})
             } else {
@@ -313,28 +379,27 @@ router.get('/pay', function (req, res, next) {
                     return res.json({success: '支付成功'})
                 })
             }
-        }else {
-            res.json({error:'该订单号不存在'})
+        } else {
+            res.json({error: '该订单号不存在'})
         }
 
     });
 
 
 });
-router.get('/com/try',function(req,res,next){
+router.get('/com/try', function (req, res, next) {
     var file;
-    if (req.query.file==undefined){
+    if (req.query.file == undefined) {
         file = config.upload.url + "a.json";
-    }else {
-        file = config.upload.url + req.query.file+".json";
+    } else {
+        file = config.upload.url + req.query.file + ".json";
     }
 
     fs.readFile(file, function (err, data) {
         if (err) {
             // console.log("读取文件fail " + err);
             res.json("读取文件fail " + err);
-        }else
-        {
+        } else {
             // 读取成功时
             // 输出字节数组
             console.log(data);
