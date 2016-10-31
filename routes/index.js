@@ -275,7 +275,13 @@ router.post('/upload', multipartMiddleware, function (req, res) {
     //已经可以做进一步处理 req.files
 
 });
-
+/**
+ * 发布广告
+ */
+router.post('/postNew',checkLogin);
+router.post('/postNew',function (req, res) {
+    
+});
 /**
  * 搜索
  */
