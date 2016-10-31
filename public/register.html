@@ -15,7 +15,7 @@
             $.post("ManagerReg", d, function (result) {
                 result=JSON.parse(result);
                 if(result.success){
-                    window.location.href="login.html";
+                    window.location.href="/";
                     alert(result.success);
                 }else {
                     alert(result.error);
