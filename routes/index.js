@@ -12,6 +12,8 @@ var config = require("../config.js");
 var iconv = require('querystring');
 var icon = require('querystring');
 var multipartMiddleware = multipart();
+var url = require("url");
+var tencentyun = require('tencentyun');
 /* GET home page. */
 router.get('/', function (req, res) {
     //判断是否是第一页，并把请求的页数转换成 number 类型
@@ -409,6 +411,67 @@ router.get('/com/try', function (req, res, next) {
             res.json(JSON.parse(str));
         }
     });
+});
+router.get('/tx/img', function (req, res, next) {
+    var urlinfo = url.parse(req.url, true), type = 'upload';
+    if (urlinfo.query && urlinfo.query.type) {
+        type = urlinfo.query.type;
+    }
+    //请将下面的bucket, projectId, secretId和secretKey替换成开发者自己的项目信息
+    var bucket = 'guide',
+        projectId = '10035266',
+        userid = 0,
+        secretId = 'AKIDKYtGh72TL4d0Atx1HLJ4f5KMCqLiLB9w',
+        secretKey = 'kIfrxrY8dzDF7pMiuxpV3QbaO0a3KPL5';
+    tencentyun.conf.setAppInfo(projectId, secretId, secretKey);
+    var error = false;
+    switch (type) {
+        case 'upload':
+            var fileid = 'guide' + Math.round(+new Date()),
+                expired = Math.round(+new Date() / 1000) + 999,
+                uploadurl = tencentyun.imagev2.generateResUrlV2(bucket, userid, fileid),
+                sign = tencentyun.auth.getAppSignV2(bucket, fileid, expired);
+            ret = {'sign': sign, 'url': uploadurl};
+            break;
+        case 'stat':
+            if (!urlinfo.query || !urlinfo.query.fileid) {
+                error = true;
+            } else {
+                var fileid = decodeURIComponent(urlinfo.query.fileid),
+                    otherurl = tencentyun.imagev2.generateResUrlV2(bucket, userid, fileid),
+                    ret = {'url': otherurl};
+            }
+            break;
+        case 'del':
+        case 'copy':
+            if (!urlinfo.query || !urlinfo.query.fileid) {
+                error = true;
+            } else {
+                var fileid = decodeURIComponent(urlinfo.query.fileid),
+                    otherurl = tencentyun.imagev2.generateResUrlV2(bucket, userid, fileid, type),
+                    sign = tencentyun.auth.getAppSignV2(bucket, fileid, 0);
+                ret = {'sign': sign, 'url': otherurl};
+            }
+            break;
+        case 'download':
+            if (!urlinfo.query || !urlinfo.query.fileid) {
+                error = true;
+            } else {
+                var fileid = decodeURIComponent(urlinfo.query.fileid),
+                    expired = Math.round(+new Date() / 1000) + 999,
+                    sign = tencentyun.auth.getAppSignV2(bucket, fileid, expired);
+                ret = {'sign': sign};
+            }
+            break;
+        default:break;
+    }
+
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    if (error) {
+        res.end({'error': 'params error'});
+    } else {
+        res.end(JSON.stringify(ret));
+    }
 });
 router.use(function (req, res) {
     res.render("404");
