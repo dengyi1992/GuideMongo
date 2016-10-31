@@ -7,24 +7,27 @@ var mongodb = require('./db');
  * @param name 发布人
  * @param head 头像,暂时用第三方的
  * @param addesc 广告描述
- * @param adurl 广告地址
  * @param imgurls 图片地址
  * @param tags 标签,暂定三个
  * @param icons 金币数量
  * @constructor
  */
-function Ad(name, head, addesc, adurl, imgurls, tags, icons) {
+function Ad(name, head, addesc, imgurls, tags, icons) {
     this.name = name;
     this.head = head;
     this.addesc = addesc;
-    this.adurl = adurl;
     this.imgurls = imgurls;
     this.icons = icons;
     this.tags = tags;
 }
-
+function getTailer() {
+    var s = '';
+    for (var i = 0; i < 4; i++) {
+        s += parseInt(10 * Math.random());
+    }
+    return s;
+}
 module.exports = Ad;
-
 //存储一篇文章及其相关信息
 Ad.prototype.save = function (callback) {
     var date = new Date();
@@ -39,18 +42,18 @@ Ad.prototype.save = function (callback) {
     };
     //要存入数据库的文档
     var ad = {
+        orderno: date.getTime() + getTailer(),
         name: this.name,
         head: this.head,
         time: time,
         addesc: this.addesc,
         tags: this.tags,
-        adurl: this.adurl,
-        imgurls:this.imgurls,
-        icons:this.icons,
+        imgurls: this.imgurls,
+        icons: this.icons,
         comments: [],
         reprint_info: [],
         pv: 0,
-        isPaid:false
+        isPaid: false
     };
     //打开数据库
     mongodb.open(function (err, db) {
@@ -71,14 +74,47 @@ Ad.prototype.save = function (callback) {
                 if (err) {
                     return callback(err);//失败！返回 err
                 }
-                callback(null);//返回 err 为 null
+                callback(null, ad.orderno);//返回 err 为 null
             });
         });
     });
 };
+Ad.pay = function (name, order, callback) {
+    //打开数据库
+    mongodb.open(function (err, db) {
+        if (err) {
+            return callback(err);
+        }
+        //读取 posts 集合
+        db.collection('ads', function (err, collection) {
+            if (err) {
+                mongodb.close();
+                return callback(err);
+            }
+            collection.find({"name": name, orderno: order}).sort({
+                time: -1
+            }).toArray(function (err, docs) {
+                mongodb.close();
+                if (err) {
+                    return callback(err);//失败！返回 err
+                }
+                if (docs.length == 0) {
+                    return callback(null, "没有这个订单");
+                }
+                if (docs[0].isPaid) {
+                    return callback(null, "该订单已支付");
+                } else {
+                    //支付操作 1.检测余额是否大于该订单 2.偌大于支付，事务，（扣款，订单发布）
 
+
+                }
+
+            });
+        });
+    });
+};
 //读取文章及其相关信息
-Ad.getAll = function ( callback) {
+Ad.getAll = function (callback) {
     //打开数据库
     mongodb.open(function (err, db) {
         if (err) {
@@ -120,7 +156,7 @@ Ad.getAllByName = function (name, callback) {
             }
 
             //根据 query 对象查询文章
-            collection.find({"name":name}).sort({
+            collection.find({"name": name}).sort({
                 time: -1
             }).toArray(function (err, docs) {
                 mongodb.close();
@@ -129,6 +165,51 @@ Ad.getAllByName = function (name, callback) {
                 }
 
                 callback(null, docs);//成功！以数组形式返回查询的结果
+            });
+        });
+    });
+};
+Ad.getByOrder = function (order, callback) {
+    //打开数据库
+    mongodb.open(function (err, db) {
+        if (err) {
+            return callback(err);
+        }
+        //读取 posts 集合
+        db.collection('ads', function (err, collection) {
+            if (err) {
+                mongodb.close();
+                return callback(err);
+            }
+            collection.findOne({
+                orderno: order
+            }, function (err, doc) {
+                callback(null, doc);
+            });
+        });
+    });
+};
+Ad.UpdatePayByOrder = function (order, callback) {
+    //打开数据库
+    mongodb.open(function (err, db) {
+        if (err) {
+            return callback(err);
+        }
+        db.collection('ads', function (err, collection) {
+            if (err) {
+                mongodb.close();
+                return callback(err);
+            }
+            collection.update({
+                orderno: order
+            }, {
+                isPaid: true
+            }, function (err) {
+                mongodb.close();
+                if (err) {
+                    return callback(err);
+                }
+                callback(null, "成功支付");
             });
         });
     });
@@ -176,6 +257,7 @@ Ad.getOne = function (name, day, title, callback) {
         });
     });
 };
+
 //一次获取十篇文章
 Ad.getTen = function (name, page, callback) {
     //打开数据库

@@ -6,7 +6,7 @@ var crypto = require('crypto');
 var Duobao = require('./duobao');
 function ManagerUser(user) {
     this.name = user.name;
-    this.email=user.email;
+    this.email = user.email;
     this.password = user.password;
     this.account = user.account;
 };
@@ -29,8 +29,8 @@ ManagerUser.prototype.save = function (callback) {
         name: this.name,
         password: this.password,
         email: null,
-        phone:null,
-        state:0,
+        phone: null,
+        state: 0,
         account: parseInt(0),
         head: head
     };
@@ -85,7 +85,31 @@ ManagerUser.get = function (name, callback) {
         });
     });
 };
+ManagerUser.updateAccountsByName = function (name, sub, callback) {
+    mongodb.open(function (err, db) {
+        if (err) {
+            return callback(err);
+        }
+        db.collection('ManagerUsers', function (err, collection) {
+            if (err) {
+                mongodb.close();
+                return callback(err);
+            }
 
+            collection.update({
+                name: name
+            }, {
+                account: account - sub
+            }, function (err) {
+                mongodb.close();
+                if (err) {
+                    return callback(err);
+                }
+                callback(null, "成功支付");
+            });
+        });
+    });
+};
 /**
  *
  * @param name

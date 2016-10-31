@@ -3,6 +3,7 @@ var crypto = require('crypto'),
     Comment = require('../models/comment.js'),
     Duobao = require('../models/duobao.js'),
     User = require('../models/user.js'),
+    Ad = require('../models/Ad'),
     ManagerUser = require('../models/ManagerUser');
 var express = require('express');
 var router = express.Router();
@@ -278,8 +279,21 @@ router.post('/upload', multipartMiddleware, function (req, res) {
 /**
  * 发布广告
  */
-router.post('/postNew',checkLogin);
-router.post('/postNew',function (req, res) {
+router.post('/postNew', checkLogin);
+router.post('/postNew', function (req, res) {
+    var currentUser = req.session.user,
+        ad = new Ad(currentUser.name, currentUser.head, req.body.addesc, req.body.imgurls, req.body.tags, req.body.icons);
+    ad.save(function (err,order) {
+        if (err) {
+            return res.json({'error': err});
+        }
+        res.json({'success': '发布成功','orderno':order});
+    });
+});
+router.post('/postPay', checkLogin);
+router.post('/postPay', function (req, res) {
+    var currentUser = req.session.user;
+    var order = req.body.order;
     
 });
 /**
@@ -469,7 +483,8 @@ router.get('/tx/img', function (req, res, next) {
                 ret = {'sign': sign};
             }
             break;
-        default:break;
+        default:
+            break;
     }
 
     res.writeHead(200, {'Content-Type': 'application/json'});
