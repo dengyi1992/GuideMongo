@@ -127,6 +127,7 @@ em{
     float: left;
     height: auto;
     background: url("../img/logo_bg.jpg") no-repeat 0px 0px;
+    background-size: 100%;
 }
 .ue-content-media-font{
     /*height: 60px;*/
@@ -153,8 +154,8 @@ em{
 .ue-content-media-bg{
     background: #e2ceb0;
     /*background: url("../img/video-bg.png") no-repeat 0px 0px;*/
-    width: 20%;
-    height: 40%;
+    width: 22%;
+    height: 43%;
     margin-top: 6%;
     margin-bottom: 6%;
     margin-left: 60%;
