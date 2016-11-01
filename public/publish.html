@@ -1,0 +1,776 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>指南主页</title>
+    <link type="text/css" rel="stylesheet" href="./css/navigation_bar.css">
+    <link rel="stylesheet" href="/css/publishAd.css"/>
+    <link href="http://cdn.bootcss.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" rel="stylesheet">
+    <script src="./js/login_common.js"></script>
+</head>
+<body>
+<div class="ue-content-media">
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="ue-bar">
+            <div class="ue-bar-warp">
+                <div class="us-bar-logo">
+                    <a href="#">
+                        <img src="./img/logo.png" width="auto" height="80%" alt="指南" title="指南">
+                    </a>
+                </div>
+                <div class="ue-bar-nav">
+                    <ul>
+                        <li><a href="index.html">
+                            <em>首页</em>
+                        </a></li>
+                        <li class="active"><a href="#" onclick="nodev()">
+                            <em>发布广告</em>
+                        </a></li>
+                        <li><a target="_blank" href="http://115.159.0.155:8080/manage/login">
+                            <em>问卷调查</em>
+                        </a></li>
+                        <li><a href="#" onclick="nodev()">
+                            <em>关于</em>
+                        </a></li>
+                    </ul>
+                </div>
+                <div class="ue-bar-login">
+                    <a href="login.html">
+                        <img src="./img/web_log-in.png" width="auto" alt="登陆" title="登陆">
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+    <form method='post' action='/index.php/home/Advertiser/publish_ad' enctype="multipart/form-data"
+          onsubmit="return checkAd()">
+        <div id="publish-AD">
+            <div class="ad-informattion">
+                <div class="adtitle">
+                    <img src="./img/1.png">
+                    <span style="color: #33ccff">广告基本信息</span>
+                    <a href="#/publishAdProcess" target="blank">广告任务流程说明</a>
+                </div>
+            </div>
+            <div class="ad-informattion-list">
+                <div class="ad-informattion-content">
+                    <div class="informattion-list">
+                        <label class="informattion-list-label">广告名称</label><input type="text" name="ad_name"
+                                                                                  class="list-input wordstyle"/>
+                    </div>
+                    <div class="informattion-list">
+                        <label class="informattion-list-label">广告图片</label><span class="uploadpic" id="uploadpic">上传</span>
+                    </div>
+                    <div class="informattion-list1">
+                        <label class="informattion-list-label "></label>
+                        <div class="picBox">
+                            <div class="showpic"></div>
+                            <input type="file" name="pic" style="display:none;">
+                            <img src="__PUBLIC__/img/publishAd/add.png" hidden class="upload" id="upload"></div>
+                    </div>
+                    <div class="informattion-list" id="WNedit">
+                        <label class="informattion-list-label">文案编辑</label><span style="color:#5cc4af;cursor:pointer;"
+                                                                                 class="edit-wenan">编辑</span>
+                    </div>
+                    <div class="informattion-list" style="margin-top:10px;margin-left:-50px">
+                        <label class="informattion-list-label1"></label><span
+                            class=" wordstyle  ">您可以编辑广告文案，用于主播广告宣传哦</span>
+                    </div>
+                </div>
+            </div>
+            <div class="ad-informattion1">
+                <div class="adtitle">
+                    <img src="./img/2.png">
+                    <span>广告要求</span>
+                </div>
+            </div>
+            1.png
+            <div class="ad-informattion-list">
+                <div class="ad-informattion-content">
+                    <div class="informattion-list">
+                        <label class="informattion-list-label1">广告任务说明</label><textarea class=" wordstyle ad-need "
+                                                                                        name="ad_explain"
+                                                                                        placeholder="请输入你对此广告任务的介绍，要求等信息"></textarea>
+                    </div>
+                    <div class="informattion-list">
+                        <label class="informattion-list-label1">广告投放时间</label><input class="ad-time" type="text"
+                                                                                     name="ad_put_begintime"
+                                                                                     id="ad_put_begintime"><span class="to">至今</span><input
+                            type="text" name="ad_put_endtime" class="ad-time" id="ad_put_endtime">
+                    </div>
+                    <div class="informattion-list">
+                        <label class="informattion-list-label1">接受表演时间</label><select class="ad-time"
+                                                                                      name="ad_show_start_time"
+                                                                                      id="ad_show_start_time">
+                        <option>00:00:00</option>
+                        <option>01:00:00</option>
+                        <option>02:00:00</option>
+                        <option>03:00:00</option>
+                        <option>04:00:00</option>
+                        <option>05:00:00</option>
+                        <option>06:00:00</option>
+                        <option>07:00:00</option>
+                        <option>08:00:00</option>
+                        <option>09:00:00</option>
+                        <option>10:00:00</option>
+                        <option>11:00:00</option>
+                        <option>12:00:00</option>
+                        <option>13:00:00</option>
+                        <option>14:00:00</option>
+                        <option>15:00:00</option>
+                        <option>16:00:00</option>
+                        <option>17:00:00</option>
+                        <option>18:00:00</option>
+                        <option>19:00:00</option>
+                        <option>20:00:00</option>
+                        <option>21:00:00</option>
+                        <option>22:00:00</option>
+                        <option>23:00:00</option>
+                    </select><span class="to">至今</span><select
+                            name="ad_show_end_time" class="ad-time" id="ad_show_end_time">
+                        <option>01:00:00</option>
+                        <option>02:00:00</option>
+                        <option>03:00:00</option>
+                        <option>04:00:00</option>
+                        <option>05:00:00</option>
+                        <option>06:00:00</option>
+                        <option>07:00:00</option>
+                        <option>08:00:00</option>
+                        <option>09:00:00</option>
+                        <option>10:00:00</option>
+                        <option>11:00:00</option>
+                        <option>12:00:00</option>
+                        <option>13:00:00</option>
+                        <option>14:00:00</option>
+                        <option>15:00:00</option>
+                        <option>16:00:00</option>
+                        <option>17:00:00</option>
+                        <option>18:00:00</option>
+                        <option>19:00:00</option>
+                        <option>20:00:00</option>
+                        <option>21:00:00</option>
+                        <option>22:00:00</option>
+                        <option>23:00:00</option>
+                        <option>00:00:00</option>
+                    </select>
+                    </div>
+                    <div class="informattion-list">
+                        <label class="informattion-list-label1">竞标截止时间</label><input class="ad-time" type="text"
+                                                                                     name="ad_bid_endtime"
+                                                                                     id="ad_bid_endtime">
+                    </div>
+
+                    <div class="informattion-list">
+                        <label class="informattion-list-label1">广告预算金额</label><input class="budget" type="text"
+                                                                                     name="budget">
+                    </div>
+                    <div class="informattion-list">
+                        <label class="informattion-list-label1">单笔竞标金额</label><input class="ad-time" type="text"
+                                                                                     name="bid_min_money"
+                                                                                     id="bid_min_money"><span
+                            class="to">至</span><input
+                            type="text" name="bid_max_money" class="ad-time" id="bid_max_money">
+                    </div>
+                    <div class="informattion-list" id="fenlei">
+                        <label class="informattion-list-label1">投放分类</label>
+                        <div class="checkbox-list"><input type="checkbox" name="game" value="1"><span>游戏</span></div>
+                        <div class="checkbox-list"><input type="checkbox" name="entertainment" value="1"><span>娱乐</span>
+                        </div>
+                        <div class="checkbox-list"><input type="checkbox" name="sports" value="1"><span>体育</span></div>
+                        <div class="checkbox-list"><input type="checkbox" name="cars" value="1"><span>汽车</span></div>
+                        <div class="checkbox-list"><input type="checkbox" name="finance" value="1"><span>金融</span></div>
+                        <div class="checkbox-list1"><input type="checkbox" name="education" value="1"><span>教育</span></div>
+                    </div>
+                    <div class="informattion-list">
+                        <label class="informattion-list-label1">主播筛选</label>
+                        <div class="select-list selectfuns"><span>日访问量大于</span>
+                            <select name="anchor_online">
+                                <option value="0.1" selected="selected">0.1</option>
+                                <option value="0.5">0.5</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                            </select><span>&nbsp&nbsp万</span>
+                        </div>
+                        <div class="select-list selectweek"><span>周直播次数大于</span>
+                            <select name="anchor_times">
+                                <option value="1" selected="selected">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                            </select><span>&nbsp&nbsp次</span>
+                        </div>
+                        <div class="select-list selecttime"><span>周直播时长大于</span>
+                            <input name="anchor_duration" type="text"><span>&nbsp&nbsp小时</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="end">
+                <input type="submit" class="publish" value="发布"/>
+            </div>
+        </div>
+        <div class="ad-informattion-list wenan-page" style="margin-top:-40px;">
+            <div class="ad-informattion-content">
+                <div class="informattion-list">
+                    <label class="informattion-list-label11">文案名称</label><input type="text" name="wenan_name"
+                                                                                class="list-input wordstyle"
+                                                                                placeholder="文案名称"/>
+                </div>
+                <div class="informattion-list" style="margin-top:20px;">
+                    <label class="informattion-list-label11">文案正文</label>
+                </div>
+                <div class="informattion-list1" style="margin-top:0px;">
+                    <script id="wenan_body" style="height:816px;" name="wenan_body" type="text/plain"> 您可以将广告文案贴在此处，用于主播为您做广告推广~
+
+
+                </script>
+
+                    <!--
+                   <label class="informattion-list-label"></label><div class="editAd" id="wenan_body1">
+                       <div class="fade1">
+                       <span class="B-logo">B</span>
+                       <img src="__PUBLIC__/img/publishAd/tilt.png">
+                        </div>
+                   <textarea class="wordstyle" name="wenan_body" id="wenan_body" placeholder=" 您可以编辑广告文案，用于主播广告宣传哦"></textarea>
+                   </div>-->
+                </div>
+                <div class="end">
+                    <input class=" publish-wenan publish-wenan-cancel" value="取消"/>
+                    <input class=" publish-wenan publish-wenan-ok" value="提交"/>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script>
+        var moneyIsEnough = true;
+        var isShow = false;
+        $(document).ready(function () {
+            $(".menu_top").css("min-width", "1920px");
+            $(".menu_top").css("width", "100%");
+            $(".menu_bottom").css("min-width", "1920px");
+            $(".menu_bottom").css("width", "100%");
+            $(".menu_bottom_next").css("width", "23%");
+            $(".newrank_foot").css("min-width", "1920px");
+            $(".newrank_foot").css("width", "100%");
+            $(".edit-wenan").on("click", function () {
+                $("#publish-AD").css("display", "none");
+                $(".wenan-page").css("display", "block");
+            });
+            $(".publish-wenan-ok").on("click", function () {
+                if ($("#WNedit").children("span").hasClass("informattion-list-label22")) {
+                    $("#WNedit").find(".informattion-list-label22").remove();
+                }
+                $("#publish-AD").css("display", "block");
+                $(".wenan-page").css("display", "none");
+                var wenan_name = $("input[name='wenan_name']").val();
+                var span = $("<span class='informattion-list-label22'  > " + wenan_name + "</span>");
+                $(".edit-wenan").before(span);
+
+            });
+            $(".publish-wenan-cancel").on("click", function () {
+                $("#publish-AD").css("display", "block");
+                $(".wenan-page").css("display", "none");
+                $("input[name='wenan_name']").val("");
+
+            });
+            var pic_width;
+            $(".upload").on("click", function () {
+                pic_width = $(".showpic").width();
+                $("input[name='pic']").click();
+
+            });
+
+            $("#uploadpic").on("click", function () {
+                pic_width = $(".showpic").width();
+                $("input[name='pic']").click();
+                //  alert(pic_width);
+            });
+            $("input[name='pic']").uploadView({
+                uploadBox: '.picBox',//设置上传框容器
+                showBox: '.showpic',//设置显示预览图片的容器
+                width: pic_width,
+                height: 300, //预览图片的高度，单位px
+                allowType: ["gif", "jpeg", "jpg", "bmp", "png"], //允许上传图片的类型
+                maxSize: 2, //允许上传图片的最大尺寸，单位M
+                success: function (e) {
+                    $(".upload").css("display", "none");
+                    //  alert(pic_width);
+                    $(".informattion-list1 .picBox img").css("width", pic_width);
+                }
+            });
+
+            $('#ad_put_begintime').datetimepicker({
+                minView: "month", //选择日期后，不会再跳转去选择时分秒
+                format: "yyyy-mm-dd hh:ii:ss", //选择日期后，文本框显示的日期格式
+                language: 'zh-CN', //汉化
+                autoclose: true //选择日期后自动关闭
+            });
+
+
+            $('#ad_put_endtime').datetimepicker({
+                minView: "month", //选择日期后，不会再跳转去选择时分秒
+                format: "yyyy-mm-dd hh:ii:ss", //选择日期后，文本框显示的日期格式
+                language: 'zh-CN', //汉化
+                autoclose: true //选择日期后自动关闭
+            });
+
+            $('#ad_bid_endtime').datetimepicker({
+                minView: "month", //选择日期后，不会再跳转去选择时分秒
+                format: "yyyy-mm-dd hh:ii:ss", //选择日期后，文本框显示的日期格式
+                language: 'zh-CN', //汉化
+                autoclose: true //选择日期后自动关闭
+            });
+        })
+
+        function checkAd() {
+            if (!moneyIsEnough) {
+                return false;
+            }
+            $(".ad-informattion-list").find(".warning").remove();
+            var ad_name = $("input[name='ad_name']").val();
+            if (ad_name == "" || ad_name == null) {
+                var span = $("<span class='warning'>请您输入广告名称！</span>");
+                $("input[name='ad_name']").parent(".informattion-list").append(span);
+            }
+            var pic = $("input[name='pic']").val();
+            if (pic == "" || pic == null) {
+                var span = $("<span class='warning'>请您上传广告图片！</span>");
+                $("#uploadpic").parent(".informattion-list").append(span);
+
+            }
+            var ad_explain = $("textarea[name='ad_explain']").val();
+            if (ad_explain == "" || ad_explain == null) {
+                var span = $("<span class='warning'>请您输入广告任务说明！</span>");
+                $("textarea[name='ad_explain']").parent(".informattion-list").append(span);
+
+            }
+
+            var ad_put_begintime = $("input[name='ad_put_begintime']").val();
+            if (ad_put_begintime == "" || ad_put_begintime == null) {
+                var span = $("<span class='warning'>请您输入广告投放开始时间！</span>");
+                $("input[name='ad_put_begintime']").parent(".informattion-list").append(span);
+            }
+            var ad_put_endtime = $("input[name='ad_put_endtime']").val();
+            if (ad_put_endtime == "" || ad_put_endtime == null) {
+                var span = $("<span class='warning'>请您输入广告投放结束时间！</span>");
+                $("input[name='ad_put_endtime']").parent(".informattion-list").append(span);
+            }
+
+            var ad_show_start_time = $("input[name='ad_show_start_time']").val();
+            if (ad_show_start_time == "" || ad_show_start_time == null) {
+                var span = $("<span class='warning'>请您输入表演开始时间！</span>");
+                $("input[name='ad_show_start_time']").parent(".informattion-list").append(span);
+
+            }
+            var ad_show_end_time = $("input[name='ad_show_end_time']").val();
+            if (ad_show_end_time == "" || ad_show_end_time == null) {
+                var span = $("<span class='warning'>请您输入表演结束时间！</span>");
+                $("input[name='ad_show_end_time']").parent(".informattion-list").append(span);
+            }
+            var ad_bid_endtime = $("input[name='ad_bid_endtime']").val();
+            if (ad_bid_endtime == "" || ad_bid_endtime == null) {
+                var span = $("<span class='warning'>请您输入竞标截止时间！</span>");
+                $("input[name='ad_bid_endtime']").parent(".informattion-list").append(span);
+            }
+            var budget = $("input[name='budget']").val();
+            if (budget == "" || budget == null) {
+                var span = $("<span class='warning'>请您输入广告预算金额！</span>");
+                $("input[name='budget']").parent(".informattion-list").append(span);
+            }
+            else if (budget <= 0) {
+                var span = $("<span class='warning'>广告预算金额应大于0元！</span>");
+                $("input[name='budget']").parent(".informattion-list").append(span);
+            }
+
+            var game = $("input[name='game']").is(':checked');
+            var entertainment = $("input[name='entertainment']").is(':checked');
+
+            var sports = $("input[name='sports']").is(':checked');
+
+            var cars = $("input[name='cars']").is(':checked');
+
+            var finance = $("input[name='finance']").is(':checked');
+
+            var education = $("input[name='education']").is(':checked');
+
+            var fenlei = (game || entertainment || sports || cars || finance || education);
+            if (fenlei == false) {
+                var span = $("<span class='warning'>请您选择广告分类！</span>");
+                $("#fenlei").append(span);
+            }
+
+            if (ad_name && pic && ad_explain && ad_put_begintime && ad_put_endtime && ad_bid_endtime && (budget > 0) && fenlei) {
+                console.log("cheng123");
+                return true;
+            }
+            else {
+                console.log("shibai121212");
+                return false;
+            }
+        }
+
+        $("input[name='ad_name']").on("blur", function () {
+            if ($("input[name='ad_name']").parent(".informattion-list").has(".warning")) {
+                $("input[name='ad_name']").parent(".informattion-list").find(".warning").remove();
+            }
+            var ad_name = $("input[name='ad_name']").val();
+            if (ad_name == "" || ad_name == null) {
+                var span = $("<span class='warning'>请您输入广告名称！</span>");
+                $("input[name='ad_name']").parent(".informattion-list").append(span);
+            }
+            else if ($("input[name='ad_name']").parent(".informattion-list").has(".warning")) {
+                {
+                    $("input[name='ad_name']").parent(".informattion-list").find(".warning").remove();
+                }
+
+            }
+        })
+
+        $("input[name='pic']").on("change", function () {
+            if ($("input[name='pic']").parent(".informattion-list").has(".warning")) {
+                $("#uploadpic").parent(".informattion-list").find(".warning").remove();
+            }
+            var pic = $("input[name='pic']").val();
+            if (pic == "" || pic == null) {
+                var span = $("<span class='warning'>请您上传广告图片！</span>");
+                $("#uploadpic").parent(".informattion-list").append(span);
+            }
+            else if ($("#uploadpic").parent(".informattion-list").has(".warning")) {
+                {
+                    $("#uploadpic").parent(".informattion-list").find(".warning").remove();
+                }
+
+            }
+        })
+        $("textarea[name='ad_explain']").on("blur change", function () {
+            if ($("textarea[name='ad_explain']").parent(".informattion-list").has(".warning")) {
+                $("textarea[name='ad_explain']").parent(".informattion-list").find(".warning").remove();
+            }
+            var ad_explain = $("textarea[name='ad_explain']").val();
+            if (ad_explain == "" || ad_explain == null) {
+                var span = $("<span class='warning'>请您输入广告任务说明</span>");
+                $("textarea[name='ad_explain']").parent(".informattion-list").append(span);
+            }
+            else if ($("textarea[name='ad_explain']").parent(".informattion-list").has(".warning")) {
+                {
+                    $("textarea[name='ad_explain']").parent(".informattion-list").find(".warning").remove();
+                }
+
+            }
+        })
+
+
+        $("input[name='ad_put_begintime']").on("blur change", function () {
+            if ($("input[name='ad_put_begintime']").parent(".informattion-list").has(".warning")) {
+                $("input[name='ad_put_begintime']").parent(".informattion-list").find(".warning").remove();
+            }
+            var ad_put_begintime = $("input[name='ad_put_begintime']").val();
+            if (ad_put_begintime == "" || ad_put_begintime == null) {
+                var span = $("<span class='warning'>请您输入广告投放开始时间！</span>");
+                $("input[name='ad_put_begintime']").parent(".informattion-list").append(span);
+            }
+            else if ($("input[name='ad_put_begintime']").parent(".informattion-list").has(".warning")) {
+                {
+                    $("input[name='ad_put_begintime']").parent(".informattion-list").find(".warning").remove();
+                    var endDate = $("input[name='ad_put_begintime']").val().split("-");
+                    var year = endDate[0];
+                    var mont = endDate[1];
+                    var month = parseInt(mont) - 1;
+                    var day = endDate[2];
+                    var dateEnd = new Date(year, month, day);
+                    var today = new Date().getTime();
+                    var timeEnd = dateEnd.getTime();
+                    if (timeEnd < today) {
+                        var span = $("<span class='warning'>广告投放开始时间须大于当前时间！</span>");
+                        $("input[name='ad_put_begintime']").parent(".informattion-list").append(span);
+                    }
+                }
+            }
+        })
+
+        $("input[name='bid_min_money']").on("blur change", function () {
+            if ($("input[name='bid_min_money']").parent(".informattion-list").has(".warning")) {
+                $("input[name='bid_min_money']").parent(".informattion-list").find(".warning").remove();
+            }
+            var bid_min_money = parseInt($("#bid_min_money").val(), 10);
+
+            if ($("#bid_min_money").val() == " " || $("#bid_min_money").val() == null) {
+                var span = $("<span class='warning'>请输入单次竞标最小金额！</span>");
+                $("input[name='bid_min_money']").parent(".informattion-list").append(span);
+            }
+            else if (bid_min_money <= 0) {
+                var span = $("<span class='warning'>单次竞标最小金额须大于0元！</span>");
+                $("input[name='bid_min_money']").parent(".informattion-list").append(span);
+            }
+            else if ($("input[name='bid_min_money']").parent(".informattion-list").has(".warning")) {
+                {
+                    $("input[name='bid_min_money']").parent(".informattion-list").find(".warning").remove();
+                    var bid_min_money = parseInt($("input[name='bid_min_money']").val());
+
+                    if (bid_min_money <= 0) {
+                        var span = $("<span class='warning'>单次竞标最小金额须大于0元！</span>");
+                        $("input[name='bid_min_money']").parent(".informattion-list").append(span);
+                    }
+                }
+            }
+        })
+        $("input[name='bid_max_money']").on("blur change", function () {
+            if ($("input[name='bid_max_money']").parent(".informattion-list").has(".warning")) {
+                $("input[name='bid_max_money']").parent(".informattion-list").find(".warning").remove();
+            }
+            var bid_max_money = parseInt($("#bid_max_money").val(), 10);
+            //  alert(bid_max_money)
+            var bid_min_money = parseInt($("#bid_min_money").val(), 10);
+            if ($("#bid_max_money").val() == "" || $("#bid_max_money").val() == null) {
+                var span = $("<span class='warning'>请输入单次竞标最大金额！</span>");
+                $("input[name='bid_min_money']").parent(".informattion-list").append(span);
+            }
+            else if (bid_min_money > bid_max_money) {
+                var span = $("<span class='warning'>单次竞标最大金额须大于单次竞标最小金额！</span>");
+                $("input[name='bid_max_money']").parent(".informattion-list").append(span);
+            }
+            else if ($("input[name='bid_max_money']").parent(".informattion-list").has(".warning")) {
+                {
+                    $("input[name='bid_max_money']").parent(".informattion-list").find(".warning").remove();
+                    var bid_max_money = parseInt($("input[name='bid_max_money']").val());
+
+                    if (bid_max_money < bid_min_money) {
+                        var span = $("<span class='warning'>单次竞标最大金额须大于单次竞标最小金额！！</span>");
+                        $("input[name='bid_max_money']").parent(".informattion-list").append(span);
+                    }
+                }
+            }
+        })
+
+
+        $("input[name='ad_show_start_time']").on("blur change", function () {
+            if ($("input[name='ad_show_start_time']").parent(".informattion-list").has(".warning")) {
+                $("input[name='ad_show_start_time']").parent(".informattion-list").find(".warning").remove();
+            }
+            var ad_show_start_time = $("input[name='ad_show_start_time']").val();
+            if (ad_show_start_time == "" || ad_show_start_time == null) {
+                var span = $("<span class='warning'>请您输入接受表演开始时间！</span>");
+                $("input[name='ad_show_start_time']").parent(".informattion-list").append(span);
+            }
+            else if ($("input[name='ad_show_start_time']").parent(".informattion-list").has(".warning")) {
+                {
+                    $("input[name='ad_show_start_time']").parent(".informattion-list").find(".warning").remove();
+                    var endDate = $("input[name='ad_show_start_time']").val().split("-");
+                    var year = endDate[0];
+                    var mont = endDate[1];
+                    var month = parseInt(mont) - 1;
+                    var day = endDate[2];
+                    var dateEnd = new Date(year, month, day);
+                    var today = new Date().getTime();
+                    var timeEnd = dateEnd.getTime();
+                    if (timeEnd < today) {
+                        var span = $("<span class='warning'>接受表演开始时间须大于当前时间！</span>");
+                        $("input[name='ad_show_start_time']").parent(".informattion-list").append(span);
+                    }
+                }
+            }
+        })
+
+
+        $("input[name='ad_show_end_time']").on("blur change", function () {
+            if ($("input[name='ad_show_end_time ']").parent(".informattion-list").has(".warning")) {
+                $("input[name='ad_show_end_time ']").parent(".informattion-list").find(".warning").remove();
+            }
+            var ad_show_end_time = $("input[name='ad_show_end_time']").val();
+
+            if (ad_show_end_time == "" || ad_show_end_time == null) {
+                var span = $("<span class='warning'>请您输入表演结束时间！</span>");
+                $("input[name='ad_show_end_time ']").parent(".informattion-list").append(span);
+            }
+            else if ($("input[name='ad_show_end_time']").parent(".informattion-list").has(".warning")) {
+                {
+                    $("input[name='ad_show_end_time']").parent(".informattion-list").find(".warning").remove();
+
+                    var endDate = $("input[name='ad_show_start_time']").val().split("-");
+                    var year = endDate[0];
+                    var mont = endDate[1];
+                    var month = parseInt(mont) - 1;
+                    var day = endDate[2];
+                    var dateEnd = new Date(year, month, day);
+                    var timeEnd = dateEnd.getTime();
+
+                    var endDate1 = $("input[name='ad_show_end_time']").val().split("-");
+                    var year1 = endDate1[0];
+                    var mont1 = endDate1[1];
+                    var month1 = parseInt(mont1) - 1;
+                    var day1 = endDate1[2];
+                    var dateEnd1 = new Date(year1, month1, day1);
+                    var timeEnd1 = dateEnd1.getTime();
+
+                    if (timeEnd1 < timeEnd) {
+
+                        var span = $("<span class='warning'>表演结束时间须大于表演开始时间！</span>");
+                        $("input[name='ad_show_end_time']").parent(".informattion-list").append(span);
+                    }
+                }
+
+            }
+        })
+
+        $("input[name='ad_put_endtime']").on("blur change", function () {
+            if ($("input[name='ad_put_endtime']").parent(".informattion-list").has(".warning")) {
+                $("input[name='ad_put_endtime']").parent(".informattion-list").find(".warning").remove();
+            }
+            var ad_put_endtime = $("input[name='ad_put_endtime']").val();
+            if (ad_put_endtime == "" || ad_put_endtime == null) {
+                var span = $("<span class='warning'>请您输入广告投放结束时间！</span>");
+                $("input[name='ad_put_endtime']").parent(".informattion-list").append(span);
+            }
+            else if ($("input[name='ad_put_endtime']").parent(".informattion-list").has(".warning")) {
+                {
+                    $("input[name='ad_put_endtime']").parent(".informattion-list").find(".warning").remove();
+
+                    var endDate = $("input[name='ad_put_begintime']").val().split("-");
+                    var year = endDate[0];
+                    var mont = endDate[1];
+                    var month = parseInt(mont) - 1;
+                    var day = endDate[2];
+                    var dateEnd = new Date(year, month, day);
+                    var timeEnd = dateEnd.getTime();
+
+                    var endDate1 = $("input[name='ad_put_endtime']").val().split("-");
+                    var year1 = endDate1[0];
+                    var mont1 = endDate1[1];
+                    var month1 = parseInt(mont1) - 1;
+                    var day1 = endDate1[2];
+                    var dateEnd1 = new Date(year1, month1, day1);
+                    var timeEnd1 = dateEnd1.getTime();
+
+                    if (timeEnd1 < timeEnd) {
+                        var span = $("<span class='warning'>广告投放结束时间须大于开始时间！</span>");
+                        $("input[name='ad_put_begintime']").parent(".informattion-list").append(span);
+                    }
+                }
+
+            }
+        })
+
+
+        $("input[name='ad_bid_endtime']").on("blur change", function () {
+            if ($("input[name='ad_bid_endtime']").parent(".informattion-list").has(".warning")) {
+                $("input[name='ad_bid_endtime']").parent(".informattion-list").find(".warning").remove();
+            }
+            var ad_bid_endtime = $("input[name='ad_bid_endtime']").val();
+            if (ad_bid_endtime == "" || ad_bid_endtime == null) {
+                var span = $("<span class='warning'>请您输入竞标结束时间！</span>");
+                $("input[name='ad_bid_endtime']").parent(".informattion-list").append(span);
+            }
+            else if ($("input[name='ad_bid_endtime']").parent(".informattion-list").has(".warning")) {
+                {
+                    $("input[name='ad_bid_endtime']").parent(".informattion-list").find(".warning").remove();
+                    var endDate = $("input[name='ad_bid_endtime']").val().split("-");
+                    var year = endDate[0];
+                    var mont = endDate[1];
+                    var month = parseInt(mont) - 1;
+                    var day = endDate[2];
+                    var dateEnd = new Date(year, month, day);
+                    var timeEnd = dateEnd.getTime();
+
+                    var endDate1 = $("input[name='ad_put_endtime']").val().split("-");
+                    var year1 = endDate1[0];
+                    var mont1 = endDate1[1];
+                    var month1 = parseInt(mont1) - 1;
+                    var day1 = endDate1[2];
+                    var dateEnd1 = new Date(year1, month1, day1);
+                    var timeEnd1 = dateEnd1.getTime();
+
+                    var today = new Date().getTime();
+
+                    if (timeEnd > timeEnd1) {
+                        var span = $("<span class='warning'>竞标截止时间时间须小于投放结束时间！</span>");
+                        $("input[name='ad_bid_endtime']").parent(".informattion-list").append(span);
+                    }
+                    if (timeEnd < today) {
+                        var span = $("<span class='warning'>竞标截止时间时间须大于当前时间！</span>");
+                        $("input[name='ad_bid_endtime']").parent(".informattion-list").append(span);
+                    }
+
+
+                }
+
+            }
+        })
+
+
+        $("input[name='budget']").on("blur change", function () {
+            moneyIsEnough = false;
+            if ($("input[name='budget']").parent(".informattion-list").has(".warning")) {
+                $("input[name='budget']").parent(".informattion-list").find(".warning").remove();
+            }
+            var budget = $("input[name='budget']").val();
+            if (budget == "" || budget == null) {
+                var span = $("<span class='warning'>请您输入预算金额！</span>");
+                $("input[name='budget']").parent(".informattion-list").append(span);
+            } else if (budget <= 0) {
+                var span = $("<span class='warning'>广告预算金额应大于0元！</span>");
+                $("input[name='budget']").parent(".informattion-list").append(span);
+            } else {
+                if (!isShow) {
+                    isShow = true;
+                    $.post("/index.php/home/Advertiser/return_left_money", function (data) {
+                        if (data.data < budget) {
+                            moneyIsEnough = false;
+                            var spany = $("<span class='warning'>您的账户余额不足！</span>");
+                            var spany1 = $("<a id='ymh' class='warning' style='color:blue;cursor:pointer'  href='#/settlement_management_only'  target='_blank'>去充值</a>");
+                            $("input[name='budget']").parent(".informattion-list").append(spany).append(spany1);
+//                        $_div = $('#ymh');
+//                        $_div.on('click', function () {
+//                            alert('我是有效的on方法,你能看见我吗：');
+//                        });
+                        } else if ($("input[name='budget']").parent(".informattion-list").has(".warning")) {
+                            moneyIsEnough = true;
+                            $("input[name='budget']").parent(".informattion-list").find(".warning").remove();
+                        } else {
+                            moneyIsEnough = true;
+                        }
+                    }, 'json');
+                } else {
+                    isShow = false;
+                }
+            }
+        })
+        $("input[name='game'] ,input[name='entertainment'],input[name='sports'],input[name='cars'],input[name='finance'],input[name='education']").on("change", function () {
+            if ($("#fenlei").has(".warning")) {
+                $("#fenlei").find(".warning").remove();
+            }
+            var game = $("input[name='game']").is(':checked');
+            var entertainment = $("input[name='entertainment']").is(':checked');
+
+            var sports = $("input[name='sports']").is(':checked');
+
+            var cars = $("input[name='cars']").is(':checked');
+
+            var finance = $("input[name='finance']").is(':checked');
+
+            var education = $("input[name='education']").is(':checked');
+            var fenlei = (game || entertainment || sports || cars || finance || education);
+            if (fenlei == false) {
+                var span = $("<span class='warning'>请您选择广告分类！</span>");
+                $("#fenlei").append(span);
+            }
+
+
+        })
+        // function jumpAddMoney() {
+        //     window.location.href = "#/settlement_management_only";
+        // }
+
+    </script>
+    <script src="http://rank3.dataguiding.com/Public/ueditor/php/ueditor.config.js"></script>
+    <script src="http://rank3.dataguiding.com/Public/ueditor/php/ueditor.all.js"></script>
+
+</div>
+
+</body>
+</html>
