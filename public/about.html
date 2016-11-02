@@ -7,9 +7,24 @@
     <title>登录</title>
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/common.css">
-    <script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
     <link href="http://cdn.bootcss.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/navigation_bar.css">
+    <style type="text/css">
+        .about{
+            width:200px;
+            heigth:50px;
+            text-align:center;
+            margin:auto;
+            color: #33ccff;
+        }
+        .about_content{
+            width:500px;
+            heigth:50px;
+            text-align:left;
+            margin:auto;
+            color: #33ccff;
+        }
+    </style>
     <script>
         function perSubmit() {
             var d = $("form").serialize();
@@ -47,7 +62,7 @@
                             <li><a target="_blank" href="http://115.159.0.155:8080/manage/login">
                                 <em>问卷调查</em>
                             </a></li>
-                            <li><a href="#" onclick="nodev()">
+                            <li class="active"><a href="about.html">
                                 <em>关于</em>
                             </a></li>
                         </ul>
@@ -62,53 +77,21 @@
         </nav>
         <div class="logo"></div>
 
-        <div class="login_box">
-
-            <div class="login_form">
-                <div class="login_title">
-                    登录
-                </div>
-                <form action="#" method="post">
-
-                    <div class="form_text_ipt">
-                        <input name="name" type="text" placeholder="用户名">
-                    </div>
-                    <div class="ececk_warning"><span>数据不能为空</span></div>
-                    <div class="form_text_ipt">
-                        <input name="password" type="password" placeholder="密码">
-                    </div>
-                    <div class="ececk_warning"><span>数据不能为空</span></div>
-                    <div class="form_check_ipt">
-                        <div class="left check_left">
-                            <label><input name="" type="checkbox"> 下次自动登录</label>
-                        </div>
-                        <div class="right check_right">
-                            <a href="#" onclick="nodev()">忘记密码</a>
-                        </div>
-                    </div>
-                    <div class="form_btn">
-                        <button type="button" onclick="perSubmit()">登录</button>
-                    </div>
-                    <div class="form_reg_btn">
-                        <span>还没有帐号？</span><a href="register.html">马上注册</a>
-                    </div>
-                </form>
-                <div class="other_login">
-                    <div class="left other_left">
-                        <span>其它登录方式</span>
-                    </div>
-                    <div class="right other_right">
-                        <a href="#" onclick="nodev()">QQ登录</a>
-                        <a href="#" onclick="nodev()">微信登录</a>
-                        <a href="#" onclick="nodev()">微博登录</a>
-                    </div>
-                </div>
-            </div>
+        <div class="about">
+            <p>
+                <h2>关于指南</h2>
+            </p>
+        </div>
+        <div class="about_content">
+            <p>
+                &nbsp; &nbsp;&nbsp; &nbsp;原意指向南方，引申为指导等含义；比喻辨别方向的依据。也比喻辨别正确发展方向的依据。
+            </p>
+            <p>
+                &nbsp; &nbsp;&nbsp; &nbsp;广告，即广而告之之意。广告是为了某种特定的需要，通过一定形式的媒体，公开而广泛地向公众传递信息的宣传手段。广告有广义和狭义之分，广义广告包括非经济广告和经济广告。非经济广告指不以盈利为目的的广告，又称效应广告，如政府行政部门、社会事业单位乃至个人的各种公告、启事、声明等，主要目的是推广；狭义广告仅指经济广告，又称商业广告，是指以盈利为目的的广告，通常是商品生产者、经营者和消费者之间沟通信息的重要手段，或企业占领市场、推销产品、提供劳务的重要形式，主要目的是扩大经济效益。
+            </p>
         </div>
     </div>
 </div>
-<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
-<script type="text/javascript" src="./js/login_common.js"></script>
 
 
 </body>
