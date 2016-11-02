@@ -133,7 +133,7 @@ em{
     /*height: 60px;*/
     float:left;
     margin-left: 24%;
-    margin-top: 8%;
+    margin-top: 4%;
     /*background: #ff1320;*/
 }
 .ue-content-media-font h1{
@@ -154,9 +154,9 @@ em{
 .ue-content-media-bg{
     background: #e2ceb0;
     /*background: url("../img/video-bg.png") no-repeat 0px 0px;*/
-    width: 22%;
-    height: 43%;
-    margin-top: 6%;
+    width: 20%;
+    height: 40%;
+    margin-top: 4%;
     margin-bottom: 6%;
     margin-left: 60%;
     /*margin-right: 40%;*/
@@ -187,7 +187,7 @@ em{
     height: 10%;
     /*background: #ff476d;*/
     float: left;
-    margin-top: -4%;
+    margin-top: -8%;
 }
 .ue-download-ios{
     margin-left: 38%;
@@ -202,7 +202,7 @@ em{
     margin-left: 24%;
     margin-bottom: 0;
     /*margin-top: -12%;*/
-    margin-top: -20%;
+    margin-top: -25%;
 }
 .ue-content-media2{
     width:100%;
