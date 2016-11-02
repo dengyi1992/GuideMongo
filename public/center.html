@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!-- saved from url=(0064)http://www.17sucai.com/preview/124020/2015-11-06/login/demo.html -->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <title>个人中心</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/common.css">
+    <link href="http://cdn.bootcss.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/navigation_bar.css">
+    <style type="text/css">
+        .about{
+            width:400px;
+            heigth:50px;
+            text-align:center;
+            margin:auto;
+            color: #33ccff;
+        }
+    </style>
+    <script>
+        function perSubmit() {
+            var d = $("form").serialize();
+            $.post("ManagerLogin", d, function (result) {
+                result=JSON.parse(result);
+                if(result.success){
+                    window.location.href="/";
+                    alert(result.success);
+                }else {
+                    alert(result.error);
+                }
+            }, "text");
+        }
+    </script>
+</head>
+<body>
+<div class="wrap login_wrap">
+    <div class="content">
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="ue-bar">
+                <div class="ue-bar-warp">
+                    <div class="us-bar-logo">
+                        <a href="index.html">
+                            <img src="./img/logo.png" width="auto" height="80%" alt="指南" title="指南">
+                        </a>
+                    </div>
+                    <div class="ue-bar-nav">
+                        <ul>
+                            <li><a href="index.html">
+                                <em>首页</em>
+                            </a></li>
+                            <li><a href="publish.html">
+                                <em>发布广告</em>
+                            </a></li>
+                            <li><a target="_blank" href="http://115.159.0.155:8080/manage/login">
+                                <em>问卷调查</em>
+                            </a></li>
+                            <li><a href="about.html">
+                                <em>关于</em>
+                            </a></li>
+                        </ul>
+                    </div>
+                    <div class="ue-bar-login">
+                        <a href="login.html">
+                            <img src="./img/web_log-in.png" width="auto" alt="登陆" title="登陆">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="logo"></div>
+
+        <div class="about">
+            <p>
+                <h2>个人中心  &nbsp; &nbsp;&nbsp;暂未开发</h2>
+            </p>
+        </div>
+
+    </div>
+</div>
+
+
+</body>
+</html>
