@@ -65,7 +65,6 @@
                         <span class="uploadpic" id="uploadpic">上传</span>
                     </div>
                     <div class="informattion-list1">
-                        <!--<label class="informattion-list-label "></label>-->
                         <div class="picBox">
                             <div class="showpic"></div>
                             <input type="file" name="pic" style="display:none;">
@@ -73,12 +72,10 @@
                     </div>
                 </div>
             </div>
-
-            <!--1.png-->
             <div class="ad-informattion-list">
                 <div class="ad-informattion-content">
                     <div class="informattion-list">
-                        <label class="informattion-list-label1">广告任务说明</label>
+                        <label class="informattion-list-label1">广告关键词</label>
                         <textarea class=" wordstyle ad-need " name="ad_explain" placeholder="请输入你对此广告任务的介绍，要求等信息"></textarea>
                     </div>
                     <div class="informattion-list">
@@ -93,9 +90,7 @@
                     </div>
                     <div class="informattion-list">
                         <label class="informattion-list-label1">单笔奖励金币</label>
-                        <input class="ad-time" type="text" name="bid_min_money" id="bid_min_money">
-                        <span class="to">至</span>
-                        <input type="text" name="bid_max_money" class="ad-time" id="bid_max_money">
+                        <input class="sig_money" type="text" name="sig_money" id="sig_money">
                     </div>
                     <div class="informattion-list" id="fenlei">
                         <label class="informattion-list-label1">投放分类</label>
@@ -122,19 +117,6 @@
                 </div>
                 <div class="informattion-list" style="margin-top:20px;">
                     <label class="informattion-list-label11">文案正文</label>
-                </div>
-                <div class="informattion-list1" style="margin-top:0px;">
-                    <script id="wenan_body" style="height:816px;" name="wenan_body" type="text/plain"> 您可以将广告文案贴在此处，用于主播为您做广告推广~
-                    </script>
-
-                    <!--
-                   <label class="informattion-list-label"></label><div class="editAd" id="wenan_body1">
-                       <div class="fade1">
-                       <span class="B-logo">B</span>
-                       <img src="__PUBLIC__/img/publishAd/tilt.png">
-                        </div>
-                   <textarea class="wordstyle" name="wenan_body" id="wenan_body" placeholder=" 您可以编辑广告文案，用于主播广告宣传哦"></textarea>
-                   </div>-->
                 </div>
                 <div class="end">
                     <input class=" publish-wenan publish-wenan-cancel" value="取消"/>
@@ -283,7 +265,6 @@
                 var span = $("<span class='warning'>广告预算金额应大于0元！</span>");
                 $("input[name='budget']").parent(".informattion-list").append(span);
             }
-
             var game = $("input[name='game']").is(':checked');
             var entertainment = $("input[name='entertainment']").is(':checked');
 
@@ -634,6 +615,21 @@
                 } else {
                     isShow = false;
                 }
+            }
+        })
+        $(".sig_money").on("blur change",function () {
+            if ($(".sig_money").parent(".informattion-list").has(".warning")) {
+                $(".sig_money").parent(".informattion-list").find(".warning").remove();
+            }
+            var sig_money = $(".sig_money").val();
+            if(sig_money==""||sig_money==null){
+                var span = $("<span class='warning'>请您输入单笔金额！</span>");
+                $(".sig_money").parent(".informattion-list").append(span);
+            }else if (sig_money<0){
+                var span = $("<span class='warning'>请您输入单笔金额！</span>");
+                $(".sig_money").parent(".informattion-list").append(span);
+            }else {
+                //其他处理
             }
         })
         $("input[name='game'] ,input[name='entertainment'],input[name='sports'],input[name='cars'],input[name='finance'],input[name='education']").on("change", function () {

@@ -218,7 +218,16 @@
     height: 40px;
     border: 1px solid #999;
 }
-
+.sig_money {
+    /* width:calc(100% - 168px  );
+    	width:-webkit-calc(100% - 168px  );
+    	width:-moz-calc(100% - 168px  ); */
+    width: calc((100% - 168px  - 27.25%) );
+    width: -webkit-calc((100% - 168px - 27.25%));
+    width: -moz-calc((100% - 168px  - 27.25%));
+    height: 40px;
+    border: 1px solid #999;
+}
 .checkboxes {
     display: inline-block;
     width: 100%;
