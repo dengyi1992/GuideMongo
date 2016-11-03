@@ -88,6 +88,8 @@ header{
 .login_wrap{
 	background: url(../img/logo_bg1.jpg) no-repeat center;
 	background-size: 100%;
+	background-attachment:fixed
+
 }
 .logo{
 	width: 500px;
