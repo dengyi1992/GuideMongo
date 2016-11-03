@@ -10,12 +10,12 @@ header{
 .header_item{
 	overflow: hidden;
 }
-.user_menu{
-	width: 100%;
-	height: 170px;
-	padding: 20px 0;
-	background:url(../img/banner_bg.jpg) repeat;
-}
+/*.user_menu{*/
+	/*width: 100%;*/
+	/*height: 170px;*/
+	/*padding: 20px 0;*/
+	/*background:url(../img/banner_bg.jpg) repeat;*/
+/*}*/
 .header_item{
 	
 	width: 980px;
