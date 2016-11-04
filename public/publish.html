@@ -159,12 +159,12 @@
                 $("input[name='wenan_name']").val("");
 
             });
-            var pic_width;
-            $(".upload").on("click", function () {
-                pic_width = $(".showpic").width();
-                $("input[name='pic']").click();
-
-            });
+            var pic_width=$(".showpic").width();
+//            $(".upload").on("click", function () {
+//                pic_width = $(".showpic").width();
+//                $("input[name='pic']").click();
+//
+//            });
 
             $("#uploadpic").on("click", function () {
                 pic_width = $(".showpic").width();
@@ -179,7 +179,7 @@
                 allowType: ["gif", "jpeg", "jpg", "bmp", "png"], //允许上传图片的类型
                 maxSize: 2, //允许上传图片的最大尺寸，单位M
                 success: function (e) {
-                    $(".upload").css("display", "none");
+//                    $(".upload").css("display", "none");
                     //  alert(pic_width);
                     $(".informattion-list1 .picBox img").css("width", pic_width);
                 }
