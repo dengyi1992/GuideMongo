@@ -78,7 +78,8 @@
                 <div class="ad-informattion-content">
                     <div class="informattion-list">
                         <label class="informattion-list-label1">广告关键词</label>
-                        <textarea class=" wordstyle ad-need " name="ad_explain" placeholder="请输入广告关键词，请控制在4～10个字内"></textarea>
+                        <textarea class=" wordstyle ad-need " name="ad_explain"
+                                  placeholder="请输入广告关键词，请控制在4～10个字内"></textarea>
                     </div>
                     <div class="informattion-list">
                         <label class="informattion-list-label1">广告投放时间</label>
@@ -159,7 +160,7 @@
                 $("input[name='wenan_name']").val("");
 
             });
-            var pic_width=$(".showpic").width();
+            var pic_width = $(".showpic").width();
 //            $(".upload").on("click", function () {
 //                pic_width = $(".showpic").width();
 //                $("input[name='pic']").click();
@@ -185,27 +186,6 @@
                 }
             });
 
-            $('#ad_put_begintime').datetimepicker({
-                minView: "month", //选择日期后，不会再跳转去选择时分秒
-                format: "yyyy-mm-dd hh:ii:ss", //选择日期后，文本框显示的日期格式
-                language: 'zh-CN', //汉化
-                autoclose: true //选择日期后自动关闭
-            });
-
-
-            $('#ad_put_endtime').datetimepicker({
-                minView: "month", //选择日期后，不会再跳转去选择时分秒
-                format: "yyyy-mm-dd hh:ii:ss", //选择日期后，文本框显示的日期格式
-                language: 'zh-CN', //汉化
-                autoclose: true //选择日期后自动关闭
-            });
-
-            $('#ad_bid_endtime').datetimepicker({
-                minView: "month", //选择日期后，不会再跳转去选择时分秒
-                format: "yyyy-mm-dd hh:ii:ss", //选择日期后，文本框显示的日期格式
-                language: 'zh-CN', //汉化
-                autoclose: true //选择日期后自动关闭
-            });
         })
 
         function checkAd() {
@@ -242,22 +222,6 @@
                 $("input[name='ad_put_endtime']").parent(".informattion-list").append(span);
             }
 
-            var ad_show_start_time = $("input[name='ad_show_start_time']").val();
-            if (ad_show_start_time == "" || ad_show_start_time == null) {
-                var span = $("<span class='warning'>请您输入表演开始时间！</span>");
-                $("input[name='ad_show_start_time']").parent(".informattion-list").append(span);
-
-            }
-            var ad_show_end_time = $("input[name='ad_show_end_time']").val();
-            if (ad_show_end_time == "" || ad_show_end_time == null) {
-                var span = $("<span class='warning'>请您输入表演结束时间！</span>");
-                $("input[name='ad_show_end_time']").parent(".informattion-list").append(span);
-            }
-            var ad_bid_endtime = $("input[name='ad_bid_endtime']").val();
-            if (ad_bid_endtime == "" || ad_bid_endtime == null) {
-                var span = $("<span class='warning'>请您输入竞标截止时间！</span>");
-                $("input[name='ad_bid_endtime']").parent(".informattion-list").append(span);
-            }
             var budget = $("input[name='budget']").val();
             if (budget == "" || budget == null) {
                 var span = $("<span class='warning'>请您输入广告预算金额！</span>");
@@ -373,130 +337,6 @@
             }
         })
 
-        $("input[name='bid_min_money']").on("blur change", function () {
-            if ($("input[name='bid_min_money']").parent(".informattion-list").has(".warning")) {
-                $("input[name='bid_min_money']").parent(".informattion-list").find(".warning").remove();
-            }
-            var bid_min_money = parseInt($("#bid_min_money").val(), 10);
-
-            if ($("#bid_min_money").val() == " " || $("#bid_min_money").val() == null) {
-                var span = $("<span class='warning'>请输入单次竞标最小金额！</span>");
-                $("input[name='bid_min_money']").parent(".informattion-list").append(span);
-            }
-            else if (bid_min_money <= 0) {
-                var span = $("<span class='warning'>单次竞标最小金额须大于0元！</span>");
-                $("input[name='bid_min_money']").parent(".informattion-list").append(span);
-            }
-            else if ($("input[name='bid_min_money']").parent(".informattion-list").has(".warning")) {
-                {
-                    $("input[name='bid_min_money']").parent(".informattion-list").find(".warning").remove();
-                    var bid_min_money = parseInt($("input[name='bid_min_money']").val());
-
-                    if (bid_min_money <= 0) {
-                        var span = $("<span class='warning'>单次竞标最小金额须大于0元！</span>");
-                        $("input[name='bid_min_money']").parent(".informattion-list").append(span);
-                    }
-                }
-            }
-        })
-        $("input[name='bid_max_money']").on("blur change", function () {
-            if ($("input[name='bid_max_money']").parent(".informattion-list").has(".warning")) {
-                $("input[name='bid_max_money']").parent(".informattion-list").find(".warning").remove();
-            }
-            var bid_max_money = parseInt($("#bid_max_money").val(), 10);
-            //  alert(bid_max_money)
-            var bid_min_money = parseInt($("#bid_min_money").val(), 10);
-            if ($("#bid_max_money").val() == "" || $("#bid_max_money").val() == null) {
-                var span = $("<span class='warning'>请输入单次竞标最大金额！</span>");
-                $("input[name='bid_min_money']").parent(".informattion-list").append(span);
-            }
-            else if (bid_min_money > bid_max_money) {
-                var span = $("<span class='warning'>单次竞标最大金额须大于单次竞标最小金额！</span>");
-                $("input[name='bid_max_money']").parent(".informattion-list").append(span);
-            }
-            else if ($("input[name='bid_max_money']").parent(".informattion-list").has(".warning")) {
-                {
-                    $("input[name='bid_max_money']").parent(".informattion-list").find(".warning").remove();
-                    var bid_max_money = parseInt($("input[name='bid_max_money']").val());
-
-                    if (bid_max_money < bid_min_money) {
-                        var span = $("<span class='warning'>单次竞标最大金额须大于单次竞标最小金额！！</span>");
-                        $("input[name='bid_max_money']").parent(".informattion-list").append(span);
-                    }
-                }
-            }
-        })
-
-
-        $("input[name='ad_show_start_time']").on("blur change", function () {
-            if ($("input[name='ad_show_start_time']").parent(".informattion-list").has(".warning")) {
-                $("input[name='ad_show_start_time']").parent(".informattion-list").find(".warning").remove();
-            }
-            var ad_show_start_time = $("input[name='ad_show_start_time']").val();
-            if (ad_show_start_time == "" || ad_show_start_time == null) {
-                var span = $("<span class='warning'>请您输入接受表演开始时间！</span>");
-                $("input[name='ad_show_start_time']").parent(".informattion-list").append(span);
-            }
-            else if ($("input[name='ad_show_start_time']").parent(".informattion-list").has(".warning")) {
-                {
-                    $("input[name='ad_show_start_time']").parent(".informattion-list").find(".warning").remove();
-                    var endDate = $("input[name='ad_show_start_time']").val().split("-");
-                    var year = endDate[0];
-                    var mont = endDate[1];
-                    var month = parseInt(mont) - 1;
-                    var day = endDate[2];
-                    var dateEnd = new Date(year, month, day);
-                    var today = new Date().getTime();
-                    var timeEnd = dateEnd.getTime();
-                    if (timeEnd < today) {
-                        var span = $("<span class='warning'>接受表演开始时间须大于当前时间！</span>");
-                        $("input[name='ad_show_start_time']").parent(".informattion-list").append(span);
-                    }
-                }
-            }
-        })
-
-
-        $("input[name='ad_show_end_time']").on("blur change", function () {
-            if ($("input[name='ad_show_end_time ']").parent(".informattion-list").has(".warning")) {
-                $("input[name='ad_show_end_time ']").parent(".informattion-list").find(".warning").remove();
-            }
-            var ad_show_end_time = $("input[name='ad_show_end_time']").val();
-
-            if (ad_show_end_time == "" || ad_show_end_time == null) {
-                var span = $("<span class='warning'>请您输入表演结束时间！</span>");
-                $("input[name='ad_show_end_time ']").parent(".informattion-list").append(span);
-            }
-            else if ($("input[name='ad_show_end_time']").parent(".informattion-list").has(".warning")) {
-                {
-                    $("input[name='ad_show_end_time']").parent(".informattion-list").find(".warning").remove();
-
-                    var endDate = $("input[name='ad_show_start_time']").val().split("-");
-                    var year = endDate[0];
-                    var mont = endDate[1];
-                    var month = parseInt(mont) - 1;
-                    var day = endDate[2];
-                    var dateEnd = new Date(year, month, day);
-                    var timeEnd = dateEnd.getTime();
-
-                    var endDate1 = $("input[name='ad_show_end_time']").val().split("-");
-                    var year1 = endDate1[0];
-                    var mont1 = endDate1[1];
-                    var month1 = parseInt(mont1) - 1;
-                    var day1 = endDate1[2];
-                    var dateEnd1 = new Date(year1, month1, day1);
-                    var timeEnd1 = dateEnd1.getTime();
-
-                    if (timeEnd1 < timeEnd) {
-
-                        var span = $("<span class='warning'>表演结束时间须大于表演开始时间！</span>");
-                        $("input[name='ad_show_end_time']").parent(".informattion-list").append(span);
-                    }
-                }
-
-            }
-        })
-
         $("input[name='ad_put_endtime']").on("blur change", function () {
             if ($("input[name='ad_put_endtime']").parent(".informattion-list").has(".warning")) {
                 $("input[name='ad_put_endtime']").parent(".informattion-list").find(".warning").remove();
@@ -536,52 +376,6 @@
         })
 
 
-        $("input[name='ad_bid_endtime']").on("blur change", function () {
-            if ($("input[name='ad_bid_endtime']").parent(".informattion-list").has(".warning")) {
-                $("input[name='ad_bid_endtime']").parent(".informattion-list").find(".warning").remove();
-            }
-            var ad_bid_endtime = $("input[name='ad_bid_endtime']").val();
-            if (ad_bid_endtime == "" || ad_bid_endtime == null) {
-                var span = $("<span class='warning'>请您输入竞标结束时间！</span>");
-                $("input[name='ad_bid_endtime']").parent(".informattion-list").append(span);
-            }
-            else if ($("input[name='ad_bid_endtime']").parent(".informattion-list").has(".warning")) {
-                {
-                    $("input[name='ad_bid_endtime']").parent(".informattion-list").find(".warning").remove();
-                    var endDate = $("input[name='ad_bid_endtime']").val().split("-");
-                    var year = endDate[0];
-                    var mont = endDate[1];
-                    var month = parseInt(mont) - 1;
-                    var day = endDate[2];
-                    var dateEnd = new Date(year, month, day);
-                    var timeEnd = dateEnd.getTime();
-
-                    var endDate1 = $("input[name='ad_put_endtime']").val().split("-");
-                    var year1 = endDate1[0];
-                    var mont1 = endDate1[1];
-                    var month1 = parseInt(mont1) - 1;
-                    var day1 = endDate1[2];
-                    var dateEnd1 = new Date(year1, month1, day1);
-                    var timeEnd1 = dateEnd1.getTime();
-
-                    var today = new Date().getTime();
-
-                    if (timeEnd > timeEnd1) {
-                        var span = $("<span class='warning'>竞标截止时间时间须小于投放结束时间！</span>");
-                        $("input[name='ad_bid_endtime']").parent(".informattion-list").append(span);
-                    }
-                    if (timeEnd < today) {
-                        var span = $("<span class='warning'>竞标截止时间时间须大于当前时间！</span>");
-                        $("input[name='ad_bid_endtime']").parent(".informattion-list").append(span);
-                    }
-
-
-                }
-
-            }
-        })
-
-
         $("input[name='budget']").on("blur change", function () {
             moneyIsEnough = false;
             if ($("input[name='budget']").parent(".informattion-list").has(".warning")) {
@@ -595,42 +389,21 @@
                 var span = $("<span class='warning'>广告预算金额应大于0元！</span>");
                 $("input[name='budget']").parent(".informattion-list").append(span);
             } else {
-                if (!isShow) {
-                    isShow = true;
-                    $.post("/index.php/home/Advertiser/return_left_money", function (data) {
-                        if (data.data < budget) {
-                            moneyIsEnough = false;
-                            var spany = $("<span class='warning'>您的账户余额不足！</span>");
-                            var spany1 = $("<a id='ymh' class='warning' style='color:blue;cursor:pointer'  href='#/settlement_management_only'  target='_blank'>去充值</a>");
-                            $("input[name='budget']").parent(".informattion-list").append(spany).append(spany1);
-//                        $_div = $('#ymh');
-//                        $_div.on('click', function () {
-//                            alert('我是有效的on方法,你能看见我吗：');
-//                        });
-                        } else if ($("input[name='budget']").parent(".informattion-list").has(".warning")) {
-                            moneyIsEnough = true;
-                            $("input[name='budget']").parent(".informattion-list").find(".warning").remove();
-                        } else {
-                            moneyIsEnough = true;
-                        }
-                    }, 'json');
-                } else {
-                    isShow = false;
-                }
+                //其它
             }
         })
-        $(".sig_money").on("blur change",function () {
+        $(".sig_money").on("blur change", function () {
             if ($(".sig_money").parent(".informattion-list").has(".warning")) {
                 $(".sig_money").parent(".informattion-list").find(".warning").remove();
             }
             var sig_money = $(".sig_money").val();
-            if(sig_money==""||sig_money==null){
+            if (sig_money == "" || sig_money == null) {
                 var span = $("<span class='warning'>请您输入单笔金额！</span>");
                 $(".sig_money").parent(".informattion-list").append(span);
-            }else if (sig_money<0){
+            } else if (sig_money < 0) {
                 var span = $("<span class='warning'>请您输入单笔金额！</span>");
                 $(".sig_money").parent(".informattion-list").append(span);
-            }else {
+            } else {
                 //其他处理
             }
         })
@@ -653,13 +426,7 @@
                 var span = $("<span class='warning'>请您选择广告分类！</span>");
                 $("#fenlei").append(span);
             }
-
-
         })
-        // function jumpAddMoney() {
-        //     window.location.href = "#/settlement_management_only";
-        // }
-
     </script>
     <!--<script src="http://rank3.dataguiding.com/Public/ueditor/php/ueditor.config.js"></script>-->
     <!--<script src="http://rank3.dataguiding.com/Public/ueditor/php/ueditor.all.js"></script>-->
