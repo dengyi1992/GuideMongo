@@ -14,13 +14,17 @@
         function perSubmit() {
             var d = $("form").serialize();
             $.post("ManagerLogin", d, function (result) {
-                result=JSON.parse(result);
-                if(result.success){
-                    window.location.href="/";
-                    alert(result.success);
-                    $.cookie('isLogin', true, { expires: 7 });
-                }else {
-                    alert(result.error);
+                result = JSON.parse(result);
+                if (result.success) {
+                    if (result.error == "已登录!") {
+                        window.location.href = "/";
+                    } else
+                        alert(result.success);
+                } else {
+                    if (result.error == "已登录!") {
+                        window.location.href = "/";
+                    } else
+                        alert(result.error);
                 }
             }, "text");
         }
