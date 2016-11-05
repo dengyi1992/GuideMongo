@@ -68,7 +68,8 @@
                     <div class="informattion-list1">
                         <div class="picBox">
                             <div class="showpic"></div>
-                            <input type="file" name="pic" style="display:none;">
+                            <!--<input type="file" name="pic" style="display:none;">-->
+                            <input type="file" name="pic" id="upload_Pic">
                             <!--<img src="img/add.png"  class="upload" style="display:none;" id="upload">-->
                         </div>
                     </div>
@@ -431,7 +432,7 @@
         function deleteImg(a) {
             a.remove();
         }
-        $("#uploadpic").change(function (e) {
+        $("#upload_Pic").change(function (e) {
             var file = e.target.files.item(i);
             var freader = new FileReader();
             freader.readAsDataURL(file);
