@@ -14,11 +14,12 @@
         function perSubmit() {
             var d = $("form").serialize();
             $.post("ManagerLogin", d, function (result) {
-                result=JSON.parse(result);
-                if(result.success){
-                    window.location.href="/";
+                result = JSON.parse(result);
+                if (result.success) {
+                    window.location.href = "/";
+                    $(".ue-bar-login").hide();
                     alert(result.success);
-                }else {
+                } else {
                     alert(result.error);
                 }
             }, "text");
