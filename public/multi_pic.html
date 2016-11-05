@@ -27,7 +27,7 @@
 </li>
 <script>
     $("#imgUpload").change(function(e) {
-        for (var i = 0; i < e.target.files.length; i++) {
+//        for (var i = 0; i < e.target.files.length; i++) {
             var file = e.target.files.item(i);
             var freader = new FileReader();
             freader.readAsDataURL(file);
@@ -37,7 +37,7 @@
                 $("#show").append("<img class='show_img' ondblclick='deleteImg (this)' src="+src+ ">");
 //                $("#uploadhead").attr("src",src);
             }
-        }
+//        }
     });
 </script>
 </body>
