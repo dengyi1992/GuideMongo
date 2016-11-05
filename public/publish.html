@@ -215,10 +215,11 @@
                     dataType: "json",
                     success: function (result) {
                         if (result.status == "success") {
-                            alert(result.msg);
+                            alert("成功");
                             window.location.reload();
                         } else {
-                            window.location.reload();
+                            alert(result.error);
+//                            window.location.reload();
                         }
                     }
                 });

@@ -503,14 +503,14 @@ function checkLogin(req, res, next) {
          * 此处要加retrun
          * 不然next（）会继续执行下一条
          */
-        return res.json({'error': '未登录!'});
+        return res.json({status:"error",'error': '未登录!'});
     }
     next();
 }
 
 function checkNotLogin(req, res, next) {
     if (req.session.user) {
-        return res.json({'error': '已登录!'});
+        return res.json({status:"success",'error': '已登录!'});
     }
     next();
 }
