@@ -4,12 +4,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
     <script>
-        function deleteImg(a) {
+        function deleteImg(a){
             a.remove();
         }
     </script>
     <style type="text/css">
-        .show_img {
+        .show_img{
             width: 400px;
             display: block;
         }
@@ -26,14 +26,17 @@
     </div>
 </li>
 <script>
-    $("#imgUpload").change(function (e) {
-        var file = e.target.files.item(i);
-        var freader = new FileReader();
-        freader.readAsDataURL(file);
-        freader.onload = function (e) {
-            var src = e.target.result;
+    $("#imgUpload").change(function(e) {
+        for (var i = 0; i < e.target.files.length; i++) {
+            var file = e.target.files.item(i);
+            var freader = new FileReader();
+            freader.readAsDataURL(file);
+            freader.onload = function(e) {
+                var src = e.target.result;
 
-            $("#show").append("<img class='show_img' ondblclick='deleteImg (this)' src=" + src + ">");
+                $("#show").append("<img class='show_img' ondblclick='deleteImg (this)' src="+src+ ">");
+//                $("#uploadhead").attr("src",src);
+            }
         }
     });
 </script>
