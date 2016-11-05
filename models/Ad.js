@@ -11,14 +11,20 @@ var mongodb = require('./db');
  * @param tags 标签,暂定三个
  * @param icons 金币数量
  * @constructor
+ *
  */
-function Ad(name, head, addesc, imgurls, tags, icons) {
+function Ad(name, head,addesc,ad_put_begintime,ad_put_endtime,budget,sig_money,imgurls,key,title,tags) {
     this.name = name;
     this.head = head;
-    this.addesc = addesc;
-    this.imgurls = imgurls;
-    this.icons = icons;
-    this.tags = tags;
+    this.addesc=addesc;
+    this.ad_put_begintime=ad_put_begintime;
+    this.ad_put_endtime=ad_put_endtime;
+    this.budget=budget;
+    this.sig_money=sig_money;
+    this.imgurls=imgurls;
+    this.key=key;
+    this.title=title;
+    this.tags=tags;
 }
 function getTailer() {
     var s = '';
@@ -40,16 +46,34 @@ Ad.prototype.save = function (callback) {
         minute: date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +
         date.getHours() + ":" + (date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes())
     };
+    /**
+     * addesc=req.body.addesc,
+     ad_put_begintime=req.body.ad_put_begintime,
+     ad_put_endtime=req.body.ad_put_endtime,
+     budget=req.body.budget,
+     sig_money=req.body.bucket,
+     imgurls=req.body.imgurls,
+     key=req.body.key,
+     title=req.body.name,
+     tags=req.body.tags,
+     * @type {{orderno: *, name: *, head: *, time: {date: Date, year: number, month: string, day: string, minute: string}, addesc: *, tags: *, imgurls: *, icons: *, comments: Array, reprint_info: Array, pv: number, isPaid: boolean}}
+     */
     //要存入数据库的文档
     var ad = {
         orderno: date.getTime() + getTailer(),
         name: this.name,
         head: this.head,
+        title:this.title,
         time: time,
         addesc: this.addesc,
         tags: this.tags,
         imgurls: this.imgurls,
-        icons: this.icons,
+        budget:this.budget,
+        ad_put_begintime:this.ad_put_begintime,
+        ad_put_endtime:this.ad_put_endtime,
+        key:this.key,
+        icons: this.budget,
+        sig_money:this.sig_money,
         comments: [],
         reprint_info: [],
         pv: 0,

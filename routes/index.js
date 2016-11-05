@@ -282,7 +282,16 @@ router.post('/upload', multipartMiddleware, function (req, res) {
 router.post('/postNew', checkLogin);
 router.post('/postNew', function (req, res) {
     var currentUser = req.session.user,
-        ad = new Ad(currentUser.name, currentUser.head, req.body.addesc, req.body.imgurls, req.body.tags, req.body.icons);
+        addesc=req.body.addesc,
+        ad_put_begintime=req.body.ad_put_begintime,
+        ad_put_endtime=req.body.ad_put_endtime,
+        budget=req.body.budget,
+        sig_money=req.body.bucket,
+        imgurls=req.body.imgurls,
+        key=req.body.key,
+        title=req.body.name,
+        tags=req.body.tags,
+        ad = new Ad(currentUser.name, currentUser.head, addesc,ad_put_begintime,ad_put_endtime,budget,sig_money,imgurls,key,title,tags);
     ad.save(function (err,order) {
         if (err) {
             return res.json({'error': err});
