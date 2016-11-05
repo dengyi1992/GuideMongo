@@ -186,7 +186,7 @@
                 $("#fenlei").append(span);
             }
 
-            if (ad_name && pic && ad_explain && ad_put_begintime && ad_put_endtime && ad_bid_endtime && (budget > 0) && fenlei) {
+            if (ad_name && pic && ad_explain && ad_put_begintime && ad_put_endtime && (budget > 0) && fenlei) {
                 console.log("cheng123");
                 return true;
             }
@@ -200,7 +200,7 @@
             if (res) {
                 $.ajax({
                     type: 'POST',
-                    url: 'http://123.206.84.242:2888/postNew',
+                    url: '/postNew',
                     data: {
                         "name": ad_name,   //广告名称
                         "imgurls": "[{img:\"url\"},{img:\"url\"},{img:\"url\"}]",  //图片地址
