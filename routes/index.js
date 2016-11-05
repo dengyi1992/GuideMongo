@@ -35,7 +35,17 @@ router.get('/', function (req, res) {
 
     });
 });
+router.get('/publish',function (req, res) {
+    if (!req.session.user) {
+        res.send("<script>alert('未登录');window.location='login.html'</script>")
 
+        // res.sendFile(path.join(__dirname, '../public', 'login.html'));
+    }else {
+        res.sendfile('public/publish.html');
+
+        // res.sendFile(path.join(__dirname, '../public', 'publish.html'));
+    }
+});
 /**
  * 普通手机用户登录注册
  */
