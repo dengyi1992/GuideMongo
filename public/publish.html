@@ -63,7 +63,6 @@
                     </div>
                     <div class="informattion-list">
                         <label class="informattion-list-label">广告图片</label>
-                        <span class="uploadpic" id="uploadpic">上传</span>
                     </div>
                     <div class="informattion-list1">
                         <div class="picBox">
@@ -168,7 +167,7 @@
 //
 //            });
 
-//            $("#uploadpic").on("click", function () {
+//            $("#upload_Pic").on("click", function () {
 //                pic_width = $(".showpic").width();
 //                $("input[name='pic']").click();
 //                //  alert(pic_width);
@@ -202,7 +201,7 @@
             var pic = $("input[name='pic']").val();
             if (pic == "" || pic == null) {
                 var span = $("<span class='warning'>请您上传广告图片！</span>");
-                $("#uploadpic").parent(".informattion-list").append(span);
+                $("#upload_Pic").parent(".informattion-list").append(span);
 
             }
             var ad_explain = $("textarea[name='ad_explain']").val();
@@ -278,16 +277,16 @@
 
         $("input[name='pic']").on("change", function () {
             if ($("input[name='pic']").parent(".informattion-list").has(".warning")) {
-                $("#uploadpic").parent(".informattion-list").find(".warning").remove();
+                $("#upload_Pic").parent(".informattion-list").find(".warning").remove();
             }
             var pic = $("input[name='pic']").val();
             if (pic == "" || pic == null) {
                 var span = $("<span class='warning'>请您上传广告图片！</span>");
-                $("#uploadpic").parent(".informattion-list").append(span);
+                $("#upload_Pic").parent(".informattion-list").append(span);
             }
-            else if ($("#uploadpic").parent(".informattion-list").has(".warning")) {
+            else if ($("#upload_Pic").parent(".informattion-list").has(".warning")) {
                 {
-                    $("#uploadpic").parent(".informattion-list").find(".warning").remove();
+                    $("#upload_Pic").parent(".informattion-list").find(".warning").remove();
                 }
 
             }

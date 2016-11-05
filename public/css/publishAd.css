@@ -89,15 +89,13 @@
     border: 1px solid #999;
 }
 
-.uploadpic {
-    font-family: 微软雅黑 Light;
-    color: #5cc4af;
-    font-size: 18px;
-
-}
 
 #uploadpic:hover {
     cursor: pointer;
+}
+
+.show_img {
+    width: 700px;
 }
 
 .picBox {
@@ -171,7 +169,8 @@
     width: 148px;
     vertical-align: top;
 }
-.informattion-list-label11{
+
+.informattion-list-label11 {
     font-family: 微软雅黑 Light;
     color: #212121;
     font-size: 18px;
@@ -181,6 +180,7 @@
     width: 108px;
     vertical-align: top;
 }
+
 .ad-need {
     width: calc(100% - 168px);
     width: -webkit-calc(100% - 168px);
@@ -200,6 +200,7 @@
     height: 40px;
     border: 1px solid #999;
 }
+
 .to {
     display: inline-block;
     width: 80px;
@@ -208,26 +209,29 @@
     color: #212121;
     font-size: 18px;
 }
+
 .budget {
     /* width:calc(100% - 168px  );
     	width:-webkit-calc(100% - 168px  );
     	width:-moz-calc(100% - 168px  ); */
-    width: calc((100% - 168px  - 27.25%) );
+    width: calc((100% - 168px - 27.25%));
     width: -webkit-calc((100% - 168px - 27.25%));
-    width: -moz-calc((100% - 168px  - 27.25%));
+    width: -moz-calc((100% - 168px - 27.25%));
     height: 40px;
     border: 1px solid #999;
 }
+
 .sig_money {
     /* width:calc(100% - 168px  );
     	width:-webkit-calc(100% - 168px  );
     	width:-moz-calc(100% - 168px  ); */
-    width: calc((100% - 168px  - 27.25%) );
+    width: calc((100% - 168px - 27.25%));
     width: -webkit-calc((100% - 168px - 27.25%));
-    width: -moz-calc((100% - 168px  - 27.25%));
+    width: -moz-calc((100% - 168px - 27.25%));
     height: 40px;
     border: 1px solid #999;
 }
+
 .checkboxes {
     display: inline-block;
     width: 100%;
@@ -348,7 +352,7 @@
 .end {
     border: none;
     border-top: 1px solid #e5e5e5;
-    width:100%;
+    width: 100%;
     text-align: center;
 }
 
