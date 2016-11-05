@@ -129,100 +129,7 @@
     </div>
     <script>
         var ad_name, ad_explain, ad_put_begintime, ad_put_endtime, budget, sig_money;
-        function submitInfo() {
-            var res = checkAd();
-//            if (res) {
-            $.ajax({
-                type: 'POST',
-                url: 'http://123.206.84.242:2888/postNew',
-                data: {
-                    "name": ad_name,   //广告名称
-                    "imgurls": "[{img:\"url\"},{img:\"url\"},{img:\"url\"}]",  //图片地址
-                    "key": ad_explain,  //广告关键字
-                    "ad_put_begintime": ad_put_begintime, //广告投放开始时间
-                    "ad_put_endtime": ad_put_endtime, //广告投放结束时间
-                    "budget": budget,  //广告预算金币
-                    "sig_money": sig_money,  //单笔奖励金币
-                    "tags": "[\"tags1“，”tags2\"]", //类别
-                    "addesc": "快来买呀！便宜处理了"   //广告描述
-                },
-                dataType: "json",
-                success: function (result) {
-                    if (result.status == "success") {
-//                            $().toastmessage('showSuccessToast', "公告发布成功！");
-                        alert(result.msg);
-                        window.location.reload();
-                    } else {
-                        window.location.reload();
-                    }
-                }
-            });
-//            }
-
-        }
-        var moneyIsEnough = true;
-        var isShow = false;
-        $(document).ready(function () {
-            $(".menu_top").css("min-width", "1920px");
-            $(".menu_top").css("width", "100%");
-            $(".menu_bottom").css("min-width", "1920px");
-            $(".menu_bottom").css("width", "100%");
-            $(".menu_bottom_next").css("width", "23%");
-            $(".newrank_foot").css("min-width", "1920px");
-            $(".newrank_foot").css("width", "100%");
-            $(".edit-wenan").on("click", function () {
-                $("#publish-AD").css("display", "none");
-                $(".wenan-page").css("display", "block");
-            });
-            $(".publish-wenan-ok").on("click", function () {
-                if ($("#WNedit").children("span").hasClass("informattion-list-label22")) {
-                    $("#WNedit").find(".informattion-list-label22").remove();
-                }
-                $("#publish-AD").css("display", "block");
-                $(".wenan-page").css("display", "none");
-                var wenan_name = $("input[name='wenan_name']").val();
-                var span = $("<span class='informattion-list-label22'  > " + wenan_name + "</span>");
-                $(".edit-wenan").before(span);
-
-            });
-            $(".publish-wenan-cancel").on("click", function () {
-                $("#publish-AD").css("display", "block");
-                $(".wenan-page").css("display", "none");
-                $("input[name='wenan_name']").val("");
-
-            });
-            var pic_width = $(".showpic").width();
-//            $(".upload").on("click", function () {
-//                pic_width = $(".showpic").width();
-//                $("input[name='pic']").click();
-//
-//            });
-
-//            $("#upload_Pic").on("click", function () {
-//                pic_width = $(".showpic").width();
-//                $("input[name='pic']").click();
-//                //  alert(pic_width);
-//            });
-//            $("input[name='pic']").uploadView({
-//                uploadBox: '.picBox',//设置上传框容器
-//                showBox: '.showpic',//设置显示预览图片的容器
-//                width: pic_width,
-//                height: 300, //预览图片的高度，单位px
-//                allowType: ["gif", "jpeg", "jpg", "bmp", "png"], //允许上传图片的类型
-//                maxSize: 2, //允许上传图片的最大尺寸，单位M
-//                success: function (e) {
-////                    $(".upload").css("display", "none");
-//                    //  alert(pic_width);
-//                    $(".informattion-list1 .picBox img").css("width", pic_width);
-//                }
-//            });
-
-        })
-
         function checkAd() {
-            if (!moneyIsEnough) {
-                return false;
-            }
             $(".ad-informattion-list").find(".warning").remove();
             ad_name = $("input[name='ad_name']").val();
             if (ad_name == "" || ad_name == null) {
@@ -288,6 +195,95 @@
                 return false;
             }
         }
+        function submitInfo() {
+            var res = checkAd();
+            if (res) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://123.206.84.242:2888/postNew',
+                    data: {
+                        "name": ad_name,   //广告名称
+                        "imgurls": "[{img:\"url\"},{img:\"url\"},{img:\"url\"}]",  //图片地址
+                        "key": ad_explain,  //广告关键字
+                        "ad_put_begintime": ad_put_begintime, //广告投放开始时间
+                        "ad_put_endtime": ad_put_endtime, //广告投放结束时间
+                        "budget": budget,  //广告预算金币
+                        "sig_money": sig_money,  //单笔奖励金币
+                        "tags": "[\"tags1“，”tags2\"]", //类别
+                        "addesc": "快来买呀！便宜处理了"   //广告描述
+                    },
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.status == "success") {
+                            alert(result.msg);
+                            window.location.reload();
+                        } else {
+                            window.location.reload();
+                        }
+                    }
+                });
+            }
+
+        }
+        var moneyIsEnough = true;
+        var isShow = false;
+        $(document).ready(function () {
+            $(".menu_top").css("min-width", "1920px");
+            $(".menu_top").css("width", "100%");
+            $(".menu_bottom").css("min-width", "1920px");
+            $(".menu_bottom").css("width", "100%");
+            $(".menu_bottom_next").css("width", "23%");
+            $(".newrank_foot").css("min-width", "1920px");
+            $(".newrank_foot").css("width", "100%");
+            $(".edit-wenan").on("click", function () {
+                $("#publish-AD").css("display", "none");
+                $(".wenan-page").css("display", "block");
+            });
+            $(".publish-wenan-ok").on("click", function () {
+                if ($("#WNedit").children("span").hasClass("informattion-list-label22")) {
+                    $("#WNedit").find(".informattion-list-label22").remove();
+                }
+                $("#publish-AD").css("display", "block");
+                $(".wenan-page").css("display", "none");
+                var wenan_name = $("input[name='wenan_name']").val();
+                var span = $("<span class='informattion-list-label22'  > " + wenan_name + "</span>");
+                $(".edit-wenan").before(span);
+
+            });
+            $(".publish-wenan-cancel").on("click", function () {
+                $("#publish-AD").css("display", "block");
+                $(".wenan-page").css("display", "none");
+                $("input[name='wenan_name']").val("");
+
+            });
+            var pic_width = $(".showpic").width();
+//            $(".upload").on("click", function () {
+//                pic_width = $(".showpic").width();
+//                $("input[name='pic']").click();
+//
+//            });
+
+//            $("#upload_Pic").on("click", function () {
+//                pic_width = $(".showpic").width();
+//                $("input[name='pic']").click();
+//                //  alert(pic_width);
+//            });
+//            $("input[name='pic']").uploadView({
+//                uploadBox: '.picBox',//设置上传框容器
+//                showBox: '.showpic',//设置显示预览图片的容器
+//                width: pic_width,
+//                height: 300, //预览图片的高度，单位px
+//                allowType: ["gif", "jpeg", "jpg", "bmp", "png"], //允许上传图片的类型
+//                maxSize: 2, //允许上传图片的最大尺寸，单位M
+//                success: function (e) {
+////                    $(".upload").css("display", "none");
+//                    //  alert(pic_width);
+//                    $(".informattion-list1 .picBox img").css("width", pic_width);
+//                }
+//            });
+
+        })
+
 
         $("input[name='ad_name']").on("blur", function () {
             if ($("input[name='ad_name']").parent(".informattion-list").has(".warning")) {
