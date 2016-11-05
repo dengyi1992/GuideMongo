@@ -6,10 +6,10 @@
     <link type="text/css" rel="stylesheet" href="./css/navigation_bar.css">
     <link rel="stylesheet" href="./css/publishAd.css"/>
     <script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+    <script src="http://cdn.bootcss.com/jquery.form/3.51/jquery.form.min.js"></script>
     <link href="http://cdn.bootcss.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" rel="stylesheet">
     <script src="./js/login_common.js"></script>
     <script src="./js/jquery.uploadView.js"></script>
-    <script src="http://cdn.bootcss.com/jquery.form/3.51/jquery.form.js"></script>
 </head>
 <body>
 <div class="ue-content-media">
@@ -70,12 +70,17 @@
 
                     <div class="showpic"></div>
                     <!--<input type="file" name="pic" style="display:none;">-->
-                    <!--<form enctype="multipart/form-data" id="form1" method="post" action="">-->
-                    <form id="uploadForm">
-                        <input type="file" name="pic" id="upload_Pic">
-                        <!--<img src="img/add.png"  class="upload" style="display:none;" id="upload">-->
-                    </form>
+                    <!--&lt;!&ndash;<form enctype="multipart/form-data" id="form1" method="post" action="">&ndash;&gt;-->
+                    <!--<form id="uploadForm">-->
+                        <!--<input type="file" name="pic" id="upload_Pic">-->
+                        <!--<input id="subbtn" type="submit">-->
+                        <!--&lt;!&ndash;<img src="img/add.png"  class="upload" style="display:none;" id="upload">&ndash;&gt;-->
+                    <!--</form>-->
                     <!--</div>-->
+                    <form id="uploadForm">
+                        <input type="file" name="FileContent" id="upload_Pic">
+                        <input id="submitPic" style="display: none" type="submit" >
+                    </form>
                 </div>
             </div>
         </div>
@@ -133,6 +138,7 @@
         </div>
     </div>
     <script>
+        var imgs=[];
         var ad_name, ad_explain, ad_put_begintime, ad_put_endtime, budget, sig_money;
         function checkAd() {
             $(".ad-informattion-list").find(".warning").remove();
@@ -141,12 +147,11 @@
                 var span = $("<span class='warning'>请您输入广告名称！</span>");
                 $("input[name='ad_name']").parent(".informattion-list").append(span);
             }
-            pic = $("input[name='pic']").val();
-            if (pic == "" || pic == null) {
-                var span = $("<span class='warning'>请您上传广告图片！</span>");
-                $("#upload_Pic").parent(".informattion-list").append(span);
-
-            }
+//            if (pic == "" || pic == null) {
+//                var span = $("<span class='warning'>请您上传广告图片！</span>");
+//                $("#upload_Pic").parent(".informattion-list").append(span);
+//
+//            }
             ad_explain = $("textarea[name='ad_explain']").val();
             if (ad_explain == "" || ad_explain == null) {
                 var span = $("<span class='warning'>请您输入广告任务说明！</span>");
@@ -191,7 +196,7 @@
                 $("#fenlei").append(span);
             }
 
-            if (ad_name && pic && ad_explain && ad_put_begintime && ad_put_endtime && (budget > 0) && fenlei) {
+            if (ad_name && ad_explain && ad_put_begintime && ad_put_endtime && (budget > 0) && fenlei) {
                 console.log("cheng123");
                 return true;
             }
@@ -202,13 +207,14 @@
         }
         function submitInfo() {
             var res = checkAd();
+            console.log(imgs);
             if (res) {
                 $.ajax({
                     type: 'POST',
                     url: '/postNew',
                     data: {
                         "name": ad_name,   //广告名称
-                        "imgurls": "[{img:\"url\"},{img:\"url\"},{img:\"url\"}]",  //图片地址
+                        "imgurls": imgs,  //图片地址
                         "key": ad_explain,  //广告关键字
                         "ad_put_begintime": ad_put_begintime, //广告投放开始时间
                         "ad_put_endtime": ad_put_endtime, //广告投放结束时间
@@ -472,63 +478,103 @@
                 freader.onload = function (e) {
                     var src = e.target.result;
                     $(".showpic").append("<div><img class='show_img' ondblclick='deleteImg (this)' src=" + src + "></div>");
-                    request1();
+//                    request1();
                 }
             }
+            $("#submitPic").click();
+            initUploadForm();
+        });
+        $('input[name=pic]').change(function () {
+            initUploadForm();
         });
         var url;
         var sign;
-        function request1() {
-            $.ajax({
-                type: "GET",
-                url: "http://123.206.84.242:2888/tx/img?type=upload",
-//                data: {},
-                dataType: 'json',
-                success: function (result) {
-                    url = result.url;
-                    sign = result.sign;
-                    request2();
-                }
-            });
-        }
-        function request2() {
-//            $.ajax({
-//                type: "GET",
-//                url: url + "?sign=" + sign,
-////                data: {},
-//                dataType: 'json',
-//                success: function (result) {
-//                    url = result.url;
-//                    sign = result.sign;
-//                }
-//            });
-            var url_pic = url + "?sign=" + encodeURIComponent(sign);
-//            $("#form1").ajaxSubmit({
-//                url: url_pic,
-//                type: "POST",
-//                //date:"upfile=upfile",
-//                success: function (response) {
-//                    alert(response);
-//                },
-//                error: function (msg) {
-//                    alert("出错了");
-//                }
-//            });
-            var options = {
-                type: 'post',
-                url: url_pic,
-                dataType: 'json',
-                contentType: "multipart/form-data",
-                success: function (ret) {
-                    alert("chengg!")
-                },
-                error: function (ret) {
-                    alert(ret.responseText);
-                }
-            };
+        //        function request1() {
+        //            $.ajax({
+        //                type: "GET",
+        //                url: "http://123.206.84.242:2888/tx/img?type=upload",
+        ////                data: {},
+        //                dataType: 'json',
+        //                success: function (result) {
+        //                    url = result.url;
+        //                    sign = result.sign;
+        //                    request2();
+        //                }
+        //            });
+        //        }
+        //        function request2() {
+        ////            $.ajax({
+        ////                type: "GET",
+        ////                url: url + "?sign=" + sign,
+        //////                data: {},
+        ////                dataType: 'json',
+        ////                success: function (result) {
+        ////                    url = result.url;
+        ////                    sign = result.sign;
+        ////                }
+        ////            });
+        //            var url_pic = url + "?sign=" + encodeURIComponent(sign);
+        ////            $("#form1").ajaxSubmit({
+        ////                url: url_pic,
+        ////                type: "POST",
+        ////                //date:"upfile=upfile",
+        ////                success: function (response) {
+        ////                    alert(response);
+        ////                },
+        ////                error: function (msg) {
+        ////                    alert("出错了");
+        ////                }
+        ////            });
+        //            var options = {
+        //                type: 'post',
+        //                url: url_pic,
+        //                dataType: 'json',
+        //                contentType: "multipart/form-data",
+        //                success: function (ret) {
+        //                    alert("chengg!")
+        //                },
+        //                error: function (ret) {
+        //                    alert(ret.responseText);
+        //                }
+        //            };
+        //
+        //            // pass options to ajaxForm
+        //            $('#uploadForm').ajaxForm(options);
+        //        }
+        $(document).ready(function () {
+            initUploadForm();
+        });
+        //        $('#upload_Pic').change(function () {
+        //            initUploadForm();
+        //        });
+        function initUploadForm() {
+            // 请将以下获取签名的链接换成您部署好的服务端http url
+            // 建议通过业务登陆态检查来增强安全性，避免签名被非法获取
+            $.getJSON('../tx/img?type=upload', function (data) {
+                var sign = data.sign,
+                        url = data.url + '?sign=' + encodeURIComponent(sign);
 
-            // pass options to ajaxForm
-            $('#uploadForm').ajaxForm(options);
+                var options = {
+                    type: 'post',
+                    url: url,
+                    dataType: 'json',
+                    contentType: "multipart/form-data",
+                    success: function (ret) {
+//                        $('#downloadUrl').html(ret.data.download_url);
+//                        $('#fileid').text(ret.data.fileid);
+//                        $('#url').text(ret.data.url);
+//                        $('#downloadRet').show();
+                        imgs.push(ret.data.download_url);
+                        console.log(ret)
+                    },
+                    error: function (ret) {
+                        alert(ret.responseText);
+                    }
+                };
+
+                // pass options to ajaxForm
+                $('#uploadForm').ajaxForm(options);
+            });
         }
     </script>
 

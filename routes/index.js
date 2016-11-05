@@ -297,7 +297,7 @@ router.post('/postNew', function (req, res) {
         ad_put_endtime=req.body.ad_put_endtime,
         budget=req.body.budget,
         sig_money=req.body.bucket,
-        imgurls=req.body.imgurls,
+        imgurls=req.body["imgurls[]"],
         key=req.body.key,
         title=req.body.name,
         tags=req.body.tags,
@@ -306,7 +306,7 @@ router.post('/postNew', function (req, res) {
         if (err) {
             return res.json({'error': err});
         }
-        res.json({'success': '发布成功','orderno':order});
+        res.json({status:"success",'success': '发布成功','orderno':order});
     });
 });
 router.post('/postPay', checkLogin);
