@@ -109,7 +109,7 @@
             </div>
         </div>
         <div class="end">
-            <button class="publish" value="发布" onclick="submitInfo()"/>
+            <button class="publish" onclick="submitInfo()" style="font-size: 20px;">发布</button>
         </div>
     </div>
     <div class="ad-informattion-list wenan-page" style="margin-top:-40px;">
@@ -129,34 +129,34 @@
     </div>
     <script>
         function submitInfo() {
-            var res = checkAd();
-            if (res) {
-                $.ajax({
-                    type: 'POST',
-                    url: '/postNew1',
-                    data: {
-                        "name": ad_name,   //广告名称
-                        "imgurls": "[{img:\"url\"},{img:\"url\"},{img:\"url\"}]",  //图片地址
-                        "key": ad_explain,  //广告关键字
-                        "ad_put_begintime": ad_put_begintime, //广告投放开始时间
-                        "ad_put_endtime": ad_put_endtime, //广告投放结束时间
-                        "budget": budget,  //广告预算金币
-                        "sig_money": sig_money,  //单笔奖励金币
-                        "tags": "[\"tags1“，”tags2\"]", //类别
-                        "addesc": "快来买呀！便宜处理了"   //广告描述
-                    },
-                    dataType: "json",
-                    success: function (result) {
-                        if (result.status == "success") {
+//            var res = checkAd();
+//            if (res) {
+            $.ajax({
+                type: 'POST',
+                url: '/postNew1',
+                data: {
+                    "name": ad_name,   //广告名称
+                    "imgurls": "[{img:\"url\"},{img:\"url\"},{img:\"url\"}]",  //图片地址
+                    "key": ad_explain,  //广告关键字
+                    "ad_put_begintime": ad_put_begintime, //广告投放开始时间
+                    "ad_put_endtime": ad_put_endtime, //广告投放结束时间
+                    "budget": budget,  //广告预算金币
+                    "sig_money": sig_money,  //单笔奖励金币
+                    "tags": "[\"tags1“，”tags2\"]", //类别
+                    "addesc": "快来买呀！便宜处理了"   //广告描述
+                },
+                dataType: "json",
+                success: function (result) {
+                    if (result.status == "success") {
 //                            $().toastmessage('showSuccessToast', "公告发布成功！");
-                            alert(result.msg);
-                            window.location.reload();
-                        } else {
-                            window.location.reload();
-                        }
+                        alert(result.msg);
+                        window.location.reload();
+                    } else {
+                        window.location.reload();
                     }
-                });
-            }
+                }
+            });
+//            }
 
         }
         var moneyIsEnough = true;
@@ -468,7 +468,6 @@
                 freader.readAsDataURL(file);
                 freader.onload = function (e) {
                     var src = e.target.result;
-                    console.log("ymh" + src);
                     $(".showpic").append("<div><img class='show_img' ondblclick='deleteImg (this)' src=" + src + "></div>");
                 }
             }
