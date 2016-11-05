@@ -41,7 +41,7 @@ router.get('/publish',function (req, res) {
 
         // res.sendFile(path.join(__dirname, '../public', 'login.html'));
     }else {
-        res.sendfile('public/publish.html');
+        res.sendFile(filePath+'/public/publish.html');
 
         // res.sendFile(path.join(__dirname, '../public', 'publish.html'));
     }
