@@ -501,7 +501,7 @@
 //                    sign = result.sign;
 //                }
 //            });
-            var url_pic = url + "?sign=" + sign;
+            var url_pic = url + "?sign=" + encodeURIComponent(sign);
             $("#form1").ajaxSubmit({
                 url: url_pic,
                 type: "POST",
