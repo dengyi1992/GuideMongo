@@ -17,10 +17,13 @@
                 result = JSON.parse(result);
                 if (result.success) {
                     window.location.href = "/";
-                    $(".ue-bar-login").hide();
+//                    $(".ue-bar-login").hide();
                     alert(result.success);
                 } else {
-                    alert(result.error);
+                    if (result.error == "已登录") {
+                        window.location.href = "/";
+                    } else
+                        alert(result.error);
                 }
             }, "text");
         }
