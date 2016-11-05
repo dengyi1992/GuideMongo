@@ -128,8 +128,9 @@
         </div>
     </div>
     <script>
+        var ad_name, ad_explain, ad_put_begintime, ad_put_endtime, budget, sig_money;
         function submitInfo() {
-//            var res = checkAd();
+            var res = checkAd();
 //            if (res) {
             $.ajax({
                 type: 'POST',
