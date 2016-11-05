@@ -46,88 +46,119 @@
         </div>
     </nav>
     <!--<form method='post' action='http://123.206.84.242:2888/postNew' enctype="multipart/form-data"-->
-          <!--onsubmit="return checkAd()">-->
-        <div id="publish-AD">
-            <div class="ad-informattion">
-                <div class="adtitle">
-                    <img src="img/adico.png">
-                    <span style="color: #33ccff">广告基本信息</span>
-                    <a href="#" onclick="alert('暂未开放')" style="color: #33ccff">广告任务流程说明</a>
-                </div>
-            </div>
-            <div class="ad-informattion-list">
-                <div class="ad-informattion-content">
-                    <div class="informattion-list">
-                        <label class="informattion-list-label">广告名称</label>
-                        <input type="text" name="ad_name" class="list-input wordstyle"/>
-                    </div>
-                    <div class="informattion-list">
-                        <label class="informattion-list-label">广告图片</label>
-                    </div>
-                    <div class="informattion-list1">
-                        <div class="picBox">
-                            <div class="showpic"></div>
-                            <!--<input type="file" name="pic" style="display:none;">-->
-                            <input type="file" name="pic" id="upload_Pic">
-                            <!--<img src="img/add.png"  class="upload" style="display:none;" id="upload">-->
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="ad-informattion-list">
-                <div class="ad-informattion-content">
-                    <div class="informattion-list">
-                        <label class="informattion-list-label1">广告关键词</label>
-                        <textarea class=" wordstyle ad-need " name="ad_explain"
-                                  placeholder="请输入广告关键词，请控制在4～10个字内"></textarea>
-                    </div>
-                    <div class="informattion-list">
-                        <label class="informattion-list-label1">广告投放时间</label>
-                        <input class="ad-time" type="date" name="ad_put_begintime" id="ad_put_begintime">
-                        <span class="to">至今</span>
-                        <input type="date" name="ad_put_endtime" class="ad-time" id="ad_put_endtime">
-                    </div>
-                    <div class="informattion-list">
-                        <label class="informattion-list-label1">广告预算金币</label>
-                        <input class="budget" type="text" name="budget">
-                    </div>
-                    <div class="informattion-list">
-                        <label class="informattion-list-label1">单笔奖励金币</label>
-                        <input class="sig_money" type="text" name="sig_money" id="sig_money">
-                    </div>
-                    <div class="informattion-list" id="fenlei">
-                        <label class="informattion-list-label1">投放分类</label>
-                        <div class="checkbox-list"><input type="checkbox" name="game" value="1"><span>游戏</span></div>
-                        <div class="checkbox-list"><input type="checkbox" name="entertainment" value="1"><span>娱乐</span>
-                        </div>
-                        <div class="checkbox-list"><input type="checkbox" name="sports" value="1"><span>体育</span></div>
-                        <div class="checkbox-list"><input type="checkbox" name="cars" value="1"><span>汽车</span></div>
-                        <div class="checkbox-list"><input type="checkbox" name="finance" value="1"><span>金融</span></div>
-                        <div class="checkbox-list1"><input type="checkbox" name="education" value="1"><span>教育</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="end">
-                <input class="publish" value="发布"/>
+    <!--onsubmit="return checkAd()">-->
+    <div id="publish-AD">
+        <div class="ad-informattion">
+            <div class="adtitle">
+                <img src="img/adico.png">
+                <span style="color: #33ccff">广告基本信息</span>
+                <a href="#" onclick="alert('暂未开放')" style="color: #33ccff">广告任务流程说明</a>
             </div>
         </div>
-        <div class="ad-informattion-list wenan-page" style="margin-top:-40px;">
+        <div class="ad-informattion-list">
             <div class="ad-informattion-content">
                 <div class="informattion-list">
-                    <label class="informattion-list-label11">文案名称</label>
-                    <input type="text" name="wenan_name" class="list-input wordstyle" placeholder="文案名称"/>
+                    <label class="informattion-list-label">广告名称</label>
+                    <input type="text" name="ad_name" class="list-input wordstyle"/>
                 </div>
-                <div class="informattion-list" style="margin-top:20px;">
-                    <label class="informattion-list-label11">文案正文</label>
+                <div class="informattion-list">
+                    <label class="informattion-list-label">广告图片</label>
                 </div>
-                <div class="end">
-                    <input class=" publish-wenan publish-wenan-cancel" value="取消"/>
-                    <input class=" publish-wenan publish-wenan-ok" value="提交"/>
+                <div class="informattion-list1">
+                    <div class="picBox">
+                        <div class="showpic"></div>
+                        <!--<input type="file" name="pic" style="display:none;">-->
+                        <input type="file" name="pic" id="upload_Pic">
+                        <!--<img src="img/add.png"  class="upload" style="display:none;" id="upload">-->
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="ad-informattion-list">
+            <div class="ad-informattion-content">
+                <div class="informattion-list">
+                    <label class="informattion-list-label1">广告关键词</label>
+                    <textarea class=" wordstyle ad-need " name="ad_explain"
+                              placeholder="请输入广告关键词，请控制在4～10个字内"></textarea>
+                </div>
+                <div class="informattion-list">
+                    <label class="informattion-list-label1">广告投放时间</label>
+                    <input class="ad-time" type="date" name="ad_put_begintime" id="ad_put_begintime">
+                    <span class="to">至今</span>
+                    <input type="date" name="ad_put_endtime" class="ad-time" id="ad_put_endtime">
+                </div>
+                <div class="informattion-list">
+                    <label class="informattion-list-label1">广告预算金币</label>
+                    <input class="budget" type="text" name="budget">
+                </div>
+                <div class="informattion-list">
+                    <label class="informattion-list-label1">单笔奖励金币</label>
+                    <input class="sig_money" type="text" name="sig_money" id="sig_money">
+                </div>
+                <div class="informattion-list" id="fenlei">
+                    <label class="informattion-list-label1">投放分类</label>
+                    <div class="checkbox-list"><input type="checkbox" name="game" value="1"><span>游戏</span></div>
+                    <div class="checkbox-list"><input type="checkbox" name="entertainment" value="1"><span>娱乐</span>
+                    </div>
+                    <div class="checkbox-list"><input type="checkbox" name="sports" value="1"><span>体育</span></div>
+                    <div class="checkbox-list"><input type="checkbox" name="cars" value="1"><span>汽车</span></div>
+                    <div class="checkbox-list"><input type="checkbox" name="finance" value="1"><span>金融</span></div>
+                    <div class="checkbox-list1"><input type="checkbox" name="education" value="1"><span>教育</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="end">
+            <input class="publish" value="发布" onclick="submitInfo()"/>
+        </div>
+    </div>
+    <div class="ad-informattion-list wenan-page" style="margin-top:-40px;">
+        <div class="ad-informattion-content">
+            <div class="informattion-list">
+                <label class="informattion-list-label11">文案名称</label>
+                <input type="text" name="wenan_name" class="list-input wordstyle" placeholder="文案名称"/>
+            </div>
+            <div class="informattion-list" style="margin-top:20px;">
+                <label class="informattion-list-label11">文案正文</label>
+            </div>
+            <div class="end">
+                <input class=" publish-wenan publish-wenan-cancel" value="取消"/>
+                <input class=" publish-wenan publish-wenan-ok" value="提交"/>
+            </div>
+        </div>
+    </div>
     <script>
+        function submitInfo() {
+            var res = checkAd();
+            if (res) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'http://123.206.84.242:2888/postNew',
+                    data: {
+                        "name": ad_name,   //广告名称
+                        "imgurls": "[{img:\"url\"},{img:\"url\"},{img:\"url\"}]",  //图片地址
+                        "key": ad_explain,  //广告关键字
+                        "ad_put_begintime": ad_put_begintime, //广告投放开始时间
+                        "ad_put_endtime": ad_put_endtime, //广告投放结束时间
+                        "budget": budget,  //广告预算金币
+                        "sig_money": sig_money,  //单笔奖励金币
+                        "tags": "[\"tags1“，”tags2\"]", //类别
+                        "addesc": "快来买呀！便宜处理了"   //广告描述
+                    },
+                    dataType: "json",
+                    success: function (result) {
+                        if (result.status == "success") {
+//                            $().toastmessage('showSuccessToast', "公告发布成功！");
+                            alert(result.msg);
+                            window.location.reload();
+                        } else {
+                            window.location.reload();
+                        }
+                    }
+                });
+            }
+
+        }
         var moneyIsEnough = true;
         var isShow = false;
         $(document).ready(function () {
@@ -192,36 +223,36 @@
                 return false;
             }
             $(".ad-informattion-list").find(".warning").remove();
-            var ad_name = $("input[name='ad_name']").val();
+            ad_name = $("input[name='ad_name']").val();
             if (ad_name == "" || ad_name == null) {
                 var span = $("<span class='warning'>请您输入广告名称！</span>");
                 $("input[name='ad_name']").parent(".informattion-list").append(span);
             }
-            var pic = $("input[name='pic']").val();
+            pic = $("input[name='pic']").val();
             if (pic == "" || pic == null) {
                 var span = $("<span class='warning'>请您上传广告图片！</span>");
                 $("#upload_Pic").parent(".informattion-list").append(span);
 
             }
-            var ad_explain = $("textarea[name='ad_explain']").val();
+            ad_explain = $("textarea[name='ad_explain']").val();
             if (ad_explain == "" || ad_explain == null) {
                 var span = $("<span class='warning'>请您输入广告任务说明！</span>");
                 $("textarea[name='ad_explain']").parent(".informattion-list").append(span);
 
             }
 
-            var ad_put_begintime = $("input[name='ad_put_begintime']").val();
+            ad_put_begintime = $("input[name='ad_put_begintime']").val();
             if (ad_put_begintime == "" || ad_put_begintime == null) {
                 var span = $("<span class='warning'>请您输入广告投放开始时间！</span>");
                 $("input[name='ad_put_begintime']").parent(".informattion-list").append(span);
             }
-            var ad_put_endtime = $("input[name='ad_put_endtime']").val();
+            ad_put_endtime = $("input[name='ad_put_endtime']").val();
             if (ad_put_endtime == "" || ad_put_endtime == null) {
                 var span = $("<span class='warning'>请您输入广告投放结束时间！</span>");
                 $("input[name='ad_put_endtime']").parent(".informattion-list").append(span);
             }
 
-            var budget = $("input[name='budget']").val();
+            budget = $("input[name='budget']").val();
             if (budget == "" || budget == null) {
                 var span = $("<span class='warning'>请您输入广告预算金额！</span>");
                 $("input[name='budget']").parent(".informattion-list").append(span);
@@ -230,18 +261,18 @@
                 var span = $("<span class='warning'>广告预算金额应大于0元！</span>");
                 $("input[name='budget']").parent(".informattion-list").append(span);
             }
-            var game = $("input[name='game']").is(':checked');
+            game = $("input[name='game']").is(':checked');
             var entertainment = $("input[name='entertainment']").is(':checked');
 
-            var sports = $("input[name='sports']").is(':checked');
+            sports = $("input[name='sports']").is(':checked');
 
-            var cars = $("input[name='cars']").is(':checked');
+            cars = $("input[name='cars']").is(':checked');
 
-            var finance = $("input[name='finance']").is(':checked');
+            finance = $("input[name='finance']").is(':checked');
 
-            var education = $("input[name='education']").is(':checked');
+            education = $("input[name='education']").is(':checked');
 
-            var fenlei = (game || entertainment || sports || cars || finance || education);
+            fenlei = (game || entertainment || sports || cars || finance || education);
             if (fenlei == false) {
                 var span = $("<span class='warning'>请您选择广告分类！</span>");
                 $("#fenlei").append(span);
@@ -380,7 +411,7 @@
             if ($("input[name='budget']").parent(".informattion-list").has(".warning")) {
                 $("input[name='budget']").parent(".informattion-list").find(".warning").remove();
             }
-            var budget = $("input[name='budget']").val();
+            budget = $("input[name='budget']").val();
             if (budget == "" || budget == null) {
                 var span = $("<span class='warning'>请您输入预算金额！</span>");
                 $("input[name='budget']").parent(".informattion-list").append(span);
@@ -395,7 +426,7 @@
             if ($(".sig_money").parent(".informattion-list").has(".warning")) {
                 $(".sig_money").parent(".informattion-list").find(".warning").remove();
             }
-            var sig_money = $(".sig_money").val();
+            sig_money = $(".sig_money").val();
             if (sig_money == "" || sig_money == null) {
                 var span = $("<span class='warning'>请您输入单笔金额！</span>");
                 $(".sig_money").parent(".informattion-list").append(span);
