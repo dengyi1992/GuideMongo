@@ -65,12 +65,14 @@
                     <label class="informattion-list-label">广告图片</label>
                 </div>
                 <div class="informattion-list1">
-                    <div class="picBox">
+                    <!--<div class="picBox">-->
+                    <form enctype="multipart/form-data" id="form1" method="post" action="">
                         <div class="showpic"></div>
                         <!--<input type="file" name="pic" style="display:none;">-->
                         <input type="file" name="pic" id="upload_Pic">
                         <!--<img src="img/add.png"  class="upload" style="display:none;" id="upload">-->
-                    </div>
+                    </form>
+                    <!--</div>-->
                 </div>
             </div>
         </div>
@@ -215,7 +217,7 @@
                     dataType: "json",
                     success: function (result) {
                         if (result.status == "success") {
-                            alert("成功");
+                            alert('成功');
                             window.location.reload();
                         } else {
                             alert(result.error);
@@ -467,9 +469,50 @@
                 freader.onload = function (e) {
                     var src = e.target.result;
                     $(".showpic").append("<div><img class='show_img' ondblclick='deleteImg (this)' src=" + src + "></div>");
+                    request1();
                 }
             }
         });
+        var url;
+        var sign;
+        function request1() {
+            $.ajax({
+                type: "GET",
+                url: "http://123.206.84.242:2888/tx/img?type=upload",
+//                data: {},
+                dataType: 'json',
+                success: function (result) {
+                    url = result.url;
+                    sign = result.sign;
+                    request2();
+                }
+            });
+        }
+        function request2() {
+//            $.ajax({
+//                type: "GET",
+//                url: url + "?sign=" + sign,
+////                data: {},
+//                dataType: 'json',
+//                success: function (result) {
+//                    url = result.url;
+//                    sign = result.sign;
+//                }
+//            });
+            var url_pic = url + "?sign=" + sign;
+            $("#form1").ajaxSubmit({
+                url: url_pic,
+                type: "POST",
+                //date:"upfile=upfile",
+                success: function (response) {
+                    alert(response);
+                },
+                error: function (msg) {
+                    alert("出错了");
+                }
+            });
+
+        }
     </script>
 
 
