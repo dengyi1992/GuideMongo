@@ -70,16 +70,17 @@
                     <!--<div class="picBox">-->
 
                     <div class="showpic">
-                        <div style="display: block ">
-                            <form id="uploadForm">
-                                <div>
-                                    <img src="img/add.png" onclick="$('#upload_Pic').click()">
-                                    <input type="file" name="FileContent" id="upload_Pic" style="display: none">
-                                    <input id="submitPic" style="display: none" type="submit">
-                                </div>
 
-                            </form>
-                        </div>
+                    </div>
+                    <div style="display: block ">
+                        <form id="uploadForm">
+                            <div>
+                                <img src="img/add.png" onclick="$('#upload_Pic').click()">
+                                <input type="file" name="FileContent" id="upload_Pic" style="display: none">
+                                <input id="submitPic" style="display: none" type="submit">
+                            </div>
+
+                        </form>
                     </div>
                     <!--<input type="file" name="pic" style="display:none;">-->
                     <!--&lt;!&ndash;<form enctype="multipart/form-data" id="form1" method="post" action="">&ndash;&gt;-->
@@ -133,7 +134,7 @@
         </div>
     </div>
     <div class="ad-informattion-list wenan-page" style="margin-top:-40px;">
-        <div class="ad-informattion-content">
+        <div class="ad-informattion-content">js数组删除元素
             <div class="informattion-list">
                 <label class="informattion-list-label11">文案名称</label>
                 <input type="text" name="wenan_name" class="list-input wordstyle" placeholder="文案名称"/>
@@ -475,7 +476,6 @@
             })
 
 
-
             $("#upload_Pic").change(function (e) {
                 for (var i = 0; i < e.target.files.length; i++) {
                     var file = e.target.files.item(i);
@@ -483,7 +483,7 @@
                     freader.readAsDataURL(file);
                     freader.onload = function (e) {
                         var src = e.target.result;
-                        $(".showpic").prepend("<div><img class='show_img' ondblclick='deleteImg(this)' src=" + src + "></div>");
+                        $(".showpic").append("<div><img class='show_img' ondblclick='deleteImg(this)' src=" + src + "></div>");
 
                     }
                 }
