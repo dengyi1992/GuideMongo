@@ -154,6 +154,7 @@
         var tag = [];
         var resTag = "";
         function deleteImg(a) {
+            imgs.splice($(a).parent().parent().find("div").index($(a).parent()),1);//删除某个位置的数据
             a.parentNode.remove();
         }
         function checkAd() {
@@ -484,7 +485,6 @@
                     freader.onload = function (e) {
                         var src = e.target.result;
                         $(".showpic").append("<div><img class='show_img' ondblclick='deleteImg(this)' src=" + src + "></div>");
-
                     }
                 }
                 $("#submitPic").click();
