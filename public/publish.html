@@ -143,7 +143,7 @@
         var imgs = [];
         var ad_name, ad_explain, ad_put_begintime, ad_put_endtime, budget, sig_money;
         var tag = new Array();
-        var resTag = new StringBuffer();
+        var resTag = "";
         function checkAd() {
             $(".ad-informattion-list").find(".warning").remove();
             ad_name = $("input[name='ad_name']").val();
@@ -206,7 +206,7 @@
                 if (yiyao) tag[4] = 1; else tag[4] = 0;
                 if (canyin) tag[5] = 1; else tag[5] = 0;
                 for (var i = 0; i < tag.length; i++) {
-                    resTag.append(tag[i]);
+                    resTag = resTag + tag[i];
                 }
                 console.log(resTag);
                 console.log("cheng123");
