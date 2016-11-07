@@ -13,18 +13,18 @@ var mongodb = require('./db');
  * @constructor
  *
  */
-function Ad(name, head,addesc,ad_put_begintime,ad_put_endtime,budget,sig_money,imgurls,key,title,tags) {
+function Ad(name, head, addesc, ad_put_begintime, ad_put_endtime, budget, sig_money, imgurls, key, title, tags) {
     this.name = name;
     this.head = head;
-    this.addesc=addesc;
-    this.ad_put_begintime=ad_put_begintime;
-    this.ad_put_endtime=ad_put_endtime;
-    this.budget=budget;
-    this.sig_money=sig_money;
-    this.imgurls=imgurls;
-    this.key=key;
-    this.title=title;
-    this.tags=tags;
+    this.addesc = addesc;
+    this.ad_put_begintime = ad_put_begintime;
+    this.ad_put_endtime = ad_put_endtime;
+    this.budget = budget;
+    this.sig_money = sig_money;
+    this.imgurls = imgurls;
+    this.key = key;
+    this.title = title;
+    this.tags = tags;
 }
 function getTailer() {
     var s = '';
@@ -63,17 +63,17 @@ Ad.prototype.save = function (callback) {
         orderno: date.getTime() + getTailer(),
         name: this.name,
         head: this.head,
-        title:this.title,
+        title: this.title,
         time: time,
         addesc: this.addesc,
         tags: this.tags,
         imgurls: this.imgurls,
-        budget:this.budget,
-        ad_put_begintime:this.ad_put_begintime,
-        ad_put_endtime:this.ad_put_endtime,
-        key:this.key,
+        budget: this.budget,
+        ad_put_begintime: this.ad_put_begintime,
+        ad_put_endtime: this.ad_put_endtime,
+        key: this.key,
         icons: this.budget,
-        sig_money:this.sig_money,
+        sig_money: this.sig_money,
         comments: [],
         reprint_info: [],
         pv: 0,
@@ -193,6 +193,41 @@ Ad.getAllByName = function (name, callback) {
         });
     });
 };
+//读取根据tag
+Ad.getAllByTag = function (tag, page, callback) {
+    //打开数据库
+    mongodb.open(function (err, db) {
+        if (err) {
+            return callback(err);
+        }
+        //读取 posts 集合
+        db.collection('ads', function (err, collection) {
+            if (err) {
+                mongodb.close();
+                return callback(err);
+            }
+            collection.count({"tags": tag}, function (err, total) {
+                if (err) {
+                    return callback(err);//失败！返回 err
+                }
+                //根据 query 对象查询文章
+                collection.find({"tags": tag}, {
+                    skip: (page - 1) * 10,
+                    limit: 10
+                }).sort({
+                    time: -1
+                }).toArray(function (err, docs) {
+                    mongodb.close();
+                    if (err) {
+                        return callback(err);//失败！返回 err
+                    }
+
+                    callback(null, docs,total);//成功！以数组形式返回查询的结果
+                });
+            });
+        });
+    });
+};
 Ad.getByOrder = function (order, callback) {
     //打开数据库
     mongodb.open(function (err, db) {
@@ -283,7 +318,44 @@ Ad.getOne = function (name, day, title, callback) {
 };
 
 //一次获取十篇文章
-Ad.getTen = function (name, page, callback) {
+Ad.getTen = function ( page, callback) {
+    //打开数据库
+    mongodb.open(function (err, db) {
+        if (err) {
+            return callback(err);
+        }
+        //读取 posts 集合
+        db.collection('ads', function (err, collection) {
+            if (err) {
+                mongodb.close();
+                return callback(err);
+            }
+            var query = {};
+            // if (name) {
+            //     query.name = name;
+            // }
+            //使用 count 返回特定查询的文档数 total
+            collection.count(query, function (err, total) {
+                //根据 query 对象查询，并跳过前 (page-1)*10 个结果，返回之后的 10 个结果
+                collection.find(query, {
+                    skip: (page - 1) * 10,
+                    limit: 10
+                }).sort({
+                    time: -1
+                }).toArray(function (err, docs) {
+                    mongodb.close();
+                    if (err) {
+                        return callback(err);
+                    }
+
+                    callback(null, docs, total);
+                });
+            });
+        });
+    });
+};
+//一次获取十篇文章
+Ad.getTenByName = function (name, page, callback) {
     //打开数据库
     mongodb.open(function (err, db) {
         if (err) {

@@ -35,13 +35,13 @@ router.get('/', function (req, res) {
 
     });
 });
-router.get('/publish',function (req, res) {
+router.get('/publish', function (req, res) {
     if (!req.session.user) {
         res.send("<script>alert('未登录');window.location='login.html'</script>")
 
         // res.sendFile(path.join(__dirname, '../public', 'login.html'));
-    }else {
-        res.sendFile(filePath+'/public/publish.html');
+    } else {
+        res.sendFile(filePath + '/public/publish.html');
 
         // res.sendFile(path.join(__dirname, '../public', 'publish.html'));
     }
@@ -292,28 +292,49 @@ router.post('/upload', multipartMiddleware, function (req, res) {
 router.post('/postNew', checkLogin);
 router.post('/postNew', function (req, res) {
     var currentUser = req.session.user,
-        addesc=req.body.addesc,
-        ad_put_begintime=req.body.ad_put_begintime,
-        ad_put_endtime=req.body.ad_put_endtime,
-        budget=req.body.budget,
-        sig_money=req.body.bucket,
-        imgurls=req.body["imgurls[]"],
-        key=req.body.key,
-        title=req.body.name,
-        tags=req.body.tags,
-        ad = new Ad(currentUser.name, currentUser.head, addesc,ad_put_begintime,ad_put_endtime,budget,sig_money,imgurls,key,title,tags);
-    ad.save(function (err,order) {
+        addesc = req.body.addesc,
+        ad_put_begintime = req.body.ad_put_begintime,
+        ad_put_endtime = req.body.ad_put_endtime,
+        budget = req.body.budget,
+        sig_money = req.body.bucket,
+        imgurls = req.body["imgurls[]"],
+        key = req.body.key,
+        title = req.body.name,
+        tags = req.body["tags[]"],
+        ad = new Ad(currentUser.name, currentUser.head, addesc, ad_put_begintime, ad_put_endtime, budget, sig_money, imgurls, key, title, tags);
+    ad.save(function (err, order) {
         if (err) {
             return res.json({'error': err});
         }
-        res.json({status:"success",'success': '发布成功','orderno':order});
+        res.json({status: "success", 'success': '发布成功', 'orderno': order});
     });
+});
+router.get('/getAds', function (req, res) {
+    var tag = req.query.tag;
+    var page = req.query.page;
+    if(tag){
+        Ad.getAllByTag(tag, page, function (err, data,total) {
+            if (err) {
+                return res.json({success: false})
+            }
+            res.json({success: true, data: data,page:page,total:total});
+        })
+    }else {
+        Ad.getTen(page,function (err, data,total) {
+            if (err) {
+                return res.json({success: false})
+            }
+            res.json({success: true, data: data,page:page,total:total});
+        })
+    }
+    
+
 });
 router.post('/postPay', checkLogin);
 router.post('/postPay', function (req, res) {
     var currentUser = req.session.user;
     var order = req.body.order;
-    
+
 });
 /**
  * 搜索
@@ -522,14 +543,14 @@ function checkLogin(req, res, next) {
          * 此处要加retrun
          * 不然next（）会继续执行下一条
          */
-        return res.json({status:"error",'error': '未登录!'});
+        return res.json({status: "error", 'error': '未登录!'});
     }
     next();
 }
 
 function checkNotLogin(req, res, next) {
     if (req.session.user) {
-        return res.json({status:"success",'error': '已登录!'});
+        return res.json({status: "success", 'error': '已登录!'});
     }
     next();
 }

@@ -142,7 +142,7 @@
     <script>
         var imgs = [];
         var ad_name, ad_explain, ad_put_begintime, ad_put_endtime, budget, sig_money;
-        var tag = new Array();
+        var tag = [];
         var resTag = "";
         function checkAd() {
             $(".ad-informattion-list").find(".warning").remove();
@@ -199,16 +199,24 @@
             }
 
             if (ad_name && ad_explain && ad_put_begintime && ad_put_endtime && (budget > 0) && fenlei) {
-                if (jiaoyu) tag[0] = 1; else tag[0] = 0;
-                if (lvyou) tag[1] = 1; else tag[1] = 0;
-                if (fangchan) tag[2] = 1; else tag[2] = 0;
-                if (jiancai) tag[3] = 1; else tag[3] = 0;
-                if (yiyao) tag[4] = 1; else tag[4] = 0;
-                if (canyin) tag[5] = 1; else tag[5] = 0;
-                for (var i = 0; i < tag.length; i++) {
-                    resTag = resTag + tag[i];
-                }
-                console.log(resTag);
+//                if (jiaoyu) tag[0] = 1; else tag[0] = 0;
+//                if (lvyou) tag[1] = 1; else tag[1] = 0;
+//                if (fangchan) tag[2] = 1; else tag[2] = 0;
+//                if (jiancai) tag[3] = 1; else tag[3] = 0;
+//                if (yiyao) tag[4] = 1; else tag[4] = 0;
+//                if (canyin) tag[5] = 1; else tag[5] = 0;
+                tag=[];
+                if(jiaoyu)tag.push('jiaoyu');
+                if(lvyou)tag.push('lvyou');
+                if(fangchan)tag.push('fangchan');
+                if(jiancai)tag.push('jiancai');
+                if(yiyao)tag.push('yiyao');
+                if(canyin)tag.push('canyin');
+
+//                for (var i = 0; i < tag.length; i++) {
+//                    resTag = resTag + tag[i];
+//                }
+//                console.log(resTag);
                 console.log("cheng123");
                 return true;
             }
@@ -233,7 +241,7 @@
                         "ad_put_endtime": ad_put_endtime, //广告投放结束时间
                         "budget": budget,  //广告预算金币
                         "sig_money": sig_money,  //单笔奖励金币
-                        "tags": resTag, //类别
+                        "tags": tag, //类别
                         "addesc": "快来买呀！便宜处理了"   //广告描述
                     },
                     dataType: "json",
