@@ -215,6 +215,7 @@
                 return false;
             }
         }
+        var res = [];
         function submitInfo() {
             var res = checkAd();
             console.log(imgs);
@@ -230,7 +231,7 @@
                         "ad_put_endtime": ad_put_endtime, //广告投放结束时间
                         "budget": budget,  //广告预算金币
                         "sig_money": sig_money,  //单笔奖励金币
-                        "tags": tag, //类别
+                        "tags": res.push(tag), //类别
                         "addesc": "快来买呀！便宜处理了"   //广告描述
                     },
                     dataType: "json",
