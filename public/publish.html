@@ -10,8 +10,7 @@
     <link href="http://cdn.bootcss.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" rel="stylesheet">
     <script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="js/login_common.js"></script>
-    <script src="./js/login_common.js"></script>
-    <script src="./js/jquery.uploadView.js"></script>
+    <!--<script src="./js/jquery.uploadView.js"></script>-->
 </head>
 <body>
 <div class="ue-content-media">
@@ -65,12 +64,23 @@
                     <input type="text" name="ad_name" class="list-input wordstyle"/>
                 </div>
                 <div class="informattion-list">
-                    <label class="informattion-list-label">广告图片</label>
+                    <label class="informattion-list-label">广告图片</label><label style="color: #33ccff">(双击删除)</label>
                 </div>
-                <div class="informattion-list1">
+                <div class="informattion-list1" id="uploadimg">
                     <!--<div class="picBox">-->
 
-                    <div class="showpic"></div>
+                    <div class="showpic">
+                        <div style="display: block ">
+                            <form id="uploadForm">
+                                <div>
+                                    <img src="img/add.png" onclick="$('#upload_Pic').click()">
+                                    <input type="file" name="FileContent" id="upload_Pic" style="display: none">
+                                    <input id="submitPic" style="display: none" type="submit">
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
                     <!--<input type="file" name="pic" style="display:none;">-->
                     <!--&lt;!&ndash;<form enctype="multipart/form-data" id="form1" method="post" action="">&ndash;&gt;-->
                     <!--<form id="uploadForm">-->
@@ -79,10 +89,8 @@
                     <!--&lt;!&ndash;<img src="img/add.png"  class="upload" style="display:none;" id="upload">&ndash;&gt;-->
                     <!--</form>-->
                     <!--</div>-->
-                    <form id="uploadForm">
-                        <input type="file" name="FileContent" id="upload_Pic">
-                        <input id="submitPic" style="display: none" type="submit">
-                    </form>
+
+
                 </div>
             </div>
         </div>
@@ -144,44 +152,54 @@
         var ad_name, ad_explain, ad_put_begintime, ad_put_endtime, budget, sig_money;
         var tag = [];
         var resTag = "";
+        function deleteImg(a) {
+            a.parentNode.remove();
+        }
         function checkAd() {
             $(".ad-informattion-list").find(".warning").remove();
             ad_name = $("input[name='ad_name']").val();
             if (ad_name == "" || ad_name == null) {
                 var span = $("<span class='warning'>请您输入广告名称！</span>");
                 $("input[name='ad_name']").parent(".informattion-list").append(span);
+                return false;
             }
-//            if (pic == "" || pic == null) {
-//                var span = $("<span class='warning'>请您上传广告图片！</span>");
-//                $("#upload_Pic").parent(".informattion-list").append(span);
-//
-//            }
+
             ad_explain = $("textarea[name='ad_explain']").val();
             if (ad_explain == "" || ad_explain == null) {
-                var span = $("<span class='warning'>请您输入广告任务说明！</span>");
+                var span = "<span class='warning'>请您输入广告任务说明！</span>";
                 $("textarea[name='ad_explain']").parent(".informattion-list").append(span);
-
+                return false;
             }
-
+            if (imgs == null || imgs.length == 0) {
+                var span = "<span class='warning'>请检查图片是否上传图片未上传成功！</span>";
+//                $("#uploadForm").parent(".informattion-list").append(span);
+                $("#uploadimg").append(span);
+                location.hash = 'uploadimg';
+                return false;
+            }
             ad_put_begintime = $("input[name='ad_put_begintime']").val();
             if (ad_put_begintime == "" || ad_put_begintime == null) {
-                var span = $("<span class='warning'>请您输入广告投放开始时间！</span>");
+                var span = "<span class='warning'>请您输入广告投放开始时间！</span>";
                 $("input[name='ad_put_begintime']").parent(".informattion-list").append(span);
+                return false;
             }
             ad_put_endtime = $("input[name='ad_put_endtime']").val();
             if (ad_put_endtime == "" || ad_put_endtime == null) {
-                var span = $("<span class='warning'>请您输入广告投放结束时间！</span>");
+                var span = "<span class='warning'>请您输入广告投放结束时间！</span>";
                 $("input[name='ad_put_endtime']").parent(".informattion-list").append(span);
+                return false;
             }
 
             budget = $("input[name='budget']").val();
             if (budget == "" || budget == null) {
-                var span = $("<span class='warning'>请您输入广告预算金额！</span>");
+                var span = "<span class='warning'>请您输入广告预算金额！</span>";
                 $("input[name='budget']").parent(".informattion-list").append(span);
+                return false;
             }
             else if (budget <= 0) {
-                var span = $("<span class='warning'>广告预算金额应大于0元！</span>");
+                var span = "<span class='warning'>广告预算金额应大于0元！</span>";
                 $("input[name='budget']").parent(".informattion-list").append(span);
+                return false;
             }
             jiaoyu = $("input[name='game']").is(':checked');
             lvyou = $("input[name='entertainment']").is(':checked');
@@ -194,29 +212,21 @@
             canyin = $("input[name='education']").is(':checked');
             fenlei = (jiaoyu || lvyou || fangchan || jiancai || yiyao || canyin);
             if (fenlei == false) {
-                var span = $("<span class='warning'>请您选择广告分类！</span>");
+                var span = "<span class='warning'>请您选择广告分类！</span>";
                 $("#fenlei").append(span);
+                return false;
             }
 
             if (ad_name && ad_explain && ad_put_begintime && ad_put_endtime && (budget > 0) && fenlei) {
-//                if (jiaoyu) tag[0] = 1; else tag[0] = 0;
-//                if (lvyou) tag[1] = 1; else tag[1] = 0;
-//                if (fangchan) tag[2] = 1; else tag[2] = 0;
-//                if (jiancai) tag[3] = 1; else tag[3] = 0;
-//                if (yiyao) tag[4] = 1; else tag[4] = 0;
-//                if (canyin) tag[5] = 1; else tag[5] = 0;
-                tag=[];
-                if(jiaoyu)tag.push('jiaoyu');
-                if(lvyou)tag.push('lvyou');
-                if(fangchan)tag.push('fangchan');
-                if(jiancai)tag.push('jiancai');
-                if(yiyao)tag.push('yiyao');
-                if(canyin)tag.push('canyin');
 
-//                for (var i = 0; i < tag.length; i++) {
-//                    resTag = resTag + tag[i];
-//                }
-//                console.log(resTag);
+                tag = [];
+                if (jiaoyu)tag.push('jiaoyu');
+                if (lvyou)tag.push('lvyou');
+                if (fangchan)tag.push('fangchan');
+                if (jiancai)tag.push('jiancai');
+                if (yiyao)tag.push('yiyao');
+                if (canyin)tag.push('canyin');
+
                 console.log("cheng123");
                 return true;
             }
@@ -255,6 +265,8 @@
                         }
                     }
                 });
+            } else {
+                alert("还有没有填写")
             }
 
         }
@@ -290,313 +302,229 @@
 
             });
             var pic_width = $(".showpic").width();
-//            $(".upload").on("click", function () {
-//                pic_width = $(".showpic").width();
-//                $("input[name='pic']").click();
-//
-//            });
-
-//            $("#upload_Pic").on("click", function () {
-//                pic_width = $(".showpic").width();
-//                $("input[name='pic']").click();
-//                //  alert(pic_width);
-//            });
-//            $("input[name='pic']").uploadView({
-//                uploadBox: '.picBox',//设置上传框容器
-//                showBox: '.showpic',//设置显示预览图片的容器
-//                width: pic_width,
-//                height: 300, //预览图片的高度，单位px
-//                allowType: ["gif", "jpeg", "jpg", "bmp", "png"], //允许上传图片的类型
-//                maxSize: 2, //允许上传图片的最大尺寸，单位M
-//                success: function (e) {
-////                    $(".upload").css("display", "none");
-//                    //  alert(pic_width);
-//                    $(".informattion-list1 .picBox img").css("width", pic_width);
-//                }
-//            });
-
-        })
 
 
-        $("input[name='ad_name']").on("blur", function () {
-            if ($("input[name='ad_name']").parent(".informattion-list").has(".warning")) {
-                $("input[name='ad_name']").parent(".informattion-list").find(".warning").remove();
-            }
-            var ad_name = $("input[name='ad_name']").val();
-            if (ad_name == "" || ad_name == null) {
-                var span = $("<span class='warning'>请您输入广告名称！</span>");
-                $("input[name='ad_name']").parent(".informattion-list").append(span);
-            }
-            else if ($("input[name='ad_name']").parent(".informattion-list").has(".warning")) {
-                {
+            $("input[name='ad_name']").on("blur", function () {
+                if ($("input[name='ad_name']").parent(".informattion-list").has(".warning")) {
                     $("input[name='ad_name']").parent(".informattion-list").find(".warning").remove();
                 }
+                var ad_name = $("input[name='ad_name']").val();
+                if (ad_name == "" || ad_name == null) {
+                    var span = $("<span class='warning'>请您输入广告名称！</span>");
+                    $("input[name='ad_name']").parent(".informattion-list").append(span);
+                }
+                else if ($("input[name='ad_name']").parent(".informattion-list").has(".warning")) {
+                    {
+                        $("input[name='ad_name']").parent(".informattion-list").find(".warning").remove();
+                    }
 
-            }
-        })
+                }
+            })
 
-        $("input[name='pic']").on("change", function () {
-            if ($("input[name='pic']").parent(".informattion-list").has(".warning")) {
-                $("#upload_Pic").parent(".informattion-list").find(".warning").remove();
-            }
-            var pic = $("input[name='pic']").val();
-            if (pic == "" || pic == null) {
-                var span = $("<span class='warning'>请您上传广告图片！</span>");
-                $("#upload_Pic").parent(".informattion-list").append(span);
-            }
-            else if ($("#upload_Pic").parent(".informattion-list").has(".warning")) {
-                {
+            $("input[name='pic']").on("change", function () {
+                if ($("input[name='pic']").parent(".informattion-list").has(".warning")) {
                     $("#upload_Pic").parent(".informattion-list").find(".warning").remove();
                 }
+                var pic = $("input[name='pic']").val();
+                if (pic == "" || pic == null) {
+                    var span = $("<span class='warning'>请您上传广告图片！</span>");
+                    $("#upload_Pic").parent(".informattion-list").append(span);
+                }
+                else if ($("#upload_Pic").parent(".informattion-list").has(".warning")) {
+                    {
+                        $("#upload_Pic").parent(".informattion-list").find(".warning").remove();
+                    }
 
-            }
-        })
-        $("textarea[name='ad_explain']").on("blur change", function () {
-            if ($("textarea[name='ad_explain']").parent(".informattion-list").has(".warning")) {
-                $("textarea[name='ad_explain']").parent(".informattion-list").find(".warning").remove();
-            }
-            var ad_explain = $("textarea[name='ad_explain']").val();
-            if (ad_explain == "" || ad_explain == null) {
-                var span = $("<span class='warning'>请您输入广告任务说明</span>");
-                $("textarea[name='ad_explain']").parent(".informattion-list").append(span);
-            }
-            else if ($("textarea[name='ad_explain']").parent(".informattion-list").has(".warning")) {
-                {
+                }
+            })
+            $("textarea[name='ad_explain']").on("blur change", function () {
+                if ($("textarea[name='ad_explain']").parent(".informattion-list").has(".warning")) {
                     $("textarea[name='ad_explain']").parent(".informattion-list").find(".warning").remove();
                 }
+                var ad_explain = $("textarea[name='ad_explain']").val();
+                if (ad_explain == "" || ad_explain == null) {
+                    var span = $("<span class='warning'>请您输入广告任务说明</span>");
+                    $("textarea[name='ad_explain']").parent(".informattion-list").append(span);
+                }
+                else if ($("textarea[name='ad_explain']").parent(".informattion-list").has(".warning")) {
+                    {
+                        $("textarea[name='ad_explain']").parent(".informattion-list").find(".warning").remove();
+                    }
 
-            }
-        })
+                }
+            })
 
 
-        $("input[name='ad_put_begintime']").on("blur change", function () {
-            if ($("input[name='ad_put_begintime']").parent(".informattion-list").has(".warning")) {
-                $("input[name='ad_put_begintime']").parent(".informattion-list").find(".warning").remove();
-            }
-            var ad_put_begintime = $("input[name='ad_put_begintime']").val();
-            if (ad_put_begintime == "" || ad_put_begintime == null) {
-                var span = $("<span class='warning'>请您输入广告投放开始时间！</span>");
-                $("input[name='ad_put_begintime']").parent(".informattion-list").append(span);
-            }
-            else if ($("input[name='ad_put_begintime']").parent(".informattion-list").has(".warning")) {
-                {
+            $("input[name='ad_put_begintime']").on("blur change", function () {
+                if ($("input[name='ad_put_begintime']").parent(".informattion-list").has(".warning")) {
                     $("input[name='ad_put_begintime']").parent(".informattion-list").find(".warning").remove();
-                    var endDate = $("input[name='ad_put_begintime']").val().split("-");
-                    var year = endDate[0];
-                    var mont = endDate[1];
-                    var month = parseInt(mont) - 1;
-                    var day = endDate[2];
-                    var dateEnd = new Date(year, month, day);
-                    var today = new Date().getTime();
-                    var timeEnd = dateEnd.getTime();
-                    if (timeEnd < today) {
-                        var span = $("<span class='warning'>广告投放开始时间须大于当前时间！</span>");
-                        $("input[name='ad_put_begintime']").parent(".informattion-list").append(span);
+                }
+                var ad_put_begintime = $("input[name='ad_put_begintime']").val();
+                if (ad_put_begintime == "" || ad_put_begintime == null) {
+                    var span = $("<span class='warning'>请您输入广告投放开始时间！</span>");
+                    $("input[name='ad_put_begintime']").parent(".informattion-list").append(span);
+                }
+                else if ($("input[name='ad_put_begintime']").parent(".informattion-list").has(".warning")) {
+                    {
+                        $("input[name='ad_put_begintime']").parent(".informattion-list").find(".warning").remove();
+                        var endDate = $("input[name='ad_put_begintime']").val().split("-");
+                        var year = endDate[0];
+                        var mont = endDate[1];
+                        var month = parseInt(mont) - 1;
+                        var day = endDate[2];
+                        var dateEnd = new Date(year, month, day);
+                        var today = new Date().getTime();
+                        var timeEnd = dateEnd.getTime();
+                        if (timeEnd < today) {
+                            var span = $("<span class='warning'>广告投放开始时间须大于当前时间！</span>");
+                            $("input[name='ad_put_begintime']").parent(".informattion-list").append(span);
+                        }
                     }
                 }
-            }
-        })
+            })
 
-        $("input[name='ad_put_endtime']").on("blur change", function () {
-            if ($("input[name='ad_put_endtime']").parent(".informattion-list").has(".warning")) {
-                $("input[name='ad_put_endtime']").parent(".informattion-list").find(".warning").remove();
-            }
-            var ad_put_endtime = $("input[name='ad_put_endtime']").val();
-            if (ad_put_endtime == "" || ad_put_endtime == null) {
-                var span = $("<span class='warning'>请您输入广告投放结束时间！</span>");
-                $("input[name='ad_put_endtime']").parent(".informattion-list").append(span);
-            }
-            else if ($("input[name='ad_put_endtime']").parent(".informattion-list").has(".warning")) {
-                {
+            $("input[name='ad_put_endtime']").on("blur change", function () {
+                if ($("input[name='ad_put_endtime']").parent(".informattion-list").has(".warning")) {
                     $("input[name='ad_put_endtime']").parent(".informattion-list").find(".warning").remove();
+                }
+                var ad_put_endtime = $("input[name='ad_put_endtime']").val();
+                if (ad_put_endtime == "" || ad_put_endtime == null) {
+                    var span = $("<span class='warning'>请您输入广告投放结束时间！</span>");
+                    $("input[name='ad_put_endtime']").parent(".informattion-list").append(span);
+                }
+                else if ($("input[name='ad_put_endtime']").parent(".informattion-list").has(".warning")) {
+                    {
+                        $("input[name='ad_put_endtime']").parent(".informattion-list").find(".warning").remove();
 
-                    var endDate = $("input[name='ad_put_begintime']").val().split("-");
-                    var year = endDate[0];
-                    var mont = endDate[1];
-                    var month = parseInt(mont) - 1;
-                    var day = endDate[2];
-                    var dateEnd = new Date(year, month, day);
-                    var timeEnd = dateEnd.getTime();
+                        var endDate = $("input[name='ad_put_begintime']").val().split("-");
+                        var year = endDate[0];
+                        var mont = endDate[1];
+                        var month = parseInt(mont) - 1;
+                        var day = endDate[2];
+                        var dateEnd = new Date(year, month, day);
+                        var timeEnd = dateEnd.getTime();
 
-                    var endDate1 = $("input[name='ad_put_endtime']").val().split("-");
-                    var year1 = endDate1[0];
-                    var mont1 = endDate1[1];
-                    var month1 = parseInt(mont1) - 1;
-                    var day1 = endDate1[2];
-                    var dateEnd1 = new Date(year1, month1, day1);
-                    var timeEnd1 = dateEnd1.getTime();
+                        var endDate1 = $("input[name='ad_put_endtime']").val().split("-");
+                        var year1 = endDate1[0];
+                        var mont1 = endDate1[1];
+                        var month1 = parseInt(mont1) - 1;
+                        var day1 = endDate1[2];
+                        var dateEnd1 = new Date(year1, month1, day1);
+                        var timeEnd1 = dateEnd1.getTime();
 
-                    if (timeEnd1 < timeEnd) {
-                        var span = $("<span class='warning'>广告投放结束时间须大于开始时间！</span>");
-                        $("input[name='ad_put_begintime']").parent(".informattion-list").append(span);
+                        if (timeEnd1 < timeEnd) {
+                            var span = $("<span class='warning'>广告投放结束时间须大于开始时间！</span>");
+                            $("input[name='ad_put_begintime']").parent(".informattion-list").append(span);
+                        }
+                    }
+
+                }
+            })
+
+
+            $("input[name='budget']").on("blur change", function () {
+                moneyIsEnough = false;
+                if ($("input[name='budget']").parent(".informattion-list").has(".warning")) {
+                    $("input[name='budget']").parent(".informattion-list").find(".warning").remove();
+                }
+                budget = $("input[name='budget']").val();
+                if (budget == "" || budget == null) {
+                    var span = $("<span class='warning'>请您输入预算金额！</span>");
+                    $("input[name='budget']").parent(".informattion-list").append(span);
+                } else if (budget <= 0) {
+                    var span = $("<span class='warning'>广告预算金额应大于0元！</span>");
+                    $("input[name='budget']").parent(".informattion-list").append(span);
+                } else {
+                    //其它
+                }
+            })
+            $(".sig_money").on("blur change", function () {
+                if ($(".sig_money").parent(".informattion-list").has(".warning")) {
+                    $(".sig_money").parent(".informattion-list").find(".warning").remove();
+                }
+                sig_money = $(".sig_money").val();
+                if (sig_money == "" || sig_money == null) {
+                    var span = $("<span class='warning'>请您输入单笔金额！</span>");
+                    $(".sig_money").parent(".informattion-list").append(span);
+                } else if (sig_money < 0) {
+                    var span = $("<span class='warning'>请您输入单笔金额！</span>");
+                    $(".sig_money").parent(".informattion-list").append(span);
+                } else {
+                    //其他处理
+                }
+            })
+            $("input[name='game'] ,input[name='entertainment'],input[name='sports'],input[name='cars'],input[name='finance'],input[name='education']").on("change", function () {
+                if ($("#fenlei").has(".warning")) {
+                    $("#fenlei").find(".warning").remove();
+                }
+                var game = $("input[name='game']").is(':checked');
+                var entertainment = $("input[name='entertainment']").is(':checked');
+
+                var sports = $("input[name='sports']").is(':checked');
+
+                var cars = $("input[name='cars']").is(':checked');
+
+                var finance = $("input[name='finance']").is(':checked');
+
+                var education = $("input[name='education']").is(':checked');
+                var fenlei = (game || entertainment || sports || cars || finance || education);
+                if (fenlei == false) {
+                    var span = $("<span class='warning'>请您选择广告分类！</span>");
+                    $("#fenlei").append(span);
+                }
+            })
+
+
+
+            $("#upload_Pic").change(function (e) {
+                for (var i = 0; i < e.target.files.length; i++) {
+                    var file = e.target.files.item(i);
+                    var freader = new FileReader();
+                    freader.readAsDataURL(file);
+                    freader.onload = function (e) {
+                        var src = e.target.result;
+                        $(".showpic").prepend("<div><img class='show_img' ondblclick='deleteImg(this)' src=" + src + "></div>");
+
                     }
                 }
-
-            }
-        })
-
-
-        $("input[name='budget']").on("blur change", function () {
-            moneyIsEnough = false;
-            if ($("input[name='budget']").parent(".informattion-list").has(".warning")) {
-                $("input[name='budget']").parent(".informattion-list").find(".warning").remove();
-            }
-            budget = $("input[name='budget']").val();
-            if (budget == "" || budget == null) {
-                var span = $("<span class='warning'>请您输入预算金额！</span>");
-                $("input[name='budget']").parent(".informattion-list").append(span);
-            } else if (budget <= 0) {
-                var span = $("<span class='warning'>广告预算金额应大于0元！</span>");
-                $("input[name='budget']").parent(".informattion-list").append(span);
-            } else {
-                //其它
-            }
-        })
-        $(".sig_money").on("blur change", function () {
-            if ($(".sig_money").parent(".informattion-list").has(".warning")) {
-                $(".sig_money").parent(".informattion-list").find(".warning").remove();
-            }
-            sig_money = $(".sig_money").val();
-            if (sig_money == "" || sig_money == null) {
-                var span = $("<span class='warning'>请您输入单笔金额！</span>");
-                $(".sig_money").parent(".informattion-list").append(span);
-            } else if (sig_money < 0) {
-                var span = $("<span class='warning'>请您输入单笔金额！</span>");
-                $(".sig_money").parent(".informattion-list").append(span);
-            } else {
-                //其他处理
-            }
-        })
-        $("input[name='game'] ,input[name='entertainment'],input[name='sports'],input[name='cars'],input[name='finance'],input[name='education']").on("change", function () {
-            if ($("#fenlei").has(".warning")) {
-                $("#fenlei").find(".warning").remove();
-            }
-            var game = $("input[name='game']").is(':checked');
-            var entertainment = $("input[name='entertainment']").is(':checked');
-
-            var sports = $("input[name='sports']").is(':checked');
-
-            var cars = $("input[name='cars']").is(':checked');
-
-            var finance = $("input[name='finance']").is(':checked');
-
-            var education = $("input[name='education']").is(':checked');
-            var fenlei = (game || entertainment || sports || cars || finance || education);
-            if (fenlei == false) {
-                var span = $("<span class='warning'>请您选择广告分类！</span>");
-                $("#fenlei").append(span);
-            }
-        })
-
-        function deleteImg(a) {
-            a.remove();
-        }
-        $("#upload_Pic").change(function (e) {
-            for (var i = 0; i < e.target.files.length; i++) {
-                var file = e.target.files.item(i);
-                var freader = new FileReader();
-                freader.readAsDataURL(file);
-                freader.onload = function (e) {
-                    var src = e.target.result;
-                    $(".showpic").append("<div><img class='show_img' ondblclick='deleteImg (this)' src=" + src + "></div>");
-//                    request1();
-                }
-            }
-            $("#submitPic").click();
-            initUploadForm();
-        });
-        $('input[name=pic]').change(function () {
-            initUploadForm();
-        });
-        var url;
-        var sign;
-        //        function request1() {
-        //            $.ajax({
-        //                type: "GET",
-        //                url: "http://123.206.84.242:2888/tx/img?type=upload",
-        ////                data: {},
-        //                dataType: 'json',
-        //                success: function (result) {
-        //                    url = result.url;
-        //                    sign = result.sign;
-        //                    request2();
-        //                }
-        //            });
-        //        }
-        //        function request2() {
-        ////            $.ajax({
-        ////                type: "GET",
-        ////                url: url + "?sign=" + sign,
-        //////                data: {},
-        ////                dataType: 'json',
-        ////                success: function (result) {
-        ////                    url = result.url;
-        ////                    sign = result.sign;
-        ////                }
-        ////            });
-        //            var url_pic = url + "?sign=" + encodeURIComponent(sign);
-        ////            $("#form1").ajaxSubmit({
-        ////                url: url_pic,
-        ////                type: "POST",
-        ////                //date:"upfile=upfile",
-        ////                success: function (response) {
-        ////                    alert(response);
-        ////                },
-        ////                error: function (msg) {
-        ////                    alert("出错了");
-        ////                }
-        ////            });
-        //            var options = {
-        //                type: 'post',
-        //                url: url_pic,
-        //                dataType: 'json',
-        //                contentType: "multipart/form-data",
-        //                success: function (ret) {
-        //                    alert("chengg!")
-        //                },
-        //                error: function (ret) {
-        //                    alert(ret.responseText);
-        //                }
-        //            };
-        //
-        //            // pass options to ajaxForm
-        //            $('#uploadForm').ajaxForm(options);
-        //        }
-        $(document).ready(function () {
-            initUploadForm();
-        });
-        //        $('#upload_Pic').change(function () {
-        //            initUploadForm();
-        //        });
-        function initUploadForm() {
-            // 请将以下获取签名的链接换成您部署好的服务端http url
-            // 建议通过业务登陆态检查来增强安全性，避免签名被非法获取
-            $.getJSON('../tx/img?type=upload', function (data) {
-                var sign = data.sign,
-                        url = data.url + '?sign=' + encodeURIComponent(sign);
-
-                var options = {
-                    type: 'post',
-                    url: url,
-                    dataType: 'json',
-                    contentType: "multipart/form-data",
-                    success: function (ret) {
-//                        $('#downloadUrl').html(ret.data.download_url);
-//                        $('#fileid').text(ret.data.fileid);
-//                        $('#url').text(ret.data.url);
-//                        $('#downloadRet').show();
-                        imgs.push(ret.data.download_url);
-                        console.log(ret)
-                    },
-                    error: function (ret) {
-                        alert(ret.responseText);
-                    }
-                };
-
-                // pass options to ajaxForm
-                $('#uploadForm').ajaxForm(options);
+                $("#submitPic").click();
+                initUploadForm();
             });
-        }
+            $('input[name=pic]').change(function () {
+                initUploadForm();
+            });
+            var url;
+            var sign;
+
+            $(document).ready(function () {
+                initUploadForm();
+            });
+            function initUploadForm() {
+                // 请将以下获取签名的链接换成您部署好的服务端http url
+                // 建议通过业务登陆态检查来增强安全性，避免签名被非法获取
+                $.getJSON('../tx/img?type=upload', function (data) {
+                    var sign = data.sign,
+                            url = data.url + '?sign=' + encodeURIComponent(sign);
+
+                    var options = {
+                        type: 'post',
+                        url: url,
+                        dataType: 'json',
+                        contentType: "multipart/form-data",
+                        success: function (ret) {
+                            imgs.push(ret.data.download_url);
+                            console.log(ret)
+                        },
+                        error: function (ret) {
+                            alert(ret.responseText);
+                        }
+                    };
+
+                    // pass options to ajaxForm
+                    $('#uploadForm').ajaxForm(options);
+                });
+            }
+        });
     </script>
 
 
