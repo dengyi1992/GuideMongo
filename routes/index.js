@@ -16,34 +16,39 @@ var multipartMiddleware = multipart();
 var url = require("url");
 var tencentyun = require('tencentyun');
 /* GET home page. */
-router.get('/', function (req, res) {
-    //判断是否是第一页，并把请求的页数转换成 number 类型
-    var page = parseInt(req.query.p) || 1;
-    //查询并返回第 page 页的 10 篇文章
-    Post.getTen(null, page, function (err, posts, total) {
-        if (err) {
-            posts = [];
-        }
-        res.json({
-            posts: posts,
-            page: page,
-            isFirstPage: (page - 1) == 0,
-            isLastPage: ((page - 1) * 10 + posts.length) == total,
-            user: req.session.user
-
-        })
-
-    });
+// router.get('/', function (req, res) {
+//     //判断是否是第一页，并把请求的页数转换成 number 类型
+//     var page = parseInt(req.query.p) || 1;
+//     //查询并返回第 page 页的 10 篇文章
+//     Post.getTen(null, page, function (err, posts, total) {
+//         if (err) {
+//             posts = [];
+//         }
+//         res.json({
+//             posts: posts,
+//             page: page,
+//             isFirstPage: (page - 1) == 0,
+//             isLastPage: ((page - 1) * 10 + posts.length) == total,
+//             user: req.session.user
+//
+//         })
+//
+//     });
+// });
+router.get('/',function (req, res) {
+    var deviceAgent = req.headers["user-agent"].toLowerCase();
+    var agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/);
+    if(agentID){
+        res.sendFile(filePath + '/public/mobileindex.html');
+    }else{
+        res.sendFile(filePath + '/public/webindex.html');
+    }
 });
 router.get('/publish', function (req, res) {
     if (!req.session.user) {
         res.send("<script>alert('未登录');window.location='login.html'</script>")
-
-        // res.sendFile(path.join(__dirname, '../public', 'login.html'));
     } else {
         res.sendFile(filePath + '/public/publish.html');
-
-        // res.sendFile(path.join(__dirname, '../public', 'publish.html'));
     }
 });
 /**
