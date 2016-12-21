@@ -89,11 +89,7 @@ Adp.prototype.save = function (callback) {
                 } else {
                     collection.update({
                         ad_order: adp.ad_order
-                    }, {
-                        ad_order: adp.ad_order,
-                        lat: adp.lat,
-                        lon: adp.lon
-                    }, function (err) {
+                    }, adp, function (err) {
                         mongodb.close();
                         if (err) {
                             return callback(err);
