@@ -90,6 +90,7 @@ Adp.prototype.save = function (callback) {
                     collection.update({
                         ad_order: adp.ad_order
                     }, {
+                        ad_order: adp.ad_order,
                         lat: adp.lat,
                         lon: adp.lon
                     }, function (err) {
