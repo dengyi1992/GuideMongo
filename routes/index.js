@@ -322,7 +322,7 @@ router.post('/mpostNew', function (req, res) {
         ad_put_begintime = req.body.ad_put_begintime,
         ad_put_endtime = req.body.ad_put_endtime,
         budget = req.body.budget,
-        sig_money = req.body.bucket,
+        sig_money = req.body.sig_money,
         imgurls = req.body["imgurls"],
         key = req.body.key,
         title = req.body.name,
