@@ -315,6 +315,26 @@ router.post('/postNew', function (req, res) {
         res.json({status: "success", 'success': '发布成功', 'orderno': order});
     });
 });
+router.post('/mpostNew', checkLogin);
+router.post('/mpostNew', function (req, res) {
+    var currentUser = req.session.user,
+        addesc = req.body.addesc,
+        ad_put_begintime = req.body.ad_put_begintime,
+        ad_put_endtime = req.body.ad_put_endtime,
+        budget = req.body.budget,
+        sig_money = req.body.bucket,
+        imgurls = req.body["imgurls"],
+        key = req.body.key,
+        title = req.body.name,
+        tags = req.body["tags"],
+        ad = new Ad(currentUser.name, currentUser.head, addesc, ad_put_begintime, ad_put_endtime, budget, sig_money, imgurls, key, title, tags);
+    ad.save(function (err, order) {
+        if (err) {
+            return res.json({'error': err});
+        }
+        res.json({status: "success", 'success': '发布成功', 'orderno': order});
+    });
+});
 router.get('/getAds', function (req, res) {
     var tag = req.query.tag;
     var page = req.query.page;
