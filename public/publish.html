@@ -10,6 +10,15 @@
     <link href="http://cdn.bootcss.com/bootstrap/4.0.0-alpha.5/css/bootstrap.min.css" rel="stylesheet">
     <script src="http://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="js/login_common.js"></script>
+    <style type="text/css">
+        #allmap {
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+            margin: 0;
+            font-family: "微软雅黑";
+        }
+    </style>
     <!--<script src="./js/jquery.uploadView.js"></script>-->
 </head>
 <body>
@@ -95,6 +104,8 @@
                 </div>
             </div>
         </div>
+
+
         <div class="ad-informattion-list">
             <div class="ad-informattion-content">
                 <div class="informattion-list">
@@ -107,6 +118,15 @@
                     <input class="ad-time" type="date" name="ad_put_begintime" id="ad_put_begintime">
                     <span class="to">至今</span>
                     <input type="date" name="ad_put_endtime" class="ad-time" id="ad_put_endtime">
+                </div>
+                <div class="informattion-list">
+                    <label class="informattion-list-label1">位置选取</label>
+                    <p id="currentPostion">
+                        当前位置
+                    </p>
+
+                    <div id="allmap"></div>
+
                 </div>
                 <div class="informattion-list">
                     <label class="informattion-list-label1">广告预算金币</label>
@@ -154,7 +174,7 @@
         var tag = [];
         var resTag = "";
         function deleteImg(a) {
-            imgs.splice($(a).parent().parent().find("div").index($(a).parent()),1);//删除某个位置的数据
+            imgs.splice($(a).parent().parent().find("div").index($(a).parent()), 1);//删除某个位置的数据
             a.parentNode.remove();
         }
         function checkAd() {
@@ -222,12 +242,12 @@
             if (ad_name && ad_explain && ad_put_begintime && ad_put_endtime && (budget > 0) && fenlei) {
 
                 tag = [];
-                if (jiaoyu)tag.push('jiaoyu');
-                if (lvyou)tag.push('lvyou');
-                if (fangchan)tag.push('fangchan');
-                if (jiancai)tag.push('jiancai');
-                if (yiyao)tag.push('yiyao');
-                if (canyin)tag.push('canyin');
+                if (jiaoyu) tag.push('jiaoyu');
+                if (lvyou) tag.push('lvyou');
+                if (fangchan) tag.push('fangchan');
+                if (jiancai) tag.push('jiancai');
+                if (yiyao) tag.push('yiyao');
+                if (canyin) tag.push('canyin');
 
                 console.log("cheng123");
                 return true;
@@ -259,8 +279,9 @@
                     dataType: "json",
                     success: function (result) {
                         if (result.status == "success") {
-                            alert('成功');
-                            window.location.reload();
+                            submitLocation(result.orderno);
+//                            alert('成功');
+//                            window.location.reload();
                         } else {
                             alert(result.error);
 //                            window.location.reload();
@@ -271,6 +292,28 @@
                 alert("还有没有填写")
             }
 
+        }
+        function submitLocation(adorder) {
+            var loc = $("#currentPostion").text().substring(4).split(",");
+            $.ajax({
+                type: 'POST',
+                url: '/adposition',
+                data: {
+                    "adorder": adorder,
+                    "lat": loc[1],
+                    "lon": loc[0]
+                },
+                dataType: "json",
+                success: function (result) {
+                    if (result.success) {
+                        alert('成功');
+                        window.location.reload();
+                    } else {
+                        alert(result.error);
+//                            window.location.reload();
+                    }
+                }
+            });
         }
         var moneyIsEnough = true;
         var isShow = false;
@@ -504,7 +547,7 @@
                 // 建议通过业务登陆态检查来增强安全性，避免签名被非法获取
                 $.getJSON('../tx/img?type=upload', function (data) {
                     var sign = data.sign,
-                            url = data.url + '?sign=' + encodeURIComponent(sign);
+                        url = data.url + '?sign=' + encodeURIComponent(sign);
 
                     var options = {
                         type: 'post',
@@ -532,3 +575,47 @@
 
 </body>
 </html>
+<script type="text/javascript">
+    //百度地图API功能
+    function loadJScript() {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "http://api.map.baidu.com/api?v=2.0&ak=niHwqu4GhXyC6GUIXyj7BAWE4b4aLMov&callback=init";
+        document.body.appendChild(script);
+    }
+    function init() {
+        var map = new BMap.Map("allmap",{minZoom:8,maxZoom:100});            // 创建Map实例
+        var point = new BMap.Point(108.927478, 34.276173); // 创建点坐标
+        map.addEventListener("click", function (e) {
+//            alert(e.point.lng + "," + e.point.lat);
+            map.panTo(e.point);
+            map.clearOverlays();
+            var marker = new BMap.Marker(e.point);  // 创建标注
+            map.addOverlay(marker);               // 将标注添加到地图中
+            var label = new BMap.Label("当前位置" + e.point.lng + "," + e.point.lat, {offset: new BMap.Size(20, -10)});
+            $("#currentPostion").text("当前位置" + e.point.lng + "," + e.point.lat);
+            marker.setLabel(label);
+            marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+        });
+        map.centerAndZoom(point, 15);
+        map.enableScrollWheelZoom();                 //启用滚轮放大缩小
+        function myFun(result) {
+            var cityName = result.name;
+            var point = new BMap.Point(result.center.lng, result.center.lat);
+            map.setCenter(cityName);
+            map.clearOverlays();
+            map.panTo(point);
+            var marker = new BMap.Marker(point);  // 创建标注
+            map.addOverlay(marker);               // 将标注添加到地图中
+            var label = new BMap.Label("当前位置" + point.lng + "," + point.lat, {offset: new BMap.Size(20, -10)});
+            $("#currentPostion").text("当前位置" + point.lng + "," + point.lat);
+            marker.setLabel(label);
+            marker.setAnimation(BMAP_ANIMATION_BOUNCE); //跳动的动画
+        }
+
+        var myCity = new BMap.LocalCity();
+        myCity.get(myFun);
+    }
+
+    window.onload = loadJScript;  //异步加载地图
+</script>
