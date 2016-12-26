@@ -2,7 +2,7 @@ var crypto = require('crypto'),
     Post = require('../models/post.js'),
     Comment = require('../models/comment.js'),
     Duobao = require('../models/duobao.js'),
-    Ad_position=require('../models/Ad_position'),
+    Ad_position = require('../models/Ad_position'),
     User = require('../models/user.js'),
     Ad = require('../models/Ad'),
     ManagerUser = require('../models/ManagerUser');
@@ -36,12 +36,12 @@ var tencentyun = require('tencentyun');
 //
 //     });
 // });
-router.get('/',function (req, res) {
+router.get('/', function (req, res) {
     var deviceAgent = req.headers["user-agent"].toLowerCase();
     var agentID = deviceAgent.match(/(iphone|ipod|ipad|android)/);
-    if(agentID){
+    if (agentID) {
         res.sendFile(filePath + '/public/mobileindex.html');
-    }else{
+    } else {
         res.sendFile(filePath + '/public/webindex.html');
     }
 });
@@ -338,22 +338,22 @@ router.post('/mpostNew', function (req, res) {
 router.get('/getAds', function (req, res) {
     var tag = req.query.tag;
     var page = req.query.page;
-    if(tag){
-        Ad.getAllByTag(tag, page, function (err, data,total) {
+    if (tag) {
+        Ad.getAllByTag(tag, page, function (err, data, total) {
             if (err) {
                 return res.json({success: false})
             }
-            res.json({success: true, data: data,page:page,total:total});
+            res.json({success: true, data: data, page: page, total: total});
         })
-    }else {
-        Ad.getTen(page,function (err, data,total) {
+    } else {
+        Ad.getTen(page, function (err, data, total) {
             if (err) {
                 return res.json({success: false})
             }
-            res.json({success: true, data: data,page:page,total:total});
+            res.json({success: true, data: data, page: page, total: total});
         })
     }
-    
+
 
 });
 router.post('/postPay', checkLogin);
@@ -560,22 +560,24 @@ router.get('/tx/img', function (req, res, next) {
         res.end(JSON.stringify(ret));
     }
 });
-router.get('/adposition',function (req, res, next) {
+router.get('/adposition', function (req, res, next) {
     Ad_position.getAll(function (err, data) {
-        if (err){
-            return res.json({success:false,msg:err})
+        if (err) {
+            return res.json({success: false, msg: err})
         }
-        res.json({success:true,msg:"成功",data:data})
+        res.json({success: true, msg: "成功", data: data})
     })
 });
-router.post('/adposition',function (req, res, next) {
-   var adp = new Ad_position(req.body.adorder,req.body.lat,req.body.lon);
-   adp.save(function (err, data) {
-       if (err){
-           return res.json({success:false,msg:err})
-       }
-       res.json({success:true,msg:"成功",data:data})
-   })
+router.post('/adposition', checkLogin);
+router.post('/adposition', function (req, res, next) {
+    var currentUser = req.session.user;
+    var adp = new Ad_position(req.body.adorder, req.body.lat, req.body.lon,currentUser);
+    adp.save(function (err, data) {
+        if (err) {
+            return res.json({success: false, msg: err})
+        }
+        res.json({success: true, msg: "成功", data: data})
+    })
 });
 router.use(function (req, res) {
     res.render("404");

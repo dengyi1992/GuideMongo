@@ -13,10 +13,11 @@ var mongodb = require('./db');
  * @constructor
  *
  */
-function Adp(ad_order, lat, lon) {
+function Adp(ad_order, lat, lon, currentUser) {
     this.ad_order = ad_order;
     this.lat = lat;
     this.lon = lon;
+    this.user = currentUser;
 }
 function getTailer() {
     var s = '';
@@ -55,7 +56,8 @@ Adp.prototype.save = function (callback) {
             ad_order: this.ad_order,
             lat: this.lat,
             lon: this.lon,
-            time: time
+            time: time,
+            user: this.user
         };
     //打开数据库
     mongodb.open(function (err, db) {
