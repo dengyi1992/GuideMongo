@@ -113,6 +113,12 @@
                     <textarea class=" wordstyle ad-need " name="ad_explain"
                               placeholder="请输入广告关键词，请控制在4～10个字内"></textarea>
                 </div>
+
+                <div class="informattion-list">
+                    <label class="informattion-list-label1">广告朗读文本</label>
+                    <textarea class=" wordstyle ad-need " name="ad_read"
+                              placeholder="请输入广告朗读文本，请控制在10～30个字内"></textarea>
+                </div>
                 <div class="informattion-list">
                     <label class="informattion-list-label1">广告投放时间</label>
                     <input class="ad-time" type="date" name="ad_put_begintime" id="ad_put_begintime">
@@ -170,7 +176,7 @@
     </div>
     <script>
         var imgs = [];
-        var ad_name, ad_explain, ad_put_begintime, ad_put_endtime, budget, sig_money;
+        var ad_name, ad_explain, ad_read, ad_put_begintime, ad_put_endtime, budget, sig_money;
         var tag = [];
         var resTag = "";
         function deleteImg(a) {
@@ -190,6 +196,12 @@
             if (ad_explain == "" || ad_explain == null) {
                 var span = "<span class='warning'>请您输入广告任务说明！</span>";
                 $("textarea[name='ad_explain']").parent(".informattion-list").append(span);
+                return false;
+            }
+            ad_read = $("textarea[name='ad_read']").val();
+            if (ad_read == "" || ad_read == null) {
+                var span = "<span class='warning'>请您输入广告朗读文本！</span>";
+                $("textarea[name='ad_read']").parent(".informattion-list").append(span);
                 return false;
             }
             if (imgs == null || imgs.length == 0) {
@@ -239,7 +251,7 @@
                 return false;
             }
 
-            if (ad_name && ad_explain && ad_put_begintime && ad_put_endtime && (budget > 0) && fenlei) {
+            if (ad_name && ad_explain && ad_read && ad_put_begintime && ad_put_endtime && (budget > 0) && fenlei) {
 
                 tag = [];
                 if (jiaoyu) tag.push('jiaoyu');
@@ -269,6 +281,7 @@
                         "name": ad_name,   //广告名称
                         "imgurls": imgs,  //图片地址
                         "key": ad_explain,  //广告关键字
+                        "read":ad_read,
                         "ad_put_begintime": ad_put_begintime, //广告投放开始时间
                         "ad_put_endtime": ad_put_endtime, //广告投放结束时间
                         "budget": budget,  //广告预算金币
@@ -584,7 +597,7 @@
         document.body.appendChild(script);
     }
     function init() {
-        var map = new BMap.Map("allmap",{minZoom:8,maxZoom:100});            // 创建Map实例
+        var map = new BMap.Map("allmap", {minZoom: 8, maxZoom: 100});            // 创建Map实例
         var point = new BMap.Point(108.927478, 34.276173); // 创建点坐标
         map.addEventListener("click", function (e) {
 //            alert(e.point.lng + "," + e.point.lat);
