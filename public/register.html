@@ -16,11 +16,11 @@
         function perSubmit() {
             var d = $("form").serialize();
             $.post("ManagerReg", d, function (result) {
-                result=JSON.parse(result);
-                if(result.success){
-                    window.location.href="/";
+                result = JSON.parse(result);
+                if (result.success) {
+                    window.location.href = "/";
                     alert(result.success);
-                }else {
+                } else {
                     alert(result.error);
                 }
             }, "text");
@@ -89,6 +89,31 @@
                         <input name="password-repeat" type="password" placeholder="重复密码">
                     </div>
                     <div class="ececk_warning"><span>数据不能为空</span></div>
+                    <div class="form_user_type">
+                        <input name="enterprise" type="radio" checked value="false" onclick="function hideEnter() {
+                        $('#enterprise_part').css('display','none')
+                        }
+                        hideEnter()">个人用户
+                        <input name="enterprise" type="radio" value="true" onclick="function showEnter() {
+                         $('#enterprise_part').css('display','block')
+
+                        }
+                        showEnter()">企业用户
+                    </div>
+                    <div id="enterprise_part" style="display: none">
+                        <div class="form_text_ipt">
+                            <input name="enterprisename" type="text" placeholder="企业名称">
+                        </div>
+                        <div class="ececk_warning"><span>数据不能为空</span></div>
+                        <div class="form_text_ipt">
+                            <input name="enterpriseid" type="text" placeholder="企业证书号">
+                        </div>
+                        <div class="ececk_warning"><span>数据不能为空</span></div>
+                        <div class="form_text_ipt">
+                            <input name="legalperson" type="text" placeholder="法人名称">
+                        </div>
+                        <div class="ececk_warning"><span>数据不能为空</span></div>
+                    </div>
 
 
                     <div class="form_btn">

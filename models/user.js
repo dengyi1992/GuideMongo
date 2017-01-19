@@ -9,7 +9,12 @@ function User(user) {
     this.password = user.password;
     this.email = user.email;
     this.user_collection = user.user_collection;
+    this.enterprise = user.enterprise;
+    this.enterprisename = user.enterprisename;
+    this.enterpriseid = user.enterpriseid;
+    this.legalperson = user.legalperson;
     this.account = user.account;
+
 };
 
 module.exports = User;
@@ -25,8 +30,12 @@ User.prototype.save = function (callback) {
         name: this.name,
         password: this.password,
         email: this.email,
+        enterprise: this.enterprise,
+        enterprisename: this.enterprisename,
+        enterpriseid: this.enterpriseid,
+        legalperson: this.legalperson,
         user_collection: this.user_collection,
-        account: parseInt(20),
+        account: this.account,
         head: head
     };
     //打开数据库

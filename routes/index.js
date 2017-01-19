@@ -59,7 +59,9 @@ router.get('/publish', function (req, res) {
 router.post('/reg', function (req, res) {
     var name = req.body.name,
         password = req.body.password,
-        password_re = req.body['password-repeat'];
+        password_re = req.body['password-repeat'],
+        email = req.body.email,
+        enterprise = req.body.enterprise;
     //检验用户两次输入的密码是否一致
     if (password_re != password) {
         return res.json({'error': '两次输入的密码不一致!'});
@@ -67,12 +69,17 @@ router.post('/reg', function (req, res) {
     //生成密码的 md5 值
     var md5 = crypto.createHash('md5'),
         password = md5.update(req.body.password).digest('hex');
+
     var newUser = new User({
         name: name,
         password: password,
-        email: req.body.email,
+        email: email,
         user_collection: "",
-        account: 0
+        enterprise: enterprise,
+        enterprisename: enterprise ? req.body.enterprisename : "",
+        enterpriseid: enterprise ? req.body.enterpriseid : "",
+        legalperson: enterprise ? req.body.legalperson : "",
+        account: enterprise ? 1000 : 10
     });
     //检查用户名是否已经存在
     User.get(newUser.name, function (err, user) {
@@ -124,11 +131,17 @@ router.post('/login', function (req, res) {
 });
 /**
  * 广告主登录注册
+ * enterprise:false
+ enterprisename:
+ enterpriseid:
+ legalperson:
  */
 router.post('/ManagerReg', function (req, res) {
     var name = req.body.name,
         password = req.body.password,
-        password_re = req.body['password-repeat'];
+        password_re = req.body['password-repeat'],
+        email = req.body.email,
+        enterprise = req.body.enterprise;
     //检验用户两次输入的密码是否一致
     if (password_re != password) {
         return res.json({'error': '两次输入的密码不一致!'});
@@ -136,15 +149,21 @@ router.post('/ManagerReg', function (req, res) {
     //生成密码的 md5 值
     var md5 = crypto.createHash('md5'),
         password = md5.update(req.body.password).digest('hex');
-    var newUser = new ManagerUser({
+
+    var newUser = new User({
         name: name,
         password: password,
-        email: req.body.email,
+        email: email,
         user_collection: "",
-        account: 0
+        enterprise: enterprise,
+        enterprisename: enterprise ? req.body.enterprisename : "",
+        enterpriseid: enterprise ? req.body.enterpriseid : "",
+        legalperson: enterprise ? req.body.legalperson : "",
+        account: enterprise ? 1000 : 10
     });
+
     //检查用户名是否已经存在
-    ManagerUser.get(newUser.name, function (err, user) {
+    User.get(newUser.name, function (err, user) {
         if (err) {
             return res.json({'error': err});
         }
@@ -169,7 +188,7 @@ router.post('/ManagerLogin', function (req, res) {
     var md5 = crypto.createHash('md5'),
         password = md5.update(req.body.password).digest('hex');
     //检查用户是否存在
-    ManagerUser.get(req.body.name, function (err, user) {
+    User.get(req.body.name, function (err, user) {
         if (!user) {
             return res.json({'error': '用户不存在!'});
         }
@@ -571,7 +590,7 @@ router.get('/adposition', function (req, res, next) {
 router.post('/adposition', checkLogin);
 router.post('/adposition', function (req, res, next) {
     var currentUser = req.session.user;
-    var adp = new Ad_position(req.body.adorder, req.body.lat, req.body.lon,currentUser);
+    var adp = new Ad_position(req.body.adorder, req.body.lat, req.body.lon, currentUser);
     adp.save(function (err, data) {
         if (err) {
             return res.json({success: false, msg: err})
