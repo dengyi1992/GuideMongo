@@ -4,6 +4,8 @@
 var mongodb = require('./db');
 var crypto = require('crypto');
 var Duobao = require('./duobao');
+var uuid = require('node-uuid');
+
 function User(user) {
     this.name = user.name;
     this.password = user.password;
@@ -31,6 +33,7 @@ User.prototype.save = function (callback) {
         password: this.password,
         email: this.email,
         enterprise: this.enterprise,
+        uuid:uuid.v1(),
         enterprisename: this.enterprisename,
         enterpriseid: this.enterpriseid,
         legalperson: this.legalperson,

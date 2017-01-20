@@ -2,6 +2,8 @@
  * Created by deng on 16-4-18.
  */
 var mongodb = require('./db');
+var uuid = require('node-uuid');
+
 /**
  *
  * @param name 发布人
@@ -13,7 +15,7 @@ var mongodb = require('./db');
  * @constructor
  *
  */
-function Ad(name, head, addesc, ad_put_begintime, ad_put_endtime, budget, sig_money, imgurls, key, title, tags,read) {
+function Ad(name, head, addesc, ad_put_begintime, ad_put_endtime, budget, sig_money, imgurls, key, title, tags, read) {
     this.name = name;
     this.head = head;
     this.addesc = addesc;
@@ -25,7 +27,7 @@ function Ad(name, head, addesc, ad_put_begintime, ad_put_endtime, budget, sig_mo
     this.key = key;
     this.title = title;
     this.tags = tags;
-    this.read=read;
+    this.read = read;
 }
 function getTailer() {
     var s = '';
@@ -59,28 +61,29 @@ Ad.prototype.save = function (callback) {
      tags=req.body.tags,
      * @type {{orderno: *, name: *, head: *, time: {date: Date, year: number, month: string, day: string, minute: string}, addesc: *, tags: *, imgurls: *, icons: *, comments: Array, reprint_info: Array, pv: number, isPaid: boolean}}
      */
-    //要存入数据库的文档
+        //要存入数据库的文档
     var ad = {
-        orderno: date.getTime() + getTailer(),
-        name: this.name,
-        head: this.head,
-        title: this.title,
-        time: time,
-        addesc: this.addesc,
-        tags: this.tags,
-        imgurls: this.imgurls,
-        budget: this.budget,
-        ad_put_begintime: this.ad_put_begintime,
-        ad_put_endtime: this.ad_put_endtime,
-        key: this.key,
-        read:this.read,
-        icons: this.budget,
-        sig_money: this.sig_money,
-        comments: [],
-        reprint_info: [],
-        pv: 0,
-        isPaid: false
-    };
+            orderno: date.getTime() + getTailer(),
+            name: this.name,
+            head: this.head,
+            title: this.title,
+            uuid: uuid.v1(),
+            time: time,
+            addesc: this.addesc,
+            tags: this.tags,
+            imgurls: this.imgurls,
+            budget: this.budget,
+            ad_put_begintime: this.ad_put_begintime,
+            ad_put_endtime: this.ad_put_endtime,
+            key: this.key,
+            read: this.read,
+            icons: this.budget,
+            sig_money: this.sig_money,
+            comments: [],
+            reprint_info: [],
+            pv: 0,
+            isPaid: false
+        };
     //打开数据库
     mongodb.open(function (err, db) {
         if (err) {
@@ -224,7 +227,7 @@ Ad.getAllByTag = function (tag, page, callback) {
                         return callback(err);//失败！返回 err
                     }
 
-                    callback(null, docs,total);//成功！以数组形式返回查询的结果
+                    callback(null, docs, total);//成功！以数组形式返回查询的结果
                 });
             });
         });
@@ -320,7 +323,7 @@ Ad.getOne = function (name, day, title, callback) {
 };
 
 //一次获取十篇文章
-Ad.getTen = function ( page, callback) {
+Ad.getTen = function (page, callback) {
     //打开数据库
     mongodb.open(function (err, db) {
         if (err) {
