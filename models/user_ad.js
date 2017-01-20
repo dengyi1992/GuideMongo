@@ -22,13 +22,14 @@ UA.prototype.save = function (callback) {
     var amount = parseInt(this.amount);
     mongodb.open(function (err, db) {
         if (err) {
-            return callback(err);
+            mongodb.close();
+            return callback("服务器出了个小差");
         }
         //读取 posts 集合
         db.collection('user_ad', function (err, collection) {
             if (err) {
                 mongodb.close();
-                return callback(err);
+                return callback("服务器出了个小差");
             }
             //根据 query 对象查询文章
             collection.find({
@@ -39,7 +40,7 @@ UA.prototype.save = function (callback) {
             }).toArray(function (err, docs) {
                 if (err) {
                     mongodb.close();
-                    return callback(err);//失败！返回 err
+                    return callback("服务器出了个小差");//失败！返回 err
                 }
                 if (docs.length > 0) {
                     mongodb.close();
@@ -56,12 +57,12 @@ UA.prototype.save = function (callback) {
                 }, function (err, ua) {
                     if (err) {
                         mongodb.close();
-                        return callback(err);//错误，返回 err 信息
+                        return callback("服务器出了个小差");//错误，返回 err 信息
                     }
                     db.collection('ads', function (err, collection) {
                         if (err) {
                             mongodb.close();
-                            return callback(err);
+                            return callback("服务器出了个小差");
                         }
                         collection.update({
                             uuid: userUuid
@@ -71,12 +72,12 @@ UA.prototype.save = function (callback) {
 
                             if (err) {
                                 mongodb.close();
-                                return callback(err);
+                                return callback("服务器出了个小差");
                             }
                             db.collection('users', function (err, collection) {
                                 if (err) {
                                     mongodb.close();
-                                    return callback(err);
+                                    return callback("服务器出了个小差");
                                 }
                                 collection.update({
                                     uuid: userUuid
@@ -86,7 +87,7 @@ UA.prototype.save = function (callback) {
                                     mongodb.close();
 
                                     if (err) {
-                                        return callback(err);
+                                        return callback("服务器出了个小差");
                                     }
                                     callback(null, "成功领取金币");
 
