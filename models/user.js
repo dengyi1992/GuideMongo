@@ -16,6 +16,7 @@ function User(user) {
     this.enterpriseid = user.enterpriseid;
     this.legalperson = user.legalperson;
     this.account = user.account;
+    this.uuid=uuid.v1();
 
 };
 
@@ -33,7 +34,7 @@ User.prototype.save = function (callback) {
         password: this.password,
         email: this.email,
         enterprise: this.enterprise,
-        uuid:uuid.v1(),
+        uuid:this.uuid,
         enterprisename: this.enterprisename,
         enterpriseid: this.enterpriseid,
         legalperson: this.legalperson,
@@ -108,6 +109,7 @@ User.collection_c = function (name, coll, callback) {
         var wherestr = {"name": name};
         var updateStr = {$set: {"user_collection": coll}}
         collection.update(wherestr, updateStr, function (err, result) {
+            mongodb.close();
             if (err) {
                 console.log(err);
                 return;

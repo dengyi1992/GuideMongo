@@ -4,6 +4,7 @@ var crypto = require('crypto'),
     Duobao = require('../models/duobao.js'),
     Ad_position = require('../models/Ad_position'),
     User = require('../models/user.js'),
+    UA = require('../models/user_ad.js'),
     Ad = require('../models/Ad'),
     ManagerUser = require('../models/ManagerUser');
 var express = require('express');
@@ -225,6 +226,29 @@ router.post('/changepass', function (req, res) {
     });
 });
 /**
+ * 积分领取
+ */
+
+router.post('/collectpoints', checkLogin);
+router.post('/collectpoints', function (req, res) {
+    var user_uuid = req.session.user.uuid;
+    var adUuid = req.body.ad_uuid;
+    Ad.findByUuid(adUuid, function (err, amount) {
+        if (err) {
+            return res.json({'error': err});
+        }
+        var ua = new UA(user_uuid, adUuid, amount);
+        ua.save(function (err,msg) {
+            if (err) {
+                return res.json({'error': err});
+            }
+            res.json({"success": "领取成功"});
+        })
+
+    });
+});
+
+/**
  * 我的上传
  */
 router.get('/post', checkLogin);
@@ -321,13 +345,13 @@ router.post('/postNew', function (req, res) {
         ad_put_begintime = req.body.ad_put_begintime,
         ad_put_endtime = req.body.ad_put_endtime,
         budget = req.body.budget,
-        sig_money = req.body.bucket,
+        sig_money = req.body.sig_money,
         imgurls = req.body["imgurls[]"],
         key = req.body.key,
         title = req.body.name,
         tags = req.body["tags[]"],
-        read=req.body.read,
-        ad = new Ad(currentUser.name, currentUser.head, addesc, ad_put_begintime, ad_put_endtime, budget, sig_money, imgurls, key, title, tags,read);
+        read = req.body.read,
+        ad = new Ad(currentUser.name, currentUser.head, addesc, ad_put_begintime, ad_put_endtime, budget, sig_money, imgurls, key, title, tags, read);
     ad.save(function (err, order) {
         if (err) {
             return res.json({'error': err});
@@ -347,8 +371,8 @@ router.post('/mpostNew', function (req, res) {
         key = req.body.key,
         title = req.body.name,
         tags = req.body["tags"],
-        read=req.body.read,
-        ad = new Ad(currentUser.name, currentUser.head, addesc, ad_put_begintime, ad_put_endtime, budget, sig_money, imgurls, key, title, tags,read);
+        read = req.body.read,
+        ad = new Ad(currentUser.name, currentUser.head, addesc, ad_put_begintime, ad_put_endtime, budget, sig_money, imgurls, key, title, tags, read);
     ad.save(function (err, order) {
         if (err) {
             return res.json({'error': err});

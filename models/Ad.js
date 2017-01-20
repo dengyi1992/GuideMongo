@@ -108,6 +108,40 @@ Ad.prototype.save = function (callback) {
         });
     });
 };
+Ad.findByUuid = function (uuid, callback) {
+    //打开数据库
+    mongodb.open(function (err, db) {
+        if (err) {
+            return callback(err);
+        }
+        //读取 posts 集合
+        db.collection('ads', function (err, collection) {
+            if (err) {
+                mongodb.close();
+                return callback(err);
+            }
+            collection.find({"uuid": uuid}).sort({
+                time: -1
+            }).toArray(function (err, docs) {
+                mongodb.close();
+                if (err) {
+                    return callback(err);//失败！返回 err
+                }
+                if (docs.length == 0) {
+                    return callback("没有这个广告");
+                } else {
+                    if (parseInt(docs["0"].sig_money) > parseInt(docs[0].icons)) {
+                        return callback("积分不够")
+                    }
+                    return callback(null, docs[0].sig_money)
+                }
+            });
+        });
+    });
+};
+Ad.sub = function (uuid, amount, callback) {
+
+};
 Ad.pay = function (name, order, callback) {
     //打开数据库
     mongodb.open(function (err, db) {
