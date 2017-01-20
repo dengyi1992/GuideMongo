@@ -83,8 +83,9 @@ UA.prototype.save = function (callback) {
                                 }, {
                                     $inc: {account: amount}
                                 }, function (err) {
+                                    mongodb.close();
+
                                     if (err) {
-                                        mongodb.close();
                                         return callback(err);
                                     }
                                     callback(null, "成功领取金币");
