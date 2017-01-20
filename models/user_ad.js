@@ -81,7 +81,7 @@ UA.prototype.save = function (callback) {
                                 collection.update({
                                     uuid: userUuid
                                 }, {
-                                    $inc: {icons: amount}
+                                    $inc: {account: amount}
                                 }, function (err) {
                                     if (err) {
                                         mongodb.close();
