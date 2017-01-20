@@ -326,7 +326,8 @@ router.post('/postNew', function (req, res) {
         key = req.body.key,
         title = req.body.name,
         tags = req.body["tags[]"],
-        ad = new Ad(currentUser.name, currentUser.head, addesc, ad_put_begintime, ad_put_endtime, budget, sig_money, imgurls, key, title, tags);
+        read=req.body.read,
+        ad = new Ad(currentUser.name, currentUser.head, addesc, ad_put_begintime, ad_put_endtime, budget, sig_money, imgurls, key, title, tags,read);
     ad.save(function (err, order) {
         if (err) {
             return res.json({'error': err});
@@ -346,7 +347,8 @@ router.post('/mpostNew', function (req, res) {
         key = req.body.key,
         title = req.body.name,
         tags = req.body["tags"],
-        ad = new Ad(currentUser.name, currentUser.head, addesc, ad_put_begintime, ad_put_endtime, budget, sig_money, imgurls, key, title, tags);
+        read=req.body.read,
+        ad = new Ad(currentUser.name, currentUser.head, addesc, ad_put_begintime, ad_put_endtime, budget, sig_money, imgurls, key, title, tags,read);
     ad.save(function (err, order) {
         if (err) {
             return res.json({'error': err});

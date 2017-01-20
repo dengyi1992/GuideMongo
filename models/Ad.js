@@ -13,7 +13,7 @@ var mongodb = require('./db');
  * @constructor
  *
  */
-function Ad(name, head, addesc, ad_put_begintime, ad_put_endtime, budget, sig_money, imgurls, key, title, tags) {
+function Ad(name, head, addesc, ad_put_begintime, ad_put_endtime, budget, sig_money, imgurls, key, title, tags,read) {
     this.name = name;
     this.head = head;
     this.addesc = addesc;
@@ -25,6 +25,7 @@ function Ad(name, head, addesc, ad_put_begintime, ad_put_endtime, budget, sig_mo
     this.key = key;
     this.title = title;
     this.tags = tags;
+    this.read=read;
 }
 function getTailer() {
     var s = '';
@@ -72,6 +73,7 @@ Ad.prototype.save = function (callback) {
         ad_put_begintime: this.ad_put_begintime,
         ad_put_endtime: this.ad_put_endtime,
         key: this.key,
+        read:this.read,
         icons: this.budget,
         sig_money: this.sig_money,
         comments: [],
