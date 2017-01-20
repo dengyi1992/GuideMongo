@@ -282,6 +282,10 @@ Ad.getByOrder = function (order, callback) {
             collection.findOne({
                 orderno: order
             }, function (err, doc) {
+                mongodb.close();
+                if (err){
+                    return callback(err);
+                }
                 callback(null, doc);
             });
         });
