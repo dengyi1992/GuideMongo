@@ -238,7 +238,7 @@ router.post('/collectpoints', function (req, res) {
             return res.json({'error': err});
         }
         var ua = new UA(user_uuid, adUuid, amount);
-        ua.save(function (err,msg) {
+        ua.save(function (err, msg) {
             if (err) {
                 return res.json({'error': err});
             }
@@ -359,6 +359,14 @@ router.post('/postNew', function (req, res) {
         res.json({status: "success", 'success': '发布成功', 'orderno': order});
     });
 });
+router.get('/ad_detail', function (req, res) {
+    Ad.getByOrder(req.query.adorder, function (err, data) {
+        if (err) {
+            return res.json({'error': err});
+        }
+        res.json({status: "success", 'success': '获取成功', 'data': data});
+    })
+})
 router.post('/mpostNew', checkLogin);
 router.post('/mpostNew', function (req, res) {
     var currentUser = req.session.user,
