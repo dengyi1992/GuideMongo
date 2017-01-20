@@ -79,7 +79,7 @@ router.post('/reg', function (req, res) {
         enterprisename: enterprise ? req.body.enterprisename : "",
         enterpriseid: enterprise ? req.body.enterpriseid : "",
         legalperson: enterprise ? req.body.legalperson : "",
-        account: enterprise ? 1000 : 10
+        account: enterprise ? 5000 : 1000
     });
     //检查用户名是否已经存在
     User.get(newUser.name, function (err, user) {
