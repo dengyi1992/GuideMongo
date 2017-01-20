@@ -361,6 +361,7 @@ Ad.getTen = function (page, callback) {
     //打开数据库
     mongodb.open(function (err, db) {
         if (err) {
+            mongodb.close();
             return callback(err);
         }
         //读取 posts 集合
@@ -375,6 +376,10 @@ Ad.getTen = function (page, callback) {
             // }
             //使用 count 返回特定查询的文档数 total
             collection.count(query, function (err, total) {
+                if(err){
+                    mongodb.close();
+                    return callback(err);
+                }
                 //根据 query 对象查询，并跳过前 (page-1)*10 个结果，返回之后的 10 个结果
                 collection.find(query, {
                     skip: (page - 1) * 10,
