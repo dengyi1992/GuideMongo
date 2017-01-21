@@ -347,11 +347,16 @@ router.post('/postNew', function (req, res) {
         budget = req.body.budget,
         sig_money = req.body.sig_money,
         imgurls = req.body["imgurls[]"],
-        key = req.body.key,
+        imgs = imgurls;
+    if(typeof req.body["imgurls[]"]=="string"){
+        imgs=[req.body["imgurls[]"]]
+    }
+
+    var key = req.body.key,
         title = req.body.name,
         tags = req.body["tags[]"],
         read = req.body.read,
-        ad = new Ad(currentUser.name, currentUser.head, addesc, ad_put_begintime, ad_put_endtime, budget, sig_money, imgurls, key, title, tags, read);
+        ad = new Ad(currentUser.name, currentUser.head, addesc, ad_put_begintime, ad_put_endtime, budget, sig_money, imgs, key, title, tags, read);
     ad.save(function (err, order) {
         if (err) {
             return res.json({'error': err});

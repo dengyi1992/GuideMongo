@@ -17,6 +17,10 @@ function User(user) {
     this.legalperson = user.legalperson;
     this.account = user.account;
     this.uuid=uuid.v1();
+    var md5 = crypto.createHash('md5'),
+        email_MD5 = md5.update(this.email.toLowerCase()).digest('hex'),
+        head = "http://www.gravatar.com/avatar/" + email_MD5 + "?s=48";
+    this.head=head;
 
 };
 
@@ -25,9 +29,9 @@ module.exports = User;
 //存储用户信息
 User.prototype.save = function (callback) {
     //要存入数据库的用户文档
-    var md5 = crypto.createHash('md5'),
-        email_MD5 = md5.update(this.email.toLowerCase()).digest('hex'),
-        head = "http://www.gravatar.com/avatar/" + email_MD5 + "?s=48";
+    //var md5 = crypto.createHash('md5'),
+    //    email_MD5 = md5.update(this.email.toLowerCase()).digest('hex'),
+    //    head = "http://www.gravatar.com/avatar/" + email_MD5 + "?s=48";
 //要存入数据库的用户信息文档
     var user = {
         name: this.name,
@@ -40,7 +44,7 @@ User.prototype.save = function (callback) {
         legalperson: this.legalperson,
         user_collection: this.user_collection,
         account: this.account,
-        head: head
+        head: this.head
     };
     //打开数据库
     mongodb.open(function (err, db) {
