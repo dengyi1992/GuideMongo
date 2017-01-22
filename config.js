@@ -7,7 +7,7 @@ var path = require('path');
 var config = {
     // debug 为 true 时，用于本地调试
     debug: true,
-    address: 'http://123.206.84.242:2888/',
+    address: 'http://120.27.41.245:2888/',
 
     upload: {
         path: path.join(__dirname, 'public/images/'),
